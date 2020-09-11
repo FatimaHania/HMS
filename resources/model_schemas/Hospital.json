@@ -1,0 +1,114 @@
+[
+    {
+        "name": "id",
+        "dbType": "bigInteger,true,true",
+        "htmlType": null,
+        "validations": null,
+        "searchable": false,
+        "fillable": false,
+        "primary": true,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "name",
+        "dbType": "string,255",
+        "htmlType": "text",
+        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "short_code",
+        "dbType": "string,255",
+        "htmlType": "text",
+        "validations": "required|string|max:255|string|max:255|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "logo",
+        "dbType": "text,65535",
+        "htmlType": "textarea",
+        "validations": "required|string|string|string",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "created_at",
+        "dbType": "datetime:nullable",
+        "htmlType": "date",
+        "validations": "nullable|nullable|nullable",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "updated_at",
+        "dbType": "datetime:nullable",
+        "htmlType": "date",
+        "validations": "nullable|nullable|nullable",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Branch,hospital_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,DocumentcodeHospital,hospital_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,ModuleHospital,hospital_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,ModuleUsergroup,hospital_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Module,hospital_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Patient,hospital_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,UserHospital,hospital_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,UserUsergroup,hospital_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Usergroup,hospital_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,User,hospital_id"
+    }
+]

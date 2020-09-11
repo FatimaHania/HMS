@@ -1,0 +1,32 @@
+@extends('layouts.app')
+
+@section('content')
+    <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+             <a href="{!! route('nationalities.index') !!}">Nationality</a>
+          </li>
+          <li class="breadcrumb-item active">Edit</li>
+        </ol>
+    <div class="container-fluid">
+         <div class="animated fadeIn">
+             @include('coreui-templates::common.errors')
+             <div class="row">
+                 <div class="col-lg-12">
+                      <div class="card">
+                          <div class="card-header">
+                              <i class="fa fa-edit fa-lg"></i>
+                              <strong>Edit Nationality</strong>
+                          </div>
+                          <div class="card-body">
+                              {!! Form::model($nationality, ['route' => ['nationalities.update', $nationality->id], 'method' => 'patch']) !!}
+
+                              @include('nationalities.fields')
+
+                              {!! Form::close() !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+         </div>
+    </div>
+@endsection
