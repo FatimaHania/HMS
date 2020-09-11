@@ -65,7 +65,7 @@ class NurseDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'nurse_number' => "nurse_number",
+            'nurse_number',
             'nurse_code',
             'nurse_name',
             'title_id',
