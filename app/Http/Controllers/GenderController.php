@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Validation\Rule;
+use Validator;
 
 class GenderController extends AppBaseController
 {
@@ -55,6 +57,21 @@ class GenderController extends AppBaseController
     public function store(CreateGenderRequest $request)
     {
         $input = $request->all();
+
+        Validator::make($input, [
+            'short_code' => [
+                'required',
+                Rule::unique('genders')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+            'description' => [
+                'required',
+                Rule::unique('genders')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         $gender = $this->genderRepository->create($input);
 
@@ -114,6 +131,23 @@ class GenderController extends AppBaseController
     public function update($id, UpdateGenderRequest $request)
     {
         $gender = $this->genderRepository->find($id);
+
+        $input = $request->all();
+
+        Validator::make($input, [
+            'short_code' => [
+                'required',
+                Rule::unique('genders')->ignore($gender->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+            'description' => [
+                'required',
+                Rule::unique('genders')->ignore($gender->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         if (empty($gender)) {
             Flash::error('Gender not found');

@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Validation\Rule;
+use Validator;
 
 use App\Models\Nurse;
 use App\Models\Title;
@@ -50,12 +52,12 @@ class NurseController extends AppBaseController
     public function create()
     {
         
-        $titles = Title::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $genders = Gender::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $countries = Country::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $nationalities = Nationality::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $documentCode = DocumentCode::where([['documentcode_id' , 1] , ['branch_id' , session('branch_id')]])->first();
-        $lastNurseRecord = Nurse::where('branch_id' , session('branch_id'))->orderBy('nurse_number', 'DESC')->first();
+        $titles = Title::pluck('short_code' , 'id');
+        $genders = Gender::pluck('description' , 'id');
+        $countries = Country::pluck('description' , 'id');
+        $nationalities = Nationality::pluck('description' , 'id');
+        $documentCode = DocumentCode::where('documentcode_id' , 3)->first();
+        $lastNurseRecord = Nurse::orderBy('nurse_number', 'DESC')->first();
 
         return view('nurses.create')
         ->with('titles', $titles)
@@ -76,6 +78,15 @@ class NurseController extends AppBaseController
     public function store(CreateNurseRequest $request)
     {
         $input = $request->all();
+
+        Validator::make($input, [
+            'nurse_code' => [
+                'required',
+                Rule::unique('nurses')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         if(request('nurse_image_upload')) {
 
@@ -122,12 +133,12 @@ class NurseController extends AppBaseController
 
         $nurse = $this->nurseRepository->find($id);
 
-        $titles = Title::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $genders = Gender::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $countries = Country::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $nationalities = Nationality::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $documentCode = DocumentCode::where([['documentcode_id' , 1] , ['branch_id' , session('branch_id')]])->first();
-        $lastNurseRecord = Nurse::where('branch_id' , session('branch_id'))->orderBy('nurse_number', 'DESC')->first();
+        $titles = Title::pluck('short_code' , 'id');
+        $genders = Gender::pluck('short_code' , 'id');
+        $countries = Country::pluck('short_code' , 'id');
+        $nationalities = Nationality::pluck('short_code' , 'id');
+        $documentCode = DocumentCode::where('documentcode_id' , 3)->first();
+        $lastNurseRecord = Nurse::orderBy('nurse_number', 'DESC')->first();
         
         if (empty($nurse)) {
             Flash::error('Nurse not found');
@@ -156,6 +167,17 @@ class NurseController extends AppBaseController
     public function update($id, UpdateNurseRequest $request)
     {
         $nurse = $this->nurseRepository->find($id);
+
+        $input = $request->all();
+
+        Validator::make($input, [
+            'nurse_code' => [
+                'required',
+                Rule::unique('nurses')->ignore($nurse->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         if (empty($nurse)) {
             Flash::error('Nurse not found');

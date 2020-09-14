@@ -6,6 +6,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Carbon\Carbon;
+use App\Scopes\HospitalScope;
 
 /**
  * Class Physician
@@ -119,6 +120,12 @@ class Physician extends Model
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new HospitalScope);
+    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

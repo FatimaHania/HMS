@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Validation\Rule;
+use Validator;
 
 class TitleController extends AppBaseController
 {
@@ -55,6 +57,21 @@ class TitleController extends AppBaseController
     public function store(CreateTitleRequest $request)
     {
         $input = $request->all();
+
+        Validator::make($input, [
+            'short_code' => [
+                'required',
+                Rule::unique('titles')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+            'description' => [
+                'required',
+                Rule::unique('titles')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         $title = $this->titleRepository->create($input);
 
@@ -114,6 +131,23 @@ class TitleController extends AppBaseController
     public function update($id, UpdateTitleRequest $request)
     {
         $title = $this->titleRepository->find($id);
+
+        $input = $request->all();
+
+        Validator::make($input, [
+            'short_code' => [
+                'required',
+                Rule::unique('titles')->ignore($title->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+            'description' => [
+                'required',
+                Rule::unique('titles')->ignore($title->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         if (empty($title)) {
             Flash::error('Title not found');

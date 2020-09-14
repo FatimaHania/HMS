@@ -46,3 +46,13 @@ Route::resource('physicians', 'PhysicianAPIController');
 
 
 Route::resource('nurses', 'NurseAPIController');
+
+Route::resource('specializations', 'SpecializationAPIController');
+
+Route::resource('departments', 'DepartmentAPIController');
+
+Route::resource('diseases', 'DiseaseAPIController');
+
+Route::resource('treatments', 'TreatmentAPIController');
+
+Route::resource('currencies', 'CurrencyAPIController');

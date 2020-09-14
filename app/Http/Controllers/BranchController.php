@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Validation\Rule;
+use Validator;
 
 class BranchController extends AppBaseController
 {
@@ -114,6 +116,19 @@ class BranchController extends AppBaseController
     public function update($id, UpdateBranchRequest $request)
     {
         $branch = $this->branchRepository->find($id);
+
+        $input = $request->all();
+
+        Validator::make($input, [
+            'name' => [
+                'required',
+                Rule::unique('branches')->ignore($branch->id)
+            ],
+            'short_code' => [
+                'required',
+                Rule::unique('branches')->ignore($branch->id)
+            ],
+        ])->validate();
 
         if (empty($branch)) {
             Flash::error('Branch not found');

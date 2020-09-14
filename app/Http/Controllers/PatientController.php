@@ -53,13 +53,13 @@ class PatientController extends AppBaseController
     public function create()
     {
         
-        $titles = Title::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $genders = Gender::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $countries = Country::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $nationalities = Nationality::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $bloodgroups = Bloodgroup::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $documentCode = DocumentCode::where([['documentcode_id' , 1] , ['branch_id' , session('branch_id')]])->first();
-        $lastPatientRecord = Patient::where('branch_id' , session('branch_id'))->orderBy('patient_number', 'DESC')->first();
+        $titles = Title::pluck('short_code' , 'id');
+        $genders = Gender::pluck('description' , 'id');
+        $countries = Country::pluck('description' , 'id');
+        $nationalities = Nationality::pluck('description' , 'id');
+        $bloodgroups = Bloodgroup::pluck('short_code' , 'id');
+        $documentCode = DocumentCode::where('documentcode_id' , 1)->first();
+        $lastPatientRecord = Patient::orderBy('patient_number', 'DESC')->first();
 
         return view('patients.create')
         ->with('titles', $titles)
@@ -136,13 +136,13 @@ class PatientController extends AppBaseController
 
         $patient = $this->patientRepository->find($id);
 
-        $titles = Title::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $genders = Gender::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $countries = Country::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $nationalities = Nationality::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $bloodgroups = Bloodgroup::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $documentCode = DocumentCode::where([['documentcode_id' , 1] , ['branch_id' , session('branch_id')]])->first();
-        $lastPatientRecord = Patient::where('branch_id' , session('branch_id'))->orderBy('patient_number', 'DESC')->first();
+        $titles = Title::pluck('short_code' , 'id');
+        $genders = Gender::pluck('short_code' , 'id');
+        $countries = Country::pluck('short_code' , 'id');
+        $nationalities = Nationality::pluck('short_code' , 'id');
+        $bloodgroups = Bloodgroup::pluck('short_code' , 'id');
+        $documentCode = DocumentCode::where('documentcode_id' , 1)->first();
+        $lastPatientRecord = Patient::orderBy('patient_number', 'DESC')->first();
         
         if (empty($patient)) {
             Flash::error('Patient not found');

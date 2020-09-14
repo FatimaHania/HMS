@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Validation\Rule;
+use Validator;
 
 use App\Models\Physician;
 use App\Models\Title;
@@ -50,12 +52,12 @@ class PhysicianController extends AppBaseController
     public function create()
     {
 
-        $titles = Title::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $genders = Gender::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $countries = Country::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $nationalities = Nationality::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $documentCode = DocumentCode::where([['documentcode_id' , 2] , ['branch_id' , session('branch_id')]])->first();
-        $lastPhysicianRecord = Physician::where('branch_id' , session('branch_id'))->orderBy('physician_number', 'DESC')->first();
+        $titles = Title::pluck('short_code' , 'id');
+        $genders = Gender::pluck('description' , 'id');
+        $countries = Country::pluck('description' , 'id');
+        $nationalities = Nationality::pluck('description' , 'id');
+        $documentCode = DocumentCode::where('documentcode_id' , 2)->first();
+        $lastPhysicianRecord = Physician::orderBy('physician_number', 'DESC')->first();
 
         return view('physicians.create')
         ->with('titles', $titles)
@@ -76,6 +78,16 @@ class PhysicianController extends AppBaseController
     public function store(CreatePhysicianRequest $request)
     {
         $input = $request->all();
+
+        Validator::make($input, [
+            'physician_code' => [
+                'required',
+                Rule::unique('physicians')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
+
 
         if(request('physician_image_upload')) {
 
@@ -121,12 +133,12 @@ class PhysicianController extends AppBaseController
     {
         $physician = $this->physicianRepository->find($id);
 
-        $titles = Title::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $genders = Gender::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $countries = Country::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $nationalities = Nationality::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $documentCode = DocumentCode::where([['documentcode_id' , 2] , ['branch_id' , session('branch_id')]])->first();
-        $lastPhysicianRecord = Physician::where('branch_id' , session('branch_id'))->orderBy('physician_number', 'DESC')->first();
+        $titles = Title::pluck('short_code' , 'id');
+        $genders = Gender::pluck('description' , 'id');
+        $countries = Country::pluck('description' , 'id');
+        $nationalities = Nationality::pluck('description' , 'id');
+        $documentCode = DocumentCode::where('documentcode_id' , 2)->first();
+        $lastPhysicianRecord = Physician::orderBy('physician_number', 'DESC')->first();
 
         if (empty($physician)) {
             Flash::error('Physician not found');
@@ -155,6 +167,17 @@ class PhysicianController extends AppBaseController
     public function update($id, UpdatePhysicianRequest $request)
     {
         $physician = $this->physicianRepository->find($id);
+
+        $input = $request->all();
+
+        Validator::make($input, [
+            'physician_code' => [
+                'required',
+                Rule::unique('physicians')->ignore($physician->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         if (empty($physician)) {
             Flash::error('Physician not found');

@@ -18,7 +18,6 @@ Route::get('/', function () {
 });
 
 
-Auth::routes(['verify' => true]);
 
 //Home
 Route::get('/home', 'HomeController@index')->middleware('verified')->name('home');
@@ -36,10 +35,23 @@ Route::resource('masters/countries', 'CountryController')->middleware('verified'
 Route::resource('masters/bloodgroups', 'BloodgroupController')->middleware('verified');
 Route::resource('masters/documentCodes', 'DocumentCodeController')->middleware('verified');
 Route::resource('masters/hospitals', 'HospitalController')->middleware('verified');
-Route::resource('masters/hospitals/branches', 'BranchController')->middleware('verified');
+Route::resource('masters/branches', 'BranchController')->middleware('verified');
 
 Route::resource('patients', 'PatientController')->middleware('verified');
 
 Route::resource('physicians', 'PhysicianController')->middleware('verified');
 
 Route::resource('nurses', 'NurseController')->middleware('verified');
+
+
+Auth::routes(['verify' => true]);
+
+Route::resource('specializations', 'SpecializationController');
+
+Route::resource('departments', 'DepartmentController');
+
+Route::resource('diseases', 'DiseaseController');
+
+Route::resource('treatments', 'TreatmentController');
+
+Route::resource('currencies', 'CurrencyController');

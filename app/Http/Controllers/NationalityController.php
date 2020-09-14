@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Validation\Rule;
+use Validator;
 
 class NationalityController extends AppBaseController
 {
@@ -55,6 +57,21 @@ class NationalityController extends AppBaseController
     public function store(CreateNationalityRequest $request)
     {
         $input = $request->all();
+
+        Validator::make($input, [
+            'short_code' => [
+                'required',
+                Rule::unique('nationalities')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+            'description' => [
+                'required',
+                Rule::unique('nationalities')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         $nationality = $this->nationalityRepository->create($input);
 
@@ -114,6 +131,23 @@ class NationalityController extends AppBaseController
     public function update($id, UpdateNationalityRequest $request)
     {
         $nationality = $this->nationalityRepository->find($id);
+
+        $input = $request->all();
+
+        Validator::make($input, [
+            'short_code' => [
+                'required',
+                Rule::unique('nationalities')->ignore($nationality->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+            'description' => [
+                'required',
+                Rule::unique('nationalities')->ignore($nationality->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         if (empty($nationality)) {
             Flash::error('Nationality not found');

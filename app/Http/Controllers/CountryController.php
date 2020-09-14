@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Validation\Rule;
+use Validator;
 
 class CountryController extends AppBaseController
 {
@@ -55,6 +57,21 @@ class CountryController extends AppBaseController
     public function store(CreateCountryRequest $request)
     {
         $input = $request->all();
+
+        Validator::make($input, [
+            'short_code' => [
+                'required',
+                Rule::unique('countries')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+            'description' => [
+                'required',
+                Rule::unique('countries')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         $country = $this->countryRepository->create($input);
 
@@ -114,6 +131,23 @@ class CountryController extends AppBaseController
     public function update($id, UpdateCountryRequest $request)
     {
         $country = $this->countryRepository->find($id);
+
+        $input = $request->all();
+
+        Validator::make($input, [
+            'short_code' => [
+                'required',
+                Rule::unique('countries')->ignore($country->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+            'description' => [
+                'required',
+                Rule::unique('countries')->ignore($country->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         if (empty($country)) {
             Flash::error('Country not found');

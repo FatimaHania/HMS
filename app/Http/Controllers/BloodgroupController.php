@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Validation\Rule;
+use Validator;
 
 class BloodgroupController extends AppBaseController
 {
@@ -55,6 +57,21 @@ class BloodgroupController extends AppBaseController
     public function store(CreateBloodgroupRequest $request)
     {
         $input = $request->all();
+
+        Validator::make($input, [
+            'short_code' => [
+                'required',
+                Rule::unique('bloodgroups')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+            'description' => [
+                'required',
+                Rule::unique('bloodgroups')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         $bloodgroup = $this->bloodgroupRepository->create($input);
 
@@ -114,6 +131,21 @@ class BloodgroupController extends AppBaseController
     public function update($id, UpdateBloodgroupRequest $request)
     {
         $bloodgroup = $this->bloodgroupRepository->find($id);
+
+        Validator::make($request->all(), [
+            'description' => [
+                'required',
+                Rule::unique('bloodgroups')->ignore($bloodgroup->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+            'short_code' => [
+                'required',
+                Rule::unique('bloodgroups')->ignore($bloodgroup->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         if (empty($bloodgroup)) {
             Flash::error('Bloodgroup not found');
