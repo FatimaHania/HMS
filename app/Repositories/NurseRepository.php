@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class NurseRepository
  * @package App\Repositories
- * @version September 8, 2020, 5:25 pm UTC
+ * @version September 13, 2020, 4:05 pm UTC
 */
 
 class NurseRepository extends BaseRepository
@@ -52,4 +52,9 @@ class NurseRepository extends BaseRepository
     {
         return Nurse::class;
     }
+
+    public function getAll(){
+        return Nurse::with(['country','gender','title'])->get();
+    }
+
 }

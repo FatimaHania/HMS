@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Validation\Rule;
+use Validator;
 
 use App\Models\Patient;
 use App\Models\Title;
@@ -79,6 +81,15 @@ class PatientController extends AppBaseController
     public function store(CreatePatientRequest $request)
     {
         $input = $request->all();
+
+        Validator::make($input, [
+            'patient_code' => [
+                'required',
+                Rule::unique('patients')->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
 
         if(request('patient_image_upload')) {
 
@@ -162,13 +173,22 @@ class PatientController extends AppBaseController
     {
         $patient = $this->patientRepository->find($id);
 
+        $input = $request->all();
+
+        Validator::make($input, [
+            'patient_code' => [
+                'required',
+                Rule::unique('patients')->ignore($patient->id)->where(function ($query) {
+                    $query->where('branch_id', session('branch_id'));
+                }),
+            ],
+        ])->validate();
+
         if (empty($patient)) {
             Flash::error('Patient not found');
 
             return redirect(route('patients.index'));
         }
-
-        $input = $request->all();
 
         if(request('patient_image_upload')) {
 

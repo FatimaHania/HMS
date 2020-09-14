@@ -6,6 +6,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Carbon\Carbon;
+use App\Scopes\HospitalScope;
 
 /**
  * Class Patient
@@ -108,7 +109,9 @@ class Patient extends Model
      */
     public static $rules = [
         'patient_image' => '',
-        'patient_number' => 'integer|required',
+        'patient_number' => 'required',
+        'patient_name' => 'required',
+        'patient_code' => 'nullable|string|max:255',
         'title_id' => 'required',
         'gender_id' => 'required',
         'dob' => 'required',
@@ -124,6 +127,12 @@ class Patient extends Model
         'hospital_id' => 'required',
         'branch_id' => 'required'
     ];
+
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new HospitalScope);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

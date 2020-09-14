@@ -29,6 +29,7 @@
 
         $( "#{{$numberFieldId}}" ).change(function() {
 
+            
             var lastSerialNo = "{{$lastSerialNo}}";
             var typedSerialNo = document.getElementById('{{$numberFieldId}}').value;
 
@@ -36,21 +37,34 @@
             var formatLength = "{{$formatLength}}";
             var commonDifference = "{{$commonDifference}}";
 
-            if(typedSerialNo == null || typedSerialNo == ""){
-                var serialNo = parseInt(lastSerialNo)+parseInt(commonDifference);
+            if (typedSerialNo.length <= formatLength){
+
+                if(typedSerialNo == null || typedSerialNo == ""){
+                    var serialNo = parseInt(lastSerialNo)+parseInt(commonDifference);
+                } else {
+                    var serialNo = parseInt(typedSerialNo);
+                }
+
+                var new_number = "" + serialNo;
+                while (new_number.length < formatLength) {
+                    new_number = "0" + new_number;
+                }
+
+                var new_code = prefix+new_number;
+
+                document.getElementById('{{$numberFieldId}}').value = (new_number);
+                document.getElementById('{{$codeFieldId}}').value = new_code;
+
             } else {
-                var serialNo = parseInt(typedSerialNo);
+
+                var new_code = prefix+"0";
+
+                document.getElementById('{{$numberFieldId}}').value = 0;
+                document.getElementById('{{$codeFieldId}}').value = new_code;
+
+                alert('Format length for patient number cannot exceed ' + formatLength + ' digits')
+
             }
-
-            var new_number = "" + serialNo;
-            while (new_number.length < formatLength) {
-                new_number = "0" + new_number;
-            }
-
-            var new_code = prefix+new_number;
-
-            document.getElementById('{{$numberFieldId}}').value = (new_number);
-            document.getElementById('{{$codeFieldId}}').value = new_code;
 
             });
 

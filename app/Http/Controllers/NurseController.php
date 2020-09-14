@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\NurseDataTable;
-use App\Http\Requests;
 use App\Http\Requests\CreateNurseRequest;
 use App\Http\Requests\UpdateNurseRequest;
 use App\Repositories\NurseRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
+use Flash;
 use Response;
 
 use App\Models\Nurse;
@@ -31,12 +30,16 @@ class NurseController extends AppBaseController
     /**
      * Display a listing of the Nurse.
      *
-     * @param NurseDataTable $nurseDataTable
+     * @param Request $request
+     *
      * @return Response
      */
-    public function index(NurseDataTable $nurseDataTable)
+    public function index(Request $request)
     {
-        return $nurseDataTable->render('nurses.index');
+        $nurses = $this->nurseRepository->getAll();
+
+        return view('nurses.index')
+            ->with('nurses', $nurses);
     }
 
     /**
@@ -46,14 +49,13 @@ class NurseController extends AppBaseController
      */
     public function create()
     {
-
+        
         $titles = Title::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
         $genders = Gender::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
         $countries = Country::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
         $nationalities = Nationality::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
         $documentCode = DocumentCode::where([['documentcode_id' , 1] , ['branch_id' , session('branch_id')]])->first();
         $lastNurseRecord = Nurse::where('branch_id' , session('branch_id'))->orderBy('nurse_number', 'DESC')->first();
-
 
         return view('nurses.create')
         ->with('titles', $titles)
@@ -91,7 +93,7 @@ class NurseController extends AppBaseController
     /**
      * Display the specified Nurse.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
@@ -111,21 +113,22 @@ class NurseController extends AppBaseController
     /**
      * Show the form for editing the specified Nurse.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
     public function edit($id)
     {
+
         $nurse = $this->nurseRepository->find($id);
 
         $titles = Title::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
-        $genders = Gender::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $countries = Country::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
-        $nationalities = Nationality::where('branch_id' , session('branch_id'))->pluck('description' , 'id');
+        $genders = Gender::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
+        $countries = Country::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
+        $nationalities = Nationality::where('branch_id' , session('branch_id'))->pluck('short_code' , 'id');
         $documentCode = DocumentCode::where([['documentcode_id' , 1] , ['branch_id' , session('branch_id')]])->first();
         $lastNurseRecord = Nurse::where('branch_id' , session('branch_id'))->orderBy('nurse_number', 'DESC')->first();
-
+        
         if (empty($nurse)) {
             Flash::error('Nurse not found');
 
@@ -145,7 +148,7 @@ class NurseController extends AppBaseController
     /**
      * Update the specified Nurse in storage.
      *
-     * @param  int              $id
+     * @param int $id
      * @param UpdateNurseRequest $request
      *
      * @return Response
@@ -178,7 +181,9 @@ class NurseController extends AppBaseController
     /**
      * Remove the specified Nurse from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
+     * @throws \Exception
      *
      * @return Response
      */

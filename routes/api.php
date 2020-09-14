@@ -43,4 +43,6 @@ Route::resource('physicians', 'PhysicianAPIController');
 
 
 
+
+
 Route::resource('nurses', 'NurseAPIController');

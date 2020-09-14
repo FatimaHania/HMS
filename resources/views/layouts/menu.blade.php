@@ -99,10 +99,3 @@ function createMenu($tree, $stat)
         <span>Titles</span>
     </a>
 </li> -->
-
-<li class="nav-item {{ Request::is('nurses*') ? 'active' : '' }}">
-    <a class="nav-link" href="{{ route('nurses.index') }}">
-        <i class="nav-icon icon-cursor"></i>
-        <span>Nurses</span>
-    </a>
-</li>
