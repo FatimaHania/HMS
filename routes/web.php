@@ -42,6 +42,9 @@ Route::resource('patients', 'PatientController')->middleware('verified');
 Route::resource('physicians', 'PhysicianController')->middleware('verified');
 
 Route::resource('nurses', 'NurseController')->middleware('verified');
+Route::post('/nurses/getNurseDepartments','NurseController@getNurseDepartments')->name('nurses.getNurseDepartments');
+Route::post('/nurses/destroyNurseDepartments','NurseController@destroyNurseDepartments')->name('nurses.destroyNurseDepartments');
+Route::post('/nurses/storeNurseDepartments','NurseController@storeNurseDepartments')->name('nurses.storeNurseDepartments');
 
 
 Auth::routes(['verify' => true]);
@@ -55,3 +58,7 @@ Route::resource('diseases', 'DiseaseController');
 Route::resource('treatments', 'TreatmentController');
 
 Route::resource('currencies', 'CurrencyController');
+
+
+
+Route::resource('designations', 'DesignationController');

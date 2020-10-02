@@ -8,21 +8,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Scopes\HospitalScope;
 
 /**
- * Class Department
+ * Class Designation
  * @package App\Models
- * @version September 14, 2020, 6:11 pm UTC
+ * @version September 28, 2020, 5:06 pm UTC
  *
- * @property \App\Models\Nurse $nurse
+ * @property string $title
  * @property string $short_code
  * @property string $description
  * @property integer $hospital_id
  * @property integer $branch_id
  */
-class Department extends Model
+class Designation extends Model
 {
     use SoftDeletes;
 
-    public $table = 'departments';
+    public $table = 'designations';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -33,6 +33,7 @@ class Department extends Model
 
 
     public $fillable = [
+        'title',
         'short_code',
         'description',
         'hospital_id',
@@ -46,6 +47,7 @@ class Department extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'title' => 'string',
         'short_code' => 'string',
         'description' => 'string',
         'hospital_id' => 'integer',
@@ -58,6 +60,7 @@ class Department extends Model
      * @var array
      */
     public static $rules = [
+        'title' => 'required|string|max:255',
         'short_code' => 'required|string|max:255',
         'description' => 'required|string|max:255',
         'hospital_id' => 'required',
@@ -70,15 +73,6 @@ class Department extends Model
     protected static function booted()
     {
         static::addGlobalScope(new HospitalScope);
-    }
-
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     **/
-    public function nurses()
-    {
-        return $this->belongsToMany('App\Models\Nurse' , 'nurse_department' , 'department_id' , 'nurse_id');
     }
 
     

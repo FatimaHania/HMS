@@ -18,6 +18,7 @@ use App\Models\Gender;
 use App\Models\Country;
 use App\Models\Nationality;
 use App\Models\DocumentCode;
+use App\Models\Department;
 
 class NurseController extends AppBaseController
 {
@@ -40,8 +41,11 @@ class NurseController extends AppBaseController
     {
         $nurses = $this->nurseRepository->getAll();
 
+        $departments = Department::all();
+
         return view('nurses.index')
-            ->with('nurses', $nurses);
+            ->with('nurses', $nurses)
+            ->with('departments', $departments);
     }
 
     /**
@@ -199,6 +203,64 @@ class NurseController extends AppBaseController
 
         return redirect(route('nurses.index'));
     }
+
+
+
+    /**
+     * Display the specified Nurse Departments.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function getNurseDepartments()
+    {
+
+        $nurse_id = $_POST['nurse_id'];
+
+        $departments = $this->nurseRepository->getNurseDepartments($nurse_id);
+
+        return view('nurses.departments_table')
+            ->with('departments', $departments);
+
+    }
+
+    /**
+     * Remove the specified Nurse Department from storage.
+     *
+     * @param int $id
+     *
+     * @throws \Exception
+     *
+     * @return Response
+     */
+    public function destroyNurseDepartments()
+    {
+
+        $nurse_id = $_POST['nurse_id'];
+        $department_id = $_POST['department_id'];
+
+        return $this->nurseRepository->destroyNurseDepartments($nurse_id , $department_id);
+
+    }
+
+
+    /**
+     * Store a newly created Nurse Department in storage.
+     *
+     *
+     */
+    public function storeNurseDepartments()
+    {
+
+        $nurse_id = $_POST['nurse_id'];
+        $department_id = $_POST['department_id'];
+
+        return $this->nurseRepository->storeNurseDepartments($nurse_id , $department_id);
+        
+    }
+
+
 
     /**
      * Remove the specified Nurse from storage.

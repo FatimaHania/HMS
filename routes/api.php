@@ -56,3 +56,7 @@ Route::resource('diseases', 'DiseaseAPIController');
 Route::resource('treatments', 'TreatmentAPIController');
 
 Route::resource('currencies', 'CurrencyAPIController');
+
+
+
+Route::resource('designations', 'DesignationAPIController');

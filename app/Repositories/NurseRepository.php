@@ -53,8 +53,27 @@ class NurseRepository extends BaseRepository
         return Nurse::class;
     }
 
+
     public function getAll(){
         return Nurse::with(['country','gender','title'])->get();
+    }
+
+
+    public function getNurseDepartments($nurse_id){
+        $nurse = Nurse::find($nurse_id);
+        return $nurse->departments()->get();
+    }
+
+
+    public function destroyNurseDepartments($nurse_id , $department_id){
+        $nurse = Nurse::find($nurse_id);
+        return $nurse->departments()->wherePivot('department_id' , $department_id)->detach();
+    }
+
+
+    public function storeNurseDepartments($nurse_id , $department_id){
+        $nurse = Nurse::find($nurse_id);
+        return $nurse->departments()->syncWithoutDetaching([$department_id => [ 'hospital_id' => session('hospital_id') , 'branch_id' => session('branch_id')]]);
     }
 
 }

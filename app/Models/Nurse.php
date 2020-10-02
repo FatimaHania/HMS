@@ -19,6 +19,7 @@ use App\Scopes\HospitalScope;
  * @property \App\Models\Hospital $hospital
  * @property \App\Models\Nationality $nationality
  * @property \App\Models\Title $title
+ * @property \App\Models\Department $department
  * @property integer $nurse_number
  * @property string $nurse_code
  * @property string $nurse_name
@@ -172,6 +173,14 @@ class Nurse extends Model
     public function title()
     {
         return $this->belongsTo(\App\Models\Title::class, 'title_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     **/
+    public function departments()
+    {
+        return $this->belongsToMany(Department::class, 'nurse_department' , 'nurse_id' , 'department_id');
     }
 
 
