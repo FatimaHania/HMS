@@ -8,21 +8,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Scopes\HospitalScope;
 
 /**
- * Class Department
+ * Class Room
  * @package App\Models
- * @version September 14, 2020, 6:11 pm UTC
+ * @version October 2, 2020, 6:08 pm UTC
  *
- * @property \App\Models\Nurse $nurse
+ * @property \App\Models\Branch $branch
+ * @property \App\Models\Hospital $hospital
  * @property string $short_code
  * @property string $description
+ * @property integer $sort_order
  * @property integer $hospital_id
  * @property integer $branch_id
  */
-class Department extends Model
+class Room extends Model
 {
     use SoftDeletes;
 
-    public $table = 'departments';
+    public $table = 'rooms';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -35,6 +37,7 @@ class Department extends Model
     public $fillable = [
         'short_code',
         'description',
+        'sort_order',
         'hospital_id',
         'branch_id'
     ];
@@ -48,6 +51,7 @@ class Department extends Model
         'id' => 'integer',
         'short_code' => 'string',
         'description' => 'string',
+        'sort_order' => 'integer',
         'hospital_id' => 'integer',
         'branch_id' => 'integer'
     ];
@@ -60,12 +64,14 @@ class Department extends Model
     public static $rules = [
         'short_code' => 'required|string|max:255',
         'description' => 'required|string|max:255',
+        'sort_order' => 'required|integer',
         'hospital_id' => 'required',
         'branch_id' => 'required',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
     ];
+
 
     protected static function booted()
     {
@@ -74,21 +80,18 @@ class Department extends Model
 
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function nurses()
+    public function branch()
     {
-        return $this->belongsToMany('App\Models\Nurse' , 'nurse_department' , 'department_id' , 'nurse_id');
+        return $this->belongsTo(\App\Models\Branch::class, 'branch_id');
     }
-
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function rooms()
+    public function hospital()
     {
-        return $this->belongsToMany('App\Models\Room' , 'department_room' , 'department_id' , 'room_id');
+        return $this->belongsTo(\App\Models\Hospital::class, 'hospital_id');
     }
-
-    
 }

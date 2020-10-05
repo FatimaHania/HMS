@@ -22,6 +22,7 @@ class Navigation extends Model
             ->select('modules.*')
             ->distinct('modules.id')
             ->whereIn('module_usergroup.usergroup_id', $user_usergroups_arr)
+            ->orderBy('modules.sort_order', 'ASC')
             ->get();
 
         return $query_user_module;

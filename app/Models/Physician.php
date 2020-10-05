@@ -19,6 +19,8 @@ use App\Scopes\HospitalScope;
  * @property \App\Models\Hospital $hospital
  * @property \App\Models\Nationality $nationality
  * @property \App\Models\Title $title
+ * @property \App\Models\Department $department
+ * @property \App\Models\Specialization $specialization
  * @property integer $physician_number
  * @property string $physician_code
  * @property string $physician_name
@@ -174,6 +176,24 @@ class Physician extends Model
     {
         return $this->belongsTo(\App\Models\Title::class, 'title_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     **/
+    public function departments()
+    {
+        return $this->belongsToMany(Department::class, 'physician_department' , 'physician_id' , 'department_id');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     **/
+    public function specializations()
+    {
+        return $this->belongsToMany(Specialization::class, 'physician_specialization' , 'physician_id' , 'specialization_id');
+    }
+
 
 
     // ACCESSORS AND MUTATORS

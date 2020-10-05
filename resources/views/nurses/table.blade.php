@@ -36,4 +36,4 @@
     </table>
 </div>
 
-@include('nurses.departments')
+@include('nurses.departments.departments')

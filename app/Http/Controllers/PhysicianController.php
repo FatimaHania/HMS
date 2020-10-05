@@ -18,6 +18,8 @@ use App\Models\Gender;
 use App\Models\Country;
 use App\Models\Nationality;
 use App\Models\DocumentCode;
+use App\Models\Department;
+use App\Models\Specialization;
 
 class PhysicianController extends AppBaseController
 {
@@ -39,9 +41,14 @@ class PhysicianController extends AppBaseController
     public function index(Request $request)
     {
         $physicians = $this->physicianRepository->getAll();
+        $departments = Department::all();
+        $specializations = Specialization::all();
+
 
         return view('physicians.index')
-            ->with('physicians', $physicians);
+            ->with('physicians', $physicians)
+            ->with('departments', $departments)
+            ->with('specializations', $specializations);
     }
 
     /**
@@ -199,6 +206,115 @@ class PhysicianController extends AppBaseController
 
         return redirect(route('physicians.index'));
     }
+
+
+    /**
+     * Display the specified Physician Departments.
+     *
+     * @return Response
+     */
+    public function getPhysicianDepartments()
+    {
+
+        $physician_id = $_POST['physician_id'];
+
+        $departments = $this->physicianRepository->getPhysicianDepartments($physician_id);
+
+        return view('physicians.departments.departments_table')
+            ->with('departments', $departments);
+
+    }
+
+    /**
+     * Remove the specified Physician Department from storage.
+     *
+     * @param int $id
+     *
+     * @throws \Exception
+     *
+     * @return Response
+     */
+    public function destroyPhysicianDepartments()
+    {
+
+        $physician_id = $_POST['physician_id'];
+        $department_id = $_POST['department_id'];
+
+        return $this->physicianRepository->destroyPhysicianDepartments($physician_id , $department_id);
+
+    }
+
+
+    /**
+     * Store a newly created Physician Department in storage.
+     *
+     *
+     */
+    public function storePhysicianDepartments()
+    {
+
+        $physician_id = $_POST['physician_id'];
+        $department_id = $_POST['department_id'];
+
+        return $this->physicianRepository->storePhysicianDepartments($physician_id , $department_id);
+        
+    }
+
+
+
+    /**
+     * Display the specified Physician Specialization.
+     *
+     * @return Response
+     */
+    public function getPhysicianSpecializations()
+    {
+
+        $physician_id = $_POST['physician_id'];
+
+        $specializations = $this->physicianRepository->getPhysicianSpecializations($physician_id);
+
+        return view('physicians.specializations.specializations_table')
+            ->with('specializations', $specializations);
+
+    }
+
+    /**
+     * Remove the specified Physician Specialization from storage.
+     *
+     * @param int $id
+     *
+     * @throws \Exception
+     *
+     * @return Response
+     */
+    public function destroyPhysicianSpecializations()
+    {
+
+        $physician_id = $_POST['physician_id'];
+        $specialization_id = $_POST['specialization_id'];
+
+        return $this->physicianRepository->destroyPhysicianSpecializations($physician_id , $specialization_id);
+
+    }
+
+
+    /**
+     * Store a newly created Physician Specialization in storage.
+     *
+     *
+     */
+    public function storePhysicianSpecializations()
+    {
+
+        $physician_id = $_POST['physician_id'];
+        $specialization_id = $_POST['specialization_id'];
+
+        return $this->physicianRepository->storePhysicianSpecializations($physician_id , $specialization_id);
+        
+    }
+
+
 
     /**
      * Remove the specified Physician from storage.

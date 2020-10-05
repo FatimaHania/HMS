@@ -33,6 +33,9 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css">
 
+    <!-- bootstrap select -->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-select.min.css') }}">
+
 
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
@@ -143,6 +146,9 @@ function shift_branch(hospital_id , branch_id) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@2.1.16/dist/js/coreui.min.js"></script>
+
+<!-- Bootstrap select -->
+<script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
 
 

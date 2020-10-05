@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Scopes\HospitalScope;
 
 /**
- * Class Department
+ * Class DepartmentRoom
  * @package App\Models
- * @version September 14, 2020, 6:11 pm UTC
+ * @version October 3, 2020, 3:42 pm UTC
  *
- * @property \App\Models\Nurse $nurse
+ * @property \Illuminate\Database\Eloquent\Collection $departmentRooms
  * @property string $short_code
  * @property string $description
  * @property integer $hospital_id
  * @property integer $branch_id
  */
-class Department extends Model
+class DepartmentRoom extends Model
 {
     use SoftDeletes;
 
@@ -74,21 +74,10 @@ class Department extends Model
 
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function nurses()
+    public function departmentRooms()
     {
-        return $this->belongsToMany('App\Models\Nurse' , 'nurse_department' , 'department_id' , 'nurse_id');
+        return $this->hasMany(\App\Models\DepartmentRoom::class, 'department_id');
     }
-
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     **/
-    public function rooms()
-    {
-        return $this->belongsToMany('App\Models\Room' , 'department_room' , 'department_id' , 'room_id');
-    }
-
-    
 }

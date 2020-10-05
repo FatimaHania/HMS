@@ -21,6 +21,8 @@
                     <div class='btn-group'>
                         <a href="{{ route('physicians.show', [$physician->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-eye"></i></a>
                         <a href="{{ route('physicians.edit', [$physician->id]) }}" class='btn btn-xs btn-ghost-info'><i class="fa fa-edit"></i></a>
+                        <a href="#" type="button" class='btn btn-xs btn-ghost-warning' data-toggle="modal" data-target="#physicianSpecializationModal" onclick="getPhysicianSpecializations({{$physician->id}} , '{{$physician->physician_code}}' , '{{$physician->physician_name}}')"><i class="fa fa-shield"></i></a>
+                        <a href="#" type="button" class='btn btn-xs btn-ghost-primary' data-toggle="modal" data-target="#physicianDepartmentModal" onclick="getPhysicianDepartments({{$physician->id}} , '{{$physician->physician_code}}' , '{{$physician->physician_name}}')"><i class="fa fa-building"></i></a>
                         {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-xs btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>
                     {!! Form::close() !!}
@@ -30,3 +32,6 @@
         </tbody>
     </table>
 </div>
+
+@include('physicians.specializations.specializations')
+@include('physicians.departments.departments')

@@ -1,7 +1,7 @@
 <x-modals.basic modal-id="nurseDepartmentModal">
 
     <x-slot name="title">
-        <span id="modal_title">Department</span>
+        <span id="departmentModal_title">Department</span>
     </x-slot>
 
     <div id="nurseDepartments_div">
@@ -14,7 +14,7 @@
         <input type="hidden" id="nurse_name" name="nurse_name">
         <input type="hidden" id="nurse_id" name="nurse_id">
         <div class="input-group">
-            <select class="custom-select select2" id="department_id" name="department_id">
+            <select class="selectpicker form-control" data-live-search="true" id="department_id" name="department_id">
                 @foreach($departments as $department)
                     <option value="{{ $department->id }}">{{ $department->description }}</option>
                 @endforeach
@@ -35,7 +35,7 @@ function getNurseDepartments(nurse_id , nurse_code=0 , nurse_name=0) {
     document.getElementById('nurse_id').value = nurse_id;
 
     if(nurse_code == "0"){} else {
-        document.getElementById('modal_title').innerHTML = " Departments - " + nurse_code + " | " + nurse_name;
+        document.getElementById('departmentModal_title').innerHTML = " Departments - " + nurse_code + " | " + nurse_name;
     }
 
     $.ajax({

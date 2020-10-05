@@ -60,3 +60,7 @@ Route::resource('currencies', 'CurrencyAPIController');
 
 
 Route::resource('designations', 'DesignationAPIController');
+
+Route::resource('rooms', 'RoomAPIController');
+
+Route::resource('department_rooms', 'DepartmentRoomAPIController');

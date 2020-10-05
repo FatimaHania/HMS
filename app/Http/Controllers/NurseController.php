@@ -209,8 +209,6 @@ class NurseController extends AppBaseController
     /**
      * Display the specified Nurse Departments.
      *
-     * @param int $id
-     *
      * @return Response
      */
     public function getNurseDepartments()
@@ -220,7 +218,7 @@ class NurseController extends AppBaseController
 
         $departments = $this->nurseRepository->getNurseDepartments($nurse_id);
 
-        return view('nurses.departments_table')
+        return view('nurses.departments.departments_table')
             ->with('departments', $departments);
 
     }
