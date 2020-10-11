@@ -64,3 +64,5 @@ Route::resource('designations', 'DesignationAPIController');
 Route::resource('rooms', 'RoomAPIController');
 
 Route::resource('department_rooms', 'DepartmentRoomAPIController');
+
+Route::resource('sessions', 'SessionAPIController');

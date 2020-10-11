@@ -19,7 +19,7 @@ class CreateCurrenciesTable extends Migration
             $table->string('description');
             $table->integer('decimal_places');
             $table->integer('exchange_rate');
-            $table->tinyInteger('is_default')->default('0');;
+            $table->tinyInteger('is_default')->default('0');
             $table->foreignId('hospital_id');
             $table->foreignId('branch_id');
             $table->timestamps();

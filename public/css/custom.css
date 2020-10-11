@@ -1,3 +1,7 @@
+body {
+    font-size: 13px !important;
+}
+
 /* TABLES */
 .table {
     width: 100%;
@@ -33,6 +37,16 @@
 label{
   font-weight:bolder;
   font-size: 12px;
+}
+
+/* SELECT PICKER */
+.bootstrap-select>.btn-light {
+  background-color: white !important; 
+  font-size: 12px !important ;
+}
+
+.bootstrap-select>.btn-light.focus, .btn-light:focus {
+  box-shadow: 0 0 0 0;
 }
 
 
@@ -138,3 +152,4 @@ label{
 .navbar-dark .navbar-text a:focus {
   color: #fff;
 }
+

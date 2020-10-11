@@ -78,3 +78,8 @@ Route::resource('departmentRooms', 'DepartmentRoomController');
 Route::post('/departmentRooms/getDepartmentRooms','DepartmentRoomController@getDepartmentRooms')->name('departmentRooms.getDepartmentRooms');
 Route::post('/departmentRooms/destroyDepartmentRooms','DepartmentRoomController@destroyDepartmentRooms')->name('departmentRooms.destroyDepartmentRooms');
 Route::post('/departmentRooms/storeDepartmentRooms','DepartmentRoomController@storeDepartmentRooms')->name('departmentRooms.storeDepartmentRooms');
+
+
+Route::resource('sessions', 'SessionController');
+Route::post('/sessions/getSessionDates','SessionController@getSessionDates')->name('sessions.getSessionDates');
+Route::post('/sessions/getSessionDetails','SessionController@getSessionDetails')->name('sessions.getSessionDetails');
