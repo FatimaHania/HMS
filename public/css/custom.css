@@ -2,6 +2,11 @@ body {
     font-size: 13px !important;
 }
 
+.card-body {
+  padding-top:8px;
+  padding-bottom:8px;
+}
+
 /* TABLES */
 .table {
     width: 100%;

@@ -86,7 +86,17 @@
                 <div class="row">
                     <div class="col-md-2">Room <span class="badge badge-secondary">{{ $session->room->short_code }}</span></div>
                     <div class="col-md-2">#Slots <span class="badge badge-info">{{ $session->number_of_slots }}</span></div>
-                    <div class="col-md-2">Booked <span class="badge badge-success">0</span></div>
+                    <div class="col-md-2">Booked <span class="badge badge-success">
+                        @php $a = 0; @endphp
+                        @foreach($session->appointment as $appointment)
+                            @if($appointment->is_cancelled == '1')
+                            @else 
+                                @php $a++; @endphp
+                            @endif
+                        @endforeach
+                        {{$a}}
+                        
+                    </span></div>
                     <div class="col-md-3">Amount <span class="badge badge-secondary">{{ $session->currency->short_code." ".$session->amount_per_slot }}</span></div>
                     <div class="col-md-3" style="text-align:right;">
                         @php echo $status; @endphp

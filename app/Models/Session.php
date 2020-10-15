@@ -137,4 +137,13 @@ class Session extends Model
     {
         return $this->belongsTo(\App\Models\Room::class, 'room_id');
     }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     **/
+    public function appointment()
+    {
+        return $this->hasMany(\App\Models\Appointment::class, 'session_id');
+    }
 }

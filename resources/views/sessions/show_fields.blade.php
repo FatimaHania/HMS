@@ -1,7 +1,7 @@
 <!-- Physician Id Field -->
 <div class="form-group">
-    {!! Form::label('physician_id', 'Physician Id:') !!}
-    <p>{{ $session->physician_id }}</p>
+    {!! Form::label('physician_id', 'Physician:') !!}
+    <p>{{ $session->physician->physician_name }}</p>
 </div>
 
 <!-- Name Field -->
@@ -42,26 +42,20 @@
 
 <!-- Department Id Field -->
 <div class="form-group">
-    {!! Form::label('department_id', 'Department Id:') !!}
-    <p>{{ $session->department_id }}</p>
+    {!! Form::label('department_id', 'Department:') !!}
+    <p>{{ $session->department->description }}</p>
 </div>
 
-<!-- Room Id Field -->
+<!-- Room Field -->
 <div class="form-group">
-    {!! Form::label('room_id', 'Room Id:') !!}
-    <p>{{ $session->room_id }}</p>
-</div>
-
-<!-- Currency Id Field -->
-<div class="form-group">
-    {!! Form::label('currency_id', 'Currency Id:') !!}
-    <p>{{ $session->currency_id }}</p>
+    {!! Form::label('room_id', 'Room:') !!}
+    <p>{{ $session->room->description }}</p>
 </div>
 
 <!-- Amount Per Slot Field -->
 <div class="form-group">
     {!! Form::label('amount_per_slot', 'Amount Per Slot:') !!}
-    <p>{{ $session->amount_per_slot }}</p>
+    <p>{{ $session->currency->description." ".$session->amount_per_slot }}</p>
 </div>
 
 <!-- Starts At Field -->

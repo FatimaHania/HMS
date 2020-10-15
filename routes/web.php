@@ -83,3 +83,6 @@ Route::post('/departmentRooms/storeDepartmentRooms','DepartmentRoomController@st
 Route::resource('sessions', 'SessionController');
 Route::post('/sessions/getSessionDates','SessionController@getSessionDates')->name('sessions.getSessionDates');
 Route::post('/sessions/getSessionDetails','SessionController@getSessionDetails')->name('sessions.getSessionDetails');
+
+Route::resource('appointments', 'AppointmentController');
+Route::post('/appointments/getAppointmentDetails','AppointmentController@getAppointmentDetails')->name('appointments.getAppointmentDetails');
