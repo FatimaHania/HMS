@@ -46,12 +46,16 @@ class AppointmentController extends AppBaseController
     public function index(Request $request)
     {
         $appointments = $this->appointmentRepository->getAll();
-
         $sessions = $this->appointmentRepository->getAllSessions();
+        $sessions_today = $this->appointmentRepository->getTodaySessions();
+        $physicians = $this->appointmentRepository->getPhysicians();
+        $specializations = $this->appointmentRepository->getSpecializations();
 
         return view('appointments.index')
             ->with('appointments', $appointments)
-            ->with('sessions', $sessions);
+            ->with('sessions', $sessions)
+            ->with('physicians', $physicians)
+            ->with('specializations', $specializations);
     }
 
     /**
@@ -144,14 +148,18 @@ class AppointmentController extends AppBaseController
 
         $currency = Currency::pluck('short_code' , 'id');
         $patient = Patient::pluck('patient_name' , 'id');
+        $session_detail = $this->appointmentRepository->getSessionDetail($appointment->session_id);
         $session = Session::where([['is_cancelled','!=','1']])->orWhereNull('completed_at')->orderBy('date','DESC')->pluck('name' , 'id');
         $documentCode = DocumentCode::where('documentcode_id' , 4)->first();
         $lastAppointmentRecord = Appointment::orderBy('appointment_number', 'DESC')->first();
+
+        $this->storeSessionDetails($id,$appointment->session_id);
 
         return view('appointments.edit')
         ->with('appointment', $appointment)
         ->with('currency', $currency)
         ->with('patient', $patient)
+        ->with('session_detail', $session_detail)
         ->with('session', $session)
         ->with('documentCode', $documentCode)
         ->with('lastAppointmentRecord', $lastAppointmentRecord);
@@ -174,7 +182,7 @@ class AppointmentController extends AppBaseController
         Validator::make($input, [
             'reference_code' => [
                 'required',
-                Rule::unique('appointments')->ignore($appointment->id)->where(function ($query) {
+                Rule::unique('appointments')->ignore($id)->whereNull('deleted_at')->where(function ($query) {
                     $query->where('branch_id', session('branch_id'));
                 }),
             ],
@@ -195,6 +203,15 @@ class AppointmentController extends AppBaseController
         return redirect(route('appointments.index'));
     }
 
+    public function updatePhysicianFilter()
+    {
+
+        $specialization_id = $_POST['specialization_id'];
+
+        return $this->appointmentRepository->updatePhysicianFilter($specialization_id);
+
+    }
+
 
     public function getAppointmentDetails()
     {
@@ -209,6 +226,75 @@ class AppointmentController extends AppBaseController
             ->with('session', $session_details)
             ->with('appointments', $appointments);
 
+    }
+
+    public function getCards()
+    {
+
+        $date_from = $_POST['date_from'];
+        $date_to = $_POST['date_to'];
+        $physician_id = $_POST['physician_id'];
+        $specialization_id = $_POST['specialization_id'];
+        $status = $_POST['status'];
+
+        $sessions = $this->appointmentRepository->getAllSessions($date_from, $date_to, $physician_id, $specialization_id, $status);
+
+        return view('appointments.cards')
+            ->with('sessions', $sessions);
+
+    }
+
+
+    public function getCardDetails()
+    {
+
+        $session_id = $_POST['session_id'];
+
+        $card_details = $this->appointmentRepository->getSessionDetail($session_id);
+
+        return view('appointments.card_info_table')
+            ->with('session' , $card_details);
+
+    }
+
+
+    public function getBookingDetails()
+    {
+
+        $session_id = $_POST['session_id'];
+
+        $booking_details = $this->appointmentRepository->getSessionDetail($session_id);
+        $patients = $this->appointmentRepository->getAllPatients();
+
+        return view('appointments.card_booking_table')
+            ->with('patients', $patients)
+            ->with('session' , $booking_details);
+
+    }
+
+    public function bookAppointments()
+    {
+
+        $session_id = $_POST['session_id'];
+        $appointment_number = $_POST['appointment_number'];
+        $appointment_time = $_POST['appointment_time'];
+        $patient_id = $_POST['patient_id'];
+        $currency_id = $_POST['currency_id'];
+        $amount_per_slot = $_POST['amount_per_slot'];
+
+        return $this->appointmentRepository->bookAppointments($session_id, $appointment_number, $appointment_time, $patient_id, $currency_id, $amount_per_slot);
+        
+    }
+
+
+    public function cancelAppointments()
+    {
+
+        $session_id = $_POST['session_id'];
+        $appointment_number = $_POST['appointment_number'];
+
+        return $this->appointmentRepository->cancelAppointments($session_id, $appointment_number);
+        
     }
 
 

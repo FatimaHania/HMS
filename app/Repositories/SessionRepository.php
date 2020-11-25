@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Session;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class SessionRepository
@@ -86,6 +87,34 @@ class SessionRepository extends BaseRepository
 
         $previous_session = Session::where([['physician_id' , '=', $physician_id] , ['date','<',$session_date]])->offset(0)->limit(1)->get();
         return $previous_session;
+
+    }
+
+
+    public function cancelSession($session_id, $cancelled_date, $cancelled_by, $cancelled_reason) {
+
+        $cancel_session = Session::where('id', $session_id)
+            ->update(['is_cancelled' => 1 , 'cancelled_date' => $cancelled_date , 'cancelled_by' => Auth::user()->id , 'cancelled_reason' => $cancelled_reason]);
+        
+        return $cancel_session;
+
+    }
+
+    public function startSession($session_id, $started_at, $started_by) {
+
+        $start_session = Session::where('id', $session_id)
+            ->update(['starts_at' => $started_at , 'started_by' => Auth::user()->id]);
+        
+        return $start_session;
+
+    }
+
+    public function completeSession($session_id, $completed_at, $completed_by) {
+
+        $complete_session = Session::where('id', $session_id)
+            ->update(['completed_at' => $completed_at , 'completed_by' => Auth::user()->id]);
+        
+        return $complete_session;
 
     }
 

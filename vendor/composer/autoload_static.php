@@ -95,7 +95,9 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'e23faeee409e941dc9b4c80386209c39' => __DIR__ . '/..' . '/laracasts/flash/src/Laracasts/Flash/functions.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
+        'caf23243e9cb3afd48d0414815ebf07e' => __DIR__ . '/..' . '/brian2694/laravel-toastr/src/helper.php',
         'a28599dc506da421718fad75955a4b9d' => __DIR__ . '/..' . '/infyomlabs/laravel-generator/src/helpers.php',
+        '101b35f72e0ccb1b5ef72aa86bba3ef9' => __DIR__ . '/..' . '/yoeunes/toastr/src/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -113,6 +115,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         ),
         'Y' => 
         array (
+            'Yoeunes\\Toastr\\' => 15,
             'Yajra\\DataTables\\' => 17,
         ),
         'X' => 
@@ -247,6 +250,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'B' => 
         array (
             'Brick\\Math\\' => 11,
+            'Brian2694\\Toastr\\' => 17,
         ),
         'A' => 
         array (
@@ -269,6 +273,10 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'ZipStream\\' => 
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
+        ),
+        'Yoeunes\\Toastr\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yoeunes/toastr/src',
         ),
         'Yajra\\DataTables\\' => 
         array (
@@ -605,6 +613,10 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
         ),
+        'Brian2694\\Toastr\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/brian2694/laravel-toastr/src',
+        ),
         'Asm89\\Stack\\' => 
         array (
             0 => __DIR__ . '/..' . '/asm89/stack-cors/src',
@@ -647,6 +659,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\DataTables\\NurseDataTable' => __DIR__ . '/../..' . '/app/DataTables/NurseDataTable.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Helpers\\Helper' => __DIR__ . '/../..' . '/app/Helpers/Helper.php',
         'App\\Http\\Composers\\NavigationComposer' => __DIR__ . '/../..' . '/app/Http/Composers/NavigationComposer.php',
         'App\\Http\\Controllers\\API\\AppointmentAPIController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/AppointmentAPIController.php',
         'App\\Http\\Controllers\\API\\BloodgroupAPIController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/BloodgroupAPIController.php',
@@ -663,6 +676,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'App\\Http\\Controllers\\API\\NationalityAPIController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/NationalityAPIController.php',
         'App\\Http\\Controllers\\API\\NurseAPIController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/NurseAPIController.php',
         'App\\Http\\Controllers\\API\\PatientAPIController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PatientAPIController.php',
+        'App\\Http\\Controllers\\API\\PatientFileAPIController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PatientFileAPIController.php',
         'App\\Http\\Controllers\\API\\PhysicianAPIController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PhysicianAPIController.php',
         'App\\Http\\Controllers\\API\\RoomAPIController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/RoomAPIController.php',
         'App\\Http\\Controllers\\API\\SessionAPIController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/SessionAPIController.php',
@@ -694,6 +708,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'App\\Http\\Controllers\\NavigationController' => __DIR__ . '/../..' . '/app/Http/Controllers/NavigationController.php',
         'App\\Http\\Controllers\\NurseController' => __DIR__ . '/../..' . '/app/Http/Controllers/NurseController.php',
         'App\\Http\\Controllers\\PatientController' => __DIR__ . '/../..' . '/app/Http/Controllers/PatientController.php',
+        'App\\Http\\Controllers\\PatientFileController' => __DIR__ . '/../..' . '/app/Http/Controllers/PatientFileController.php',
         'App\\Http\\Controllers\\PhysicianController' => __DIR__ . '/../..' . '/app/Http/Controllers/PhysicianController.php',
         'App\\Http\\Controllers\\RoomController' => __DIR__ . '/../..' . '/app/Http/Controllers/RoomController.php',
         'App\\Http\\Controllers\\SessionController' => __DIR__ . '/../..' . '/app/Http/Controllers/SessionController.php',
@@ -724,6 +739,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'App\\Http\\Requests\\API\\CreateNationalityAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/CreateNationalityAPIRequest.php',
         'App\\Http\\Requests\\API\\CreateNurseAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/CreateNurseAPIRequest.php',
         'App\\Http\\Requests\\API\\CreatePatientAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/CreatePatientAPIRequest.php',
+        'App\\Http\\Requests\\API\\CreatePatientFileAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/CreatePatientFileAPIRequest.php',
         'App\\Http\\Requests\\API\\CreatePhysicianAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/CreatePhysicianAPIRequest.php',
         'App\\Http\\Requests\\API\\CreateRoomAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/CreateRoomAPIRequest.php',
         'App\\Http\\Requests\\API\\CreateSessionAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/CreateSessionAPIRequest.php',
@@ -745,6 +761,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'App\\Http\\Requests\\API\\UpdateNationalityAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/UpdateNationalityAPIRequest.php',
         'App\\Http\\Requests\\API\\UpdateNurseAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/UpdateNurseAPIRequest.php',
         'App\\Http\\Requests\\API\\UpdatePatientAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/UpdatePatientAPIRequest.php',
+        'App\\Http\\Requests\\API\\UpdatePatientFileAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/UpdatePatientFileAPIRequest.php',
         'App\\Http\\Requests\\API\\UpdatePhysicianAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/UpdatePhysicianAPIRequest.php',
         'App\\Http\\Requests\\API\\UpdateRoomAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/UpdateRoomAPIRequest.php',
         'App\\Http\\Requests\\API\\UpdateSessionAPIRequest' => __DIR__ . '/../..' . '/app/Http/Requests/API/UpdateSessionAPIRequest.php',
@@ -765,6 +782,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'App\\Http\\Requests\\CreateHospitalRequest' => __DIR__ . '/../..' . '/app/Http/Requests/CreateHospitalRequest.php',
         'App\\Http\\Requests\\CreateNationalityRequest' => __DIR__ . '/../..' . '/app/Http/Requests/CreateNationalityRequest.php',
         'App\\Http\\Requests\\CreateNurseRequest' => __DIR__ . '/../..' . '/app/Http/Requests/CreateNurseRequest.php',
+        'App\\Http\\Requests\\CreatePatientFileRequest' => __DIR__ . '/../..' . '/app/Http/Requests/CreatePatientFileRequest.php',
         'App\\Http\\Requests\\CreatePatientRequest' => __DIR__ . '/../..' . '/app/Http/Requests/CreatePatientRequest.php',
         'App\\Http\\Requests\\CreatePhysicianRequest' => __DIR__ . '/../..' . '/app/Http/Requests/CreatePhysicianRequest.php',
         'App\\Http\\Requests\\CreateRoomRequest' => __DIR__ . '/../..' . '/app/Http/Requests/CreateRoomRequest.php',
@@ -786,6 +804,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'App\\Http\\Requests\\UpdateHospitalRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateHospitalRequest.php',
         'App\\Http\\Requests\\UpdateNationalityRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateNationalityRequest.php',
         'App\\Http\\Requests\\UpdateNurseRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateNurseRequest.php',
+        'App\\Http\\Requests\\UpdatePatientFileRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdatePatientFileRequest.php',
         'App\\Http\\Requests\\UpdatePatientRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdatePatientRequest.php',
         'App\\Http\\Requests\\UpdatePhysicianRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdatePhysicianRequest.php',
         'App\\Http\\Requests\\UpdateRoomRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateRoomRequest.php',
@@ -809,6 +828,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'App\\Models\\Navigation' => __DIR__ . '/../..' . '/app/Models/Navigation.php',
         'App\\Models\\Nurse' => __DIR__ . '/../..' . '/app/Models/Nurse.php',
         'App\\Models\\Patient' => __DIR__ . '/../..' . '/app/Models/Patient.php',
+        'App\\Models\\PatientFile' => __DIR__ . '/../..' . '/app/Models/PatientFile.php',
         'App\\Models\\Physician' => __DIR__ . '/../..' . '/app/Models/Physician.php',
         'App\\Models\\Room' => __DIR__ . '/../..' . '/app/Models/Room.php',
         'App\\Models\\Session' => __DIR__ . '/../..' . '/app/Models/Session.php',
@@ -836,6 +856,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'App\\Repositories\\HospitalRepository' => __DIR__ . '/../..' . '/app/Repositories/HospitalRepository.php',
         'App\\Repositories\\NationalityRepository' => __DIR__ . '/../..' . '/app/Repositories/NationalityRepository.php',
         'App\\Repositories\\NurseRepository' => __DIR__ . '/../..' . '/app/Repositories/NurseRepository.php',
+        'App\\Repositories\\PatientFileRepository' => __DIR__ . '/../..' . '/app/Repositories/PatientFileRepository.php',
         'App\\Repositories\\PatientRepository' => __DIR__ . '/../..' . '/app/Repositories/PatientRepository.php',
         'App\\Repositories\\PhysicianRepository' => __DIR__ . '/../..' . '/app/Repositories/PhysicianRepository.php',
         'App\\Repositories\\RoomRepository' => __DIR__ . '/../..' . '/app/Repositories/RoomRepository.php',
@@ -846,7 +867,8 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'App\\Scopes\\HospitalScope' => __DIR__ . '/../..' . '/app/Scopes/HospitalScope.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\View\\Components\\Inputs\\Image' => __DIR__ . '/../..' . '/app/View/Components/Inputs/Image.php',
-        'App\\View\\Components\\inputs\\document_code' => __DIR__ . '/../..' . '/app/View/Components/Inputs/document_code.php',
+        'App\\View\\Components\\filters\\button' => __DIR__ . '/../..' . '/app/View/Components/filters/button.php',
+        'App\\View\\Components\\filters\\filters' => __DIR__ . '/../..' . '/app/View/Components/filters/filters.php',
         'App\\View\\Components\\loader' => __DIR__ . '/../..' . '/app/View/Components/loader.php',
         'App\\View\\Components\\modals\\basic' => __DIR__ . '/../..' . '/app/View/Components/modals/basic.php',
         'App\\View\\Components\\modals\\form' => __DIR__ . '/../..' . '/app/View/Components/modals/form.php',
@@ -854,6 +876,9 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/CorsService.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
+        'Brian2694\\Toastr\\Facades\\Toastr' => __DIR__ . '/..' . '/brian2694/laravel-toastr/src/Facades/Toastr.php',
+        'Brian2694\\Toastr\\Toastr' => __DIR__ . '/..' . '/brian2694/laravel-toastr/src/Toastr.php',
+        'Brian2694\\Toastr\\ToastrServiceProvider' => __DIR__ . '/..' . '/brian2694/laravel-toastr/src/ToastrServiceProvider.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',
         'Brick\\Math\\BigNumber' => __DIR__ . '/..' . '/brick/math/src/BigNumber.php',
@@ -951,6 +976,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'Collective\\Html\\HtmlServiceProvider' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlServiceProvider.php',
         'Complex\\Complex' => __DIR__ . '/..' . '/markbaker/complex/classes/src/Complex.php',
         'Complex\\Exception' => __DIR__ . '/..' . '/markbaker/complex/classes/src/Exception.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/CronExpression.php',
         'Cron\\DayOfMonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/DayOfMonthField.php',
@@ -3081,8 +3107,6 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'InfyOm\\Generator\\Request\\APIRequest' => __DIR__ . '/..' . '/infyomlabs/laravel-generator/src/Request/APIRequest.php',
         'InfyOm\\Generator\\Utils\\FileUtil' => __DIR__ . '/..' . '/infyomlabs/laravel-generator/src/Utils/FileUtil.php',
         'InfyOm\\Generator\\Utils\\GeneratorFieldsInputUtil' => __DIR__ . '/..' . '/infyomlabs/laravel-generator/src/Utils/GeneratorFieldsInputUtil.php',
-        'InfyOm\\Generator\\Utils\\GeneratorForeignKey' => __DIR__ . '/..' . '/infyomlabs/laravel-generator/src/Utils/TableFieldsGenerator.php',
-        'InfyOm\\Generator\\Utils\\GeneratorTable' => __DIR__ . '/..' . '/infyomlabs/laravel-generator/src/Utils/TableFieldsGenerator.php',
         'InfyOm\\Generator\\Utils\\HTMLFieldGenerator' => __DIR__ . '/..' . '/infyomlabs/laravel-generator/src/Utils/HTMLFieldGenerator.php',
         'InfyOm\\Generator\\Utils\\ResponseUtil' => __DIR__ . '/..' . '/infyomlabs/laravel-generator/src/Utils/ResponseUtil.php',
         'InfyOm\\Generator\\Utils\\SchemaUtil' => __DIR__ . '/..' . '/infyomlabs/laravel-generator/src/Utils/SchemaUtil.php',
@@ -5339,7 +5363,6 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'Symfony\\Component\\EventDispatcher\\Debug\\TraceableEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php',
         'Symfony\\Component\\EventDispatcher\\Debug\\WrappedListener' => __DIR__ . '/..' . '/symfony/event-dispatcher/Debug/WrappedListener.php',
         'Symfony\\Component\\EventDispatcher\\DependencyInjection\\AddEventAliasesPass' => __DIR__ . '/..' . '/symfony/event-dispatcher/DependencyInjection/AddEventAliasesPass.php',
-        'Symfony\\Component\\EventDispatcher\\DependencyInjection\\ExtractingEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/DependencyInjection/RegisterListenersPass.php',
         'Symfony\\Component\\EventDispatcher\\DependencyInjection\\RegisterListenersPass' => __DIR__ . '/..' . '/symfony/event-dispatcher/DependencyInjection/RegisterListenersPass.php',
         'Symfony\\Component\\EventDispatcher\\EventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/EventDispatcher.php',
         'Symfony\\Component\\EventDispatcher\\EventDispatcherInterface' => __DIR__ . '/..' . '/symfony/event-dispatcher/EventDispatcherInterface.php',
@@ -5701,7 +5724,6 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'Symfony\\Component\\Routing\\Loader\\GlobFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/GlobFileLoader.php',
         'Symfony\\Component\\Routing\\Loader\\ObjectLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/ObjectLoader.php',
         'Symfony\\Component\\Routing\\Loader\\PhpFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/PhpFileLoader.php',
-        'Symfony\\Component\\Routing\\Loader\\ProtectedPhpFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/PhpFileLoader.php',
         'Symfony\\Component\\Routing\\Loader\\XmlFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/XmlFileLoader.php',
         'Symfony\\Component\\Routing\\Loader\\YamlFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/YamlFileLoader.php',
         'Symfony\\Component\\Routing\\Matcher\\CompiledUrlMatcher' => __DIR__ . '/..' . '/symfony/routing/Matcher/CompiledUrlMatcher.php',
@@ -5906,6 +5928,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'Tests\\APIs\\NationalityApiTest' => __DIR__ . '/../..' . '/tests/APIs/NationalityApiTest.php',
         'Tests\\APIs\\NurseApiTest' => __DIR__ . '/../..' . '/tests/APIs/NurseApiTest.php',
         'Tests\\APIs\\PatientApiTest' => __DIR__ . '/../..' . '/tests/APIs/PatientApiTest.php',
+        'Tests\\APIs\\PatientFileApiTest' => __DIR__ . '/../..' . '/tests/APIs/PatientFileApiTest.php',
         'Tests\\APIs\\PhysicianApiTest' => __DIR__ . '/../..' . '/tests/APIs/PhysicianApiTest.php',
         'Tests\\APIs\\RoomApiTest' => __DIR__ . '/../..' . '/tests/APIs/RoomApiTest.php',
         'Tests\\APIs\\SessionApiTest' => __DIR__ . '/../..' . '/tests/APIs/SessionApiTest.php',
@@ -5929,6 +5952,7 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'Tests\\Repositories\\HospitalRepositoryTest' => __DIR__ . '/../..' . '/tests/Repositories/HospitalRepositoryTest.php',
         'Tests\\Repositories\\NationalityRepositoryTest' => __DIR__ . '/../..' . '/tests/Repositories/NationalityRepositoryTest.php',
         'Tests\\Repositories\\NurseRepositoryTest' => __DIR__ . '/../..' . '/tests/Repositories/NurseRepositoryTest.php',
+        'Tests\\Repositories\\PatientFileRepositoryTest' => __DIR__ . '/../..' . '/tests/Repositories/PatientFileRepositoryTest.php',
         'Tests\\Repositories\\PatientRepositoryTest' => __DIR__ . '/../..' . '/tests/Repositories/PatientRepositoryTest.php',
         'Tests\\Repositories\\PhysicianRepositoryTest' => __DIR__ . '/../..' . '/tests/Repositories/PhysicianRepositoryTest.php',
         'Tests\\Repositories\\RoomRepositoryTest' => __DIR__ . '/../..' . '/tests/Repositories/RoomRepositoryTest.php',
@@ -6057,6 +6081,9 @@ class ComposerStaticInita56004af9ea476443ee529d7c8574e3e
         'Yajra\\DataTables\\Utilities\\Config' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Utilities/Config.php',
         'Yajra\\DataTables\\Utilities\\Helper' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Utilities/Helper.php',
         'Yajra\\DataTables\\Utilities\\Request' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Utilities/Request.php',
+        'Yoeunes\\Toastr\\Facades\\Toastr' => __DIR__ . '/..' . '/yoeunes/toastr/src/Facades/Toastr.php',
+        'Yoeunes\\Toastr\\Toastr' => __DIR__ . '/..' . '/yoeunes/toastr/src/Toastr.php',
+        'Yoeunes\\Toastr\\ToastrServiceProvider' => __DIR__ . '/..' . '/yoeunes/toastr/src/ToastrServiceProvider.php',
         'ZipStream\\Bigint' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Bigint.php',
         'ZipStream\\DeflateStream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/DeflateStream.php',
         'ZipStream\\Exception' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Exception.php',

@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <title>{{config('app.name')}}</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-
     
-
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-
+    <!--<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>-->
 
     <!-- Bootstrap 4.1.1 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
@@ -36,7 +32,11 @@
     <!-- bootstrap select -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-select.min.css') }}">
 
-
+    <!-- toastr css - for notifications -->
+    <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
+    
+    <!--daterange picker-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 <header class="app-header navbar">
@@ -137,6 +137,7 @@ function shift_branch(hospital_id , branch_id) {
 
 }
 
+
 </script>
 
 
@@ -146,11 +147,19 @@ function shift_branch(hospital_id , branch_id) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@2.1.16/dist/js/coreui.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<!-- Custom js -->
+<script src="{{ asset('js/custom.js') }}"></script>
 
 <!-- Bootstrap select -->
 <script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
+<!-- Toastr js - for notifications -->
+<script src="{{ asset('js/toastr.min.js') }}"></script>
 
+@toastr_render
 
 @stack('scripts')
 

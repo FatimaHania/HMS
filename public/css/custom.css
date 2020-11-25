@@ -2,9 +2,39 @@ body {
     font-size: 13px !important;
 }
 
+.container-fluid {
+  padding:15px !important;
+}
+
+.row {
+  margin:auto !important;
+}
+
+.breadcrumb {
+  margin-bottom:0px;
+}
+
+.control-label {
+  margin-bottom:1px;
+  margin-top:0px;
+}
+
 .card-body {
   padding-top:8px;
   padding-bottom:8px;
+}
+
+/*INPUT FIELD STYLING*/
+/*select bar styling*/
+.bootstrap-select.form-control-xs .dropdown-toggle {
+  padding: .1rem .25rem !important;
+  height: 24px;
+}
+
+/*input field*/
+.form-control.form-control-xs {
+  padding: .1rem .25rem !important;
+  height: 24px;
 }
 
 /* TABLES */
@@ -17,9 +47,10 @@ body {
   
 .table th,
 .table td {
-    padding: 10px;
+    padding: 6px;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
+    font-size:11px;
 }
 
 .table .th_action{
@@ -29,12 +60,13 @@ body {
 /* BUTTONS */
 .btn-xs,
 .btn-group-xs > .btn {
-  padding: 0.15rem 0.3rem;
-  font-size: 0.7rem;
+  padding: 4px 6px;
+  font-size: 10px;
+  font-weight:bold;
   line-height: 1.0;
   border-radius: 0.1rem;
-  margin-right: 6px;
-  margin-left: 6px;
+  margin-right: 1px;
+  margin-left: 1px;
 
 }
 
@@ -52,6 +84,27 @@ label{
 
 .bootstrap-select>.btn-light.focus, .btn-light:focus {
   box-shadow: 0 0 0 0;
+}
+
+/* SCROLL BAR STYLING */
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 

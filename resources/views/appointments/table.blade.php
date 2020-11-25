@@ -33,12 +33,14 @@
         @php
             $status = '<span class="badge badge-danger">Cancelled</span>';
             $background_color = 'bg-danger';
+            
         @endphp
     @else
         @if($session->completed_at == null || $session->completed_at == "")
             @php
                 $status = '<span class="badge badge-warning">Pending</span>';
                 $background_color = 'bg-secondary';
+                $edit_button = '';
             @endphp
         @else
             @php
@@ -127,8 +129,13 @@
                         {!! Form::open(['route' => ['appointments.destroy', $appointment->id], 'method' => 'delete']) !!}
                         <div class='btn-group'>
                             <a href="{{ route('appointments.show', [$appointment->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-eye"></i></a>
-                            <a href="{{ route('appointments.edit', [$appointment->id]) }}" class='btn btn-xs btn-ghost-info'><i class="fa fa-edit"></i></a>
-                            {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-xs btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                            @if($session->is_cancelled == "1")
+                            @else
+                                @if($session->completed_at == null || $session->completed_at == "")
+                                    <a href="{{ route('appointments.edit', [$appointment->id]) }}" class="btn btn-xs btn-ghost-info"><i class="fa fa-edit"></i></a>
+                                    {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-xs btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                                @endif
+                            @endif
                         </div>
                         {!! Form::close() !!}
                     </td>

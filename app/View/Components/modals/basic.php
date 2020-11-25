@@ -8,16 +8,18 @@ class basic extends Component
 {
 
     public $modalId;
+    public $modalSize;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($modalId)
+    public function __construct($modalId, $modalSize = "")
     {
         
         $this->modalId = $modalId;
+        $this->modalSize = $modalSize;
 
     }
 

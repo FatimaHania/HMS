@@ -21,6 +21,7 @@ use App\Scopes\HospitalScope;
  * @property \App\Models\Title $title
  * @property \App\Models\Department $department
  * @property \App\Models\Specialization $specialization
+ * * @property \App\Models\Session $specialization
  * @property integer $physician_number
  * @property string $physician_code
  * @property string $physician_name
@@ -192,6 +193,14 @@ class Physician extends Model
     public function specializations()
     {
         return $this->belongsToMany(Specialization::class, 'physician_specialization' , 'physician_id' , 'specialization_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function sessions()
+    {
+        return $this->belongsTo(\App\Models\Session::class, 'physician_id');
     }
 
 

@@ -6,6 +6,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Scopes\HospitalScope;
+use App\Models\Physician;
 
 /**
  * Class Specialization
@@ -70,6 +71,16 @@ class Specialization extends Model
     protected static function booted()
     {
         static::addGlobalScope(new HospitalScope);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     **/
+    public function physicians()
+    {
+
+        return $this->belongsToMany('App\Models\Physician', 'physician_specialization', 'specialization_id', 'physician_id');
+
     }
 
     

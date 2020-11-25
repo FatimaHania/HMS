@@ -94,5 +94,7 @@ return array(
     'e23faeee409e941dc9b4c80386209c39' => $vendorDir . '/laracasts/flash/src/Laracasts/Flash/functions.php',
     '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     'b6b991a57620e2fb6b2f66f03fe9ddc2' => $vendorDir . '/symfony/string/Resources/functions.php',
+    'caf23243e9cb3afd48d0414815ebf07e' => $vendorDir . '/brian2694/laravel-toastr/src/helper.php',
     'a28599dc506da421718fad75955a4b9d' => $vendorDir . '/infyomlabs/laravel-generator/src/helpers.php',
+    '101b35f72e0ccb1b5ef72aa86bba3ef9' => $vendorDir . '/yoeunes/toastr/src/helpers.php',
 );

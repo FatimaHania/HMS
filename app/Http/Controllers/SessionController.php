@@ -229,6 +229,41 @@ class SessionController extends AppBaseController
     }
 
 
+    public function cancelSession()
+    {
+
+        $session_id = $_POST['session_id'];
+        $cancelled_date = $_POST['cancelled_date'];
+        $cancelled_by = $_POST['cancelled_by'];
+        $cancelled_reason = $_POST['cancelled_reason'];
+
+        return $this->sessionRepository->cancelSession($session_id, $cancelled_date, $cancelled_by, $cancelled_reason);
+        
+    }
+
+    public function startSession()
+    {
+
+        $session_id = $_POST['session_id'];
+        $started_at = $_POST['started_at'];
+        $started_by = $_POST['started_by'];
+
+        return $this->sessionRepository->startSession($session_id, $started_at, $started_by);
+        
+    }
+
+    public function completeSession()
+    {
+
+        $session_id = $_POST['session_id'];
+        $completed_at = $_POST['completed_at'];
+        $completed_by = $_POST['completed_by'];
+
+        return $this->sessionRepository->completeSession($session_id, $completed_at, $completed_by);
+        
+    }
+
+
     /**
      * Remove the specified Session from storage.
      *

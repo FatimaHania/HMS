@@ -179,6 +179,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Yajra\DataTables\ButtonsServiceProvider::class,
         Yajra\Datatables\HtmlServiceProvider::class,
+        Yoeunes\Toastr\ToastrServiceProvider::class
 
     ],
 
@@ -236,6 +237,8 @@ return [
         'Flash'     => Laracasts\Flash\Flash::class,
         'Carbon' => Carbon\Carbon::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Helper' => App\Helpers\Helper::class,
+
 
     ],
 

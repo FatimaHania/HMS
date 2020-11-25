@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "brian2694/laravel-toastr": "^5.54",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
@@ -21,7 +22,8 @@
         "laravelcollective/html": "^6.1",
         "nesbot/carbon": "^2.39",
         "yajra/laravel-datatables-buttons": "^4.0",
-        "yajra/laravel-datatables-oracle": "~9.0"
+        "yajra/laravel-datatables-oracle": "~9.0",
+        "yoeunes/toastr": "^1.2"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

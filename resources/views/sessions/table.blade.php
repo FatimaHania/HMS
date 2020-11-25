@@ -50,12 +50,12 @@
     @else 
         @if($session->completed_at == null || $session->completed_at == "")
             @php
-                $status = '<span class="badge badge-warning">Pending</span>';
+                $status = '<span class="badge badge-light">Pending</span>';
                 $background_color = 'bg-secondary';
             @endphp
         @else
             @php
-                $status = '<span class="badge badge-info">Completed</span>';
+                $status = '<span class="badge badge-primary">Completed</span>';
                 $background_color = 'bg-info';
             @endphp
         @endif

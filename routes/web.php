@@ -54,35 +54,45 @@ Route::post('/nurses/getNurseDepartments','NurseController@getNurseDepartments')
 Route::post('/nurses/destroyNurseDepartments','NurseController@destroyNurseDepartments')->name('nurses.destroyNurseDepartments');
 Route::post('/nurses/storeNurseDepartments','NurseController@storeNurseDepartments')->name('nurses.storeNurseDepartments');
 
+Route::resource('specializations', 'SpecializationController')->middleware('verified');
 
+Route::resource('departments', 'DepartmentController')->middleware('verified');
 
-Auth::routes(['verify' => true]);
+Route::resource('diseases', 'DiseaseController')->middleware('verified');
 
-Route::resource('specializations', 'SpecializationController');
+Route::resource('treatments', 'TreatmentController')->middleware('verified');
 
-Route::resource('departments', 'DepartmentController');
-
-Route::resource('diseases', 'DiseaseController');
-
-Route::resource('treatments', 'TreatmentController');
-
-Route::resource('currencies', 'CurrencyController');
+Route::resource('currencies', 'CurrencyController')->middleware('verified');
 
 
 
-Route::resource('designations', 'DesignationController');
+Route::resource('designations', 'DesignationController')->middleware('verified');
 
-Route::resource('rooms', 'RoomController');
+Route::resource('rooms', 'RoomController')->middleware('verified');
 
-Route::resource('departmentRooms', 'DepartmentRoomController');
+Route::resource('departmentRooms', 'DepartmentRoomController')->middleware('verified');
 Route::post('/departmentRooms/getDepartmentRooms','DepartmentRoomController@getDepartmentRooms')->name('departmentRooms.getDepartmentRooms');
 Route::post('/departmentRooms/destroyDepartmentRooms','DepartmentRoomController@destroyDepartmentRooms')->name('departmentRooms.destroyDepartmentRooms');
 Route::post('/departmentRooms/storeDepartmentRooms','DepartmentRoomController@storeDepartmentRooms')->name('departmentRooms.storeDepartmentRooms');
 
 
-Route::resource('sessions', 'SessionController');
+Route::resource('sessions', 'SessionController')->middleware('verified');
 Route::post('/sessions/getSessionDates','SessionController@getSessionDates')->name('sessions.getSessionDates');
 Route::post('/sessions/getSessionDetails','SessionController@getSessionDetails')->name('sessions.getSessionDetails');
+Route::post('/sessions/cancelSession','SessionController@cancelSession')->name('sessions.cancelSession');
+Route::post('/sessions/startSession','SessionController@startSession')->name('sessions.startSession');
+Route::post('/sessions/completeSession','SessionController@completeSession')->name('sessions.completeSession');
 
-Route::resource('appointments', 'AppointmentController');
+Route::resource('appointments', 'AppointmentController')->middleware('verified');
 Route::post('/appointments/getAppointmentDetails','AppointmentController@getAppointmentDetails')->name('appointments.getAppointmentDetails');
+Route::post('/appointments/getCardDetails','AppointmentController@getCardDetails')->name('appointments.getCardDetails');
+Route::post('/appointments/getBookingDetails','AppointmentController@getBookingDetails')->name('appointments.getBookingDetails');
+Route::post('/appointments/bookAppointments','AppointmentController@bookAppointments')->name('appointments.bookAppointments');
+Route::post('/appointments/cancelAppointments','AppointmentController@cancelAppointments')->name('appointments.cancelAppointments');
+Route::post('/appointments/getCards','AppointmentController@getCards')->name('appointments.getCards');
+Route::post('/appointments/updatePhysicianFilter','AppointmentController@updatePhysicianFilter')->name('appointments.updatePhysicianFilter');
+
+Route::resource('patientFiles', 'PatientFileController')->middleware('verified');
+Route::post('/patientFiles/getPatientFiles','PatientFileController@getPatientFiles')->name('patientFiles.getPatientFiles');
+
+Auth::routes(['verify' => true]);

@@ -68,3 +68,5 @@ Route::resource('department_rooms', 'DepartmentRoomAPIController');
 Route::resource('sessions', 'SessionAPIController');
 
 Route::resource('appointments', 'AppointmentAPIController');
+
+Route::resource('patient_files', 'PatientFileAPIController');
