@@ -11,10 +11,15 @@
         </thead>
         <tbody>
         @foreach($physicians as $physician)
+            @if($physician->country_id == "" || $physician->country_id == null)
+                @php $telephone_code = "000"; @endphp
+            @else
+                @php $telephone_code = $physician->country->telephone_code; @endphp
+            @endif
             <tr>
                 <td>{{ $physician->physician_code." | ".$physician->title->short_code." ".$physician->physician_name }}</td>
                 <td>{{ $physician->passport_no }}</td>
-                <td>{{ join('/' , [$physician->mobile , $physician->telephone]) }}</td>
+                <td>{{ join(' / ' , [$telephone_code."-".$physician->mobile , $telephone_code."-".$physician->telephone]) }}</td>
                 <td>{{ $physician->email }}</td>
                 <td>
                     {!! Form::open(['route' => ['physicians.destroy', $physician->id], 'method' => 'delete']) !!}

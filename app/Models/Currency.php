@@ -5,7 +5,6 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Scopes\HospitalScope;
 
 /**
  * Class Currency
@@ -78,9 +77,6 @@ class Currency extends Model
         'deleted_at' => 'nullable'
     ];
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new HospitalScope);
-    }
+
     
 }

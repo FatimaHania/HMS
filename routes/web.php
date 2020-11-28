@@ -29,12 +29,22 @@ Route::post('/changeSession','NavigationController@changeSession')->name('change
 
 //Masters
 Route::resource('masters/titles', 'TitleController')->middleware('verified');
+
 Route::resource('masters/genders', 'GenderController')->middleware('verified');
+
 Route::resource('masters/nationalities', 'NationalityController')->middleware('verified');
+
 Route::resource('masters/countries', 'CountryController')->middleware('verified');
+Route::post('/masters/countries/getTelephoneCode','CountryController@getTelephoneCode')->name('countries.getTelephoneCode');
+Route::post('/masters/countries/getCountryCurrency','CountryController@getCountryCurrency')->name('countries.getCountryCurrency');
+Route::post('/masters/countries/getCountryNationality','CountryController@getCountryNationality')->name('countries.getCountryNationality');
+
 Route::resource('masters/bloodgroups', 'BloodgroupController')->middleware('verified');
+
 Route::resource('masters/documentCodes', 'DocumentCodeController')->middleware('verified');
+
 Route::resource('masters/hospitals', 'HospitalController')->middleware('verified');
+
 Route::resource('masters/branches', 'BranchController')->middleware('verified');
 
 Route::resource('patients', 'PatientController')->middleware('verified');

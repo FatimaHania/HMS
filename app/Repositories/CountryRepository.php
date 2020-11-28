@@ -41,4 +41,33 @@ class CountryRepository extends BaseRepository
         return Country::class;
     }
 
+    public function getTelephoneCode($country_id)
+    {
+
+        $country = Country::where('id' , $country_id)->first();
+
+        return $country->telephone_code;
+
+    }
+
+    public function getCountryCurrency($country_id)
+    {
+
+        $country = Country::where('id' , $country_id)->first();
+
+        return $country->currency_id;
+
+    }
+
+
+    public function getCountryNationality($country_id)
+    {
+
+        $country = Country::where('id' , $country_id)->first();
+
+        return $country->nationality_id;
+
+    }
+
+
 }

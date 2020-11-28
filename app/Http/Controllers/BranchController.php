@@ -44,7 +44,13 @@ class BranchController extends AppBaseController
      */
     public function create()
     {
-        return view('branches.create');
+
+        $countries = $this->branchRepository->getCountries();
+        $currencies = $this->branchRepository->getCurrencies();
+
+        return view('branches.create')
+            ->with('countries' , $countries)
+            ->with('currencies' , $currencies);
     }
 
     /**
@@ -95,6 +101,9 @@ class BranchController extends AppBaseController
     public function edit($id)
     {
         $branch = $this->branchRepository->find($id);
+        
+        $countries = $this->branchRepository->getCountries();
+        $currencies = $this->branchRepository->getCurrencies();
 
         if (empty($branch)) {
             Flash::error('Branch not found');
@@ -102,7 +111,10 @@ class BranchController extends AppBaseController
             return redirect(route('branches.index'));
         }
 
-        return view('branches.edit')->with('branch', $branch);
+        return view('branches.edit')
+        ->with('countries' , $countries)
+        ->with('currencies' , $currencies)
+        ->with('branch', $branch);
     }
 
     /**

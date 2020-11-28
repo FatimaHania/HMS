@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Branch;
+use App\Models\Country;
+use App\Models\Currency;
 use App\Repositories\BaseRepository;
 
 /**
@@ -43,4 +45,20 @@ class BranchRepository extends BaseRepository
     {
         return Branch::class;
     }
+
+    public function getCountries()
+    {
+
+        return Country::orderBy('description', 'ASC')->pluck('description' , 'id');
+
+    }
+
+    public function getCurrencies()
+    {
+
+        return Currency::orderBy('description', 'ASC')->pluck('description' , 'id');
+
+    }
+
+
 }

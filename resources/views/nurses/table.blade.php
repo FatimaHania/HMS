@@ -13,12 +13,17 @@
         </thead>
         <tbody>
         @foreach($nurses as $nurse)
+            @if($nurse->country_id == "" || $nurse->country_id == null)
+                @php $telephone_code = "000"; @endphp
+            @else
+                @php $telephone_code = $nurse->country->telephone_code; @endphp
+            @endif
             <tr>
             <td>{{$nurse->nurse_code." | ".$nurse->title->short_code." ".$nurse->nurse_name }}</td>
             <td>{{ $nurse->gender->description }}</td>
             <td>{{ Carbon::parse($nurse->dob)->format(config('app.date_format'))}}</td>
             <td>{{ $nurse->country->description }}</td>
-            <td>{{ join('/' , [$nurse->mobile , $nurse->telephone]) }}</td>
+            <td>{{ join(' / ' , [$telephone_code."-".$nurse->mobile , $telephone_code."-".$nurse->telephone]) }}</td>
             <td>{{ $nurse->email }}</td>
                 <td>
                     {!! Form::open(['route' => ['nurses.destroy', $nurse->id], 'method' => 'delete']) !!}

@@ -139,8 +139,8 @@ class NurseController extends AppBaseController
 
         $titles = Title::pluck('short_code' , 'id');
         $genders = Gender::pluck('short_code' , 'id');
-        $countries = Country::pluck('short_code' , 'id');
-        $nationalities = Nationality::pluck('short_code' , 'id');
+        $countries = Country::pluck('description' , 'id');
+        $nationalities = Nationality::pluck('description' , 'id');
         $documentCode = DocumentCode::where('documentcode_id' , 3)->first();
         $lastNurseRecord = Nurse::orderBy('nurse_number', 'DESC')->first();
         

@@ -40,4 +40,10 @@
                 </div>
            </div>
     </div>
+@stack('scripts')
+<script>
+    $('.selectpicker').val('');
+    $('.selectpicker').selectpicker('refresh');
+</script>
+
 @endsection

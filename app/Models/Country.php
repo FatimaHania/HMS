@@ -5,7 +5,6 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Scopes\HospitalScope;
 
 /**
  * Class Country
@@ -62,11 +61,6 @@ class Country extends Model
         'hospital_id' => 'required',
         'branch_id' => 'required'
     ];
-
-    protected static function booted()
-    {
-        static::addGlobalScope(new HospitalScope);
-    }
 
     
 }

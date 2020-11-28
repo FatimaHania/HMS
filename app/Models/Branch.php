@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @version August 30, 2020, 5:52 pm UTC
  *
  * @property \App\Models\Hospital $hospital
+ * @property \App\Models\Country $country
  * @property \Illuminate\Database\Eloquent\Collection $documentcodeHospitals
  * @property \Illuminate\Database\Eloquent\Collection $moduleHospitals
  * @property \Illuminate\Database\Eloquent\Collection $moduleUsergroups
@@ -49,7 +50,10 @@ class Branch extends Model
         'telephone_1',
         'telephone_2',
         'telephone_3',
-        'address'
+        'address',
+        'country_id',
+        'default_currency_id',
+        'reporting_currency_id'
     ];
 
     /**
@@ -93,6 +97,32 @@ class Branch extends Model
         return $this->belongsTo(\App\Models\Hospital::class, 'hospital_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function country()
+    {
+        return $this->belongsTo(\App\Models\Country::class, 'country_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function default_currency()
+    {
+        return $this->belongsTo(\App\Models\Currency::class, 'default_currency_id');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function reporting_currency()
+    {
+        return $this->belongsTo(\App\Models\Currency::class, 'reporting_currency_id');
+    }
+
+    
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/

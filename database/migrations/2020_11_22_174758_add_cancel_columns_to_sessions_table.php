@@ -14,10 +14,10 @@ class AddCancelColumnsToSessionsTable extends Migration
     public function up()
     {
         Schema::table('sessions', function (Blueprint $table) {
-            $table->foreignId('started_by')->constrained('users')->default(0)->after('starts_at');
-            $table->foreignId('completed_by')->constrained('users')->default(0)->after('completed_at');
+            $table->foreignId('started_by')->nullable()->constrained('users')->after('starts_at');
+            $table->foreignId('completed_by')->nullable()->constrained('users')->after('completed_at');
             $table->date('cancelled_date')->nullable()->after('is_cancelled');
-            $table->foreignId('cancelled_by')->constrained('users')->default(0)->after('is_cancelled');
+            $table->foreignId('cancelled_by')->nullable()->constrained('users')->after('is_cancelled');
             $table->longText('cancelled_reason')->nullable()->after('is_cancelled');
         });
     }

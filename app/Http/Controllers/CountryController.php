@@ -162,6 +162,32 @@ class CountryController extends AppBaseController
         return redirect(route('countries.index'));
     }
 
+    public function getTelephoneCode(){
+
+        $country_id = $_POST['country_id'];
+
+        return $this->countryRepository->getTelephoneCode($country_id);
+
+    }
+
+
+    public function getCountryCurrency(){
+
+        $country_id = $_POST['country_id'];
+
+        return $this->countryRepository->getCountryCurrency($country_id);
+
+    }
+
+
+    public function getCountryNationality(){
+
+        $country_id = $_POST['country_id'];
+
+        return $this->countryRepository->getCountryNationality($country_id);
+
+    }
+
     /**
      * Remove the specified Country from storage.
      *
