@@ -61,7 +61,7 @@ class SessionRepository extends BaseRepository
 
         $session_dates = Session::where('physician_id' , $_POST['physician_id'])->orderBy('Date', 'DESC')->get();
 
-        $session_date_option = "<option>Select Date</option>";
+        $session_date_option = "<option value='0'>Select Date</option>";
         foreach ($session_dates as $session_date) {
             $session_date_option .= "<option value='". $session_date->date ."'> ". date('jS M, Y', strtotime($session_date->date)) ." </option>";
         }

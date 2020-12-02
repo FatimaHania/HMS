@@ -1,51 +1,48 @@
 @extends('layouts.app')
 
 @section('content')
-    <ol class="breadcrumb">
+    
+<div class="row">
+    <ol class="breadcrumb col-md-8">
         <li class="breadcrumb-item">Sessions</li>
     </ol>
-    <div class="container-fluid">
-        <div class="animated fadeIn">
-             @include('flash::message')
-             <div class="row">
-                 <div class="col-lg-12">
-                     <div class="card">
-                         <div class="card-header">
-                             <i class="fa fa-align-justify"></i>
-                             Sessions
-                             <a class="pull-right" href="{{ route('sessions.create') }}"><i class="fa fa-plus-square fa-lg"></i></a>
-                         </div>
-                         <div class="card-body">
-                            <div class="well well-sm">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        {!! Form::label('filter_physician_id', 'Physician:') !!}
-                                        {!! Form::select('filter_physician_id', $physicians, null, ['class' => 'selectpicker form-control' , 'onchange' => 'getSessionDates(this); getSessionDetails(this);' , 'data-live-search' => "true"]) !!}
-                                    </div>
-
-                                    <div class="form-group col-sm-6">
-                                        {!! Form::label('filter_session_date', 'Session Date:') !!}
-                                        {!! Form::select('filter_session_date', ['Select Date'], null, ['class' => 'selectpicker form-control' , 'onchange' => 'scrollToSessionDate();' , 'data-live-search' => "true"]) !!}
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <x-loader loader-id="detailsLoader_div" min-height="200px"></x-loader>
-
-                            <div id="sessionDetails_div">
-
-                            </div>
-
-                              <div class="pull-right mr-3">
-                                     
-                              </div>
-                         </div>
-                     </div>
-                  </div>
-             </div>
-         </div>
+    <div class="col-md-4 breadcrumb" style="text-align:right !important; display:inline;">
+        <!-- create session button-->
+        <a class="btn btn-xs btn-primary" href="{{ route('sessions.create') }}"><i class="fa fa-plus-square"></i> create session</a>
+        <!--show filter button-->
+        <x-filters.button filter-id="page_filter" button-id="page_filter_button"></x-filters.button>
     </div>
+</div>
+
+<!--filters-->
+<x-filters.filters filter-id="page_filter">
+    <x-slot name="filters">
+        <div class="form-row">
+            <div class="col-md-6">
+                {!! Form::label('filter_physician_id', 'Physician:') !!}
+                <select class="form-control selectpicker" id="filter_physician_id" data-live-search="true" onchange="getSessionDates(this); getSessionDetails(this);">
+                    <option value='0'>Select Physician</option>
+                    @foreach($physicians as $physician)
+                        <option value="{{$physician->id}}">{{$physician->physician_code." | ".$physician->physician_name}}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                {!! Form::label('filter_session_date', 'Session Date:') !!}
+                {!! Form::select('filter_session_date', ['Select Date'], null, ['class' => 'selectpicker form-control' , 'onchange' => 'scrollToSessionDate();' , 'data-live-search' => "true"]) !!}
+            </div>
+        </div>
+    </x-slot>
+</x-filters.filters>
+
+<div class="container-fluid">
+    <div class="animated fadeIn">
+        @include('flash::message')
+        <x-loader loader-id="detailsLoader_div" min-height="200px"></x-loader>
+        <div id="sessionDetails_div"></div>
+    </div>
+</div>
 
 @stack('scripts')
 <script>
@@ -60,6 +57,9 @@
             $('#filter_physician_id').selectpicker('refresh');
             
         }
+
+        //display filter on page load
+        $('#page_filter_button').click();
 
     })
 
@@ -91,8 +91,14 @@
 
     function getSessionDetails(x) {
 
+        var filter_id = x.id;
         var physician_id = document.getElementById('filter_physician_id').value;
-        var session_date = document.getElementById('filter_session_date').value;
+
+        if(filter_id == "filter_physician_id"){
+            var session_date = '0';
+        } else {
+            session_date = document.getElementById('filter_session_date').value;
+        }
 
         if(physician_id == "" || physician_id == null){} else {
 

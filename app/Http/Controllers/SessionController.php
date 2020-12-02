@@ -51,13 +51,7 @@ class SessionController extends AppBaseController
 
         
 
-        $physicians = Physician::select(
-            Physician::raw("CONCAT(physician_code,' | ',physician_name) AS name"),'id')->get()
-            ->pluck('name' , 'id')->toArray();
-
-        array_unshift($physicians,"Select Physician");
-
-
+        $physicians = Physician::all();
 
         $session_dates = Session::pluck('date' , 'id');
 
@@ -75,10 +69,7 @@ class SessionController extends AppBaseController
     public function create()
     {
 
-        $physicians = Physician::select(
-            Physician::raw("CONCAT(physician_code,' | ',physician_name) AS name"),'id')
-            ->pluck('name' , 'id');
-
+        $physicians = Physician::all()->pluck('physician' , 'id');
         $departments = Department::pluck('description' , 'id');
         $rooms = Room::pluck('description' , 'id');
         $currencies = Currency::pluck('short_code' , 'id');
@@ -142,7 +133,7 @@ class SessionController extends AppBaseController
     public function edit($id)
     {
 
-        $physicians = Physician::pluck('physician_name' , 'id');
+        $physicians = Physician::all()->pluck('physician' , 'id');
         $departments = Department::pluck('description' , 'id');
         $rooms = Room::pluck('description' , 'id');
         $currencies = Currency::pluck('short_code' , 'id');

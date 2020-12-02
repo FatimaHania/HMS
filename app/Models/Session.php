@@ -100,7 +100,7 @@ class Session extends Model
         'amount_per_slot' => 'required|numeric',
         'starts_at' => 'nullable',
         'completed_at' => 'nullable',
-        'is_cancelled' => 'required|boolean',
+        'is_cancelled' => 'boolean',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'

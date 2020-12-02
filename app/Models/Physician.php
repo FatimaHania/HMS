@@ -217,6 +217,14 @@ class Physician extends Model
         $this->attributes['dob'] = Carbon::parse($value)->format('Y-m-d');
     }
 
+    //physician code and name
+    public function getPhysicianAttribute()
+    {
+        return $this->physician_code." | ".$this->physician_name;
+    }
+
+    //END ACCESSOR MUTATOR
+
 
 
 

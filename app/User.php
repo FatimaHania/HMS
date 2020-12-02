@@ -45,7 +45,8 @@ class User extends Authenticatable
         $users = DB::table('user_hospital')
             ->join('hospitals', 'hospitals.id', '=', 'user_hospital.hospital_id')
             ->join('branches', 'branches.id', '=', 'user_hospital.branch_id')
-            ->select('hospitals.*' , 'branches.*', 'user_hospital.hospital_id', 'user_hospital.branch_id' , 'hospitals.name AS hospital_name' , 'branches.name AS branch_name')
+            ->join('currencies', 'currencies.id', '=', 'branches.default_currency_id')
+            ->select('hospitals.*' , 'branches.*' , 'currencies.short_code as branch_currency_short_code', 'user_hospital.hospital_id', 'user_hospital.branch_id' , 'hospitals.name AS hospital_name' , 'branches.name AS branch_name')
             ->where('user_hospital.user_id', Auth::id())
             ->get();
 
