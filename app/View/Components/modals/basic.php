@@ -4,7 +4,7 @@ namespace App\View\Components\modals;
 
 use Illuminate\View\Component;
 
-class basic extends Component
+class Basic extends Component
 {
 
     public $modalId;
