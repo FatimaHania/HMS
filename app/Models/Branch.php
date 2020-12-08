@@ -188,10 +188,10 @@ class Branch extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      **/
     public function users()
     {
-        return $this->hasMany(\App\Models\User::class, 'branch_id');
+        return $this->belongsToMany(\App\Models\User::class, 'user_hospital' , 'branch_id' , 'user_id');
     }
 }

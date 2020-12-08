@@ -17,7 +17,7 @@ class Basic extends Component
      */
     public function __construct($modalId, $modalSize = "")
     {
-        
+    
         $this->modalId = $modalId;
         $this->modalSize = $modalSize;
 

@@ -34,6 +34,9 @@
 
     <!-- toastr css - for notifications -->
     <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
+
+    <!-- icheck- for radio button and checkboxes -->
+    <link rel="stylesheet" href="{{ asset('css/icheck/purple.css') }}">
     
     <!--daterange picker-->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -119,6 +122,7 @@
         <a href="#">GEARS</a>
     </div>
 </footer>
+
 </body>
 
 <script>
@@ -141,6 +145,7 @@ function shift_branch(hospital_id , branch_id) {
 </script>
 
 
+
 <!-- jQuery 3.1.1 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -159,8 +164,20 @@ function shift_branch(hospital_id , branch_id) {
 <!-- Toastr js - for notifications -->
 <script src="{{ asset('js/toastr.min.js') }}"></script>
 
+<!-- iCheck - for checkboxes and radio buttons -->
+<script src="{{ asset('js/icheck.min.js') }}"></script>
+
+
+
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+
 @toastr_render
 
 @stack('scripts')
+
 
 </html>

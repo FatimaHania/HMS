@@ -105,4 +105,20 @@ Route::post('/appointments/updatePhysicianFilter','AppointmentController@updateP
 Route::resource('patientFiles', 'PatientFileController')->middleware('verified');
 Route::post('/patientFiles/getPatientFiles','PatientFileController@getPatientFiles')->name('patientFiles.getPatientFiles');
 
+Route::resource('users', 'UserController')->middleware('verified');
+Route::post('/users/getUserUsergroups','UserController@getUserUsergroups')->name('users.getUserUsergroups');
+Route::post('/users/destroyUserUsergroups','UserController@destroyUserUsergroups')->name('users.destroyUserUsergroups');
+Route::post('/users/storeUserUsergroups','UserController@storeUserUsergroups')->name('users.storeUserUsergroups');
+
+
+Route::resource('usergroups', 'UsergroupController')->middleware('verified');
+Route::post('/usergroups/getUsergroupModules','UsergroupController@getUsergroupModules')->name('usergroups.getUsergroupModules');
+Route::post('/usergroups/storeUsergroupModules','UsergroupController@storeUsergroupModules')->name('usergroups.storeUsergroupModules');
+
+
 Auth::routes(['verify' => true]);
+
+
+
+
+

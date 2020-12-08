@@ -70,3 +70,9 @@ Route::resource('sessions', 'SessionAPIController');
 Route::resource('appointments', 'AppointmentAPIController');
 
 Route::resource('patient_files', 'PatientFileAPIController');
+
+Route::resource('users', 'UserAPIController');
+
+
+
+Route::resource('usergroups', 'UsergroupAPIController');

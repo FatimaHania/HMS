@@ -108,7 +108,7 @@ class Hospital extends Model
      **/
     public function modules()
     {
-        return $this->hasMany(\App\Models\Module::class, 'hospital_id');
+        return $this->belongsToMany(\App\Models\Module::class, 'module_hospital', 'hospital_id', 'module_id');
     }
 
     /**
@@ -144,10 +144,10 @@ class Hospital extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      **/
     public function users()
     {
-        return $this->hasMany(\App\Models\User::class, 'hospital_id');
+        return $this->belongsToMany(\App\Models\User::class, 'user_hospital' , 'hospital_id' , 'user_id');
     }
 }
