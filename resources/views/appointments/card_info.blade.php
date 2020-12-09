@@ -1,4 +1,4 @@
-<x-modals.basic modal-id="cardInfoModal">
+<x-modals.basic modal-id="cardInfoModal" modal-size="">
 
     <x-slot name="title">
         <span id="cardInfoModal_title">Session Details</span>
