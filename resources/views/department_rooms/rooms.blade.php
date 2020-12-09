@@ -1,4 +1,4 @@
-<x-modals.basic modal-id="departmentRoomsModal">
+<x-modals.basic modal-id="departmentRoomsModal" modal-size="">
 
     <x-slot name="title">
         <span id="roomModal_title">Rooms</span>
