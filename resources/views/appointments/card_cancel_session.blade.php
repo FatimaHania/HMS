@@ -1,4 +1,4 @@
-<x-modals.basic modal-id="cancelSessionModal">
+<x-modals.basic modal-id="cancelSessionModal" modal-size="">
 
     <x-slot name="title">
         <span id="cancelSessionModal_title">Cancel Session</span>
