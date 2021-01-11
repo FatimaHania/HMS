@@ -53,6 +53,7 @@ class LoginController extends Controller
         $user_hospitals = new User();
 
         $user_details_arr = array();
+        $is_physician = '0';
         foreach ($user_hospitals->getUserHospital() as $user_hospital) {
 
             $usergroups_arr = array();
@@ -68,12 +69,24 @@ class LoginController extends Controller
 
             $user_details_arr[$user_hospital->branch_id] = $user_details;
 
+            if($user_hospital->is_physician == '1'){
+                $is_physician = '1';
+            }
+
         }
+
+        $hospital_id = 0;
+        $branch_id = 0;
+        if(!empty($user_hospitals->getUserHospital())){
+            $hospital_id = $user_hospitals->getUserHospital()[0]->hospital_id;
+            $branch_id = $user_hospitals->getUserHospital()[0]->branch_id;
+        } 
 
         session(
             [
-                'hospital_id' => $user_hospitals->getUserHospital()[0]->hospital_id,
-                'branch_id' => $user_hospitals->getUserHospital()[0]->branch_id,
+                'hospital_id' => $hospital_id,
+                'branch_id' => $branch_id,
+                'is_physician' => $is_physician,
                 'user_details' => $user_details_arr
             ]
         );

@@ -78,16 +78,16 @@ function createMenu($tree, $stat, $usergroup_module_arr, $padding = '0')
         
         $background_colour = "#f0f7ff";
 
-        $module_id_field = '<input type="text" id="module_id'.$row['module_id'].'" name="module_id[]" value="'.$row['module_id'].'">';
-        $master_module_id_field = '<input type="text" id="master_module_id'.$row['module_id'].'" name="master_module_id[]" value="'.$row['master_module_id'].'">';
+        $module_id_field = '<input type="hidden" id="module_id'.$row['module_id'].'" name="module_id[]" value="'.$row['module_id'].'">';
+        $master_module_id_field = '<input type="hidden" id="master_module_id'.$row['module_id'].'" name="master_module_id[]" value="'.$row['master_module_id'].'">';
         
         //check if the module belongs to the usergroup
         if(in_array($row['module_id'], $usergroup_module_arr)){
-            $selected_value_field = '<input type="text" class="master_module'.$row['master_module_id'].'" id="selected_value'.$row['module_id'].'" name="selected_value[]" value="1">';
-            $checkbox =  '<input type="checkbox" class="icheck-checkbox master_module_CB'.$row['master_module_id'].'" data-module-id-CB="'.$row['module_id'].'" data-master-module-id-CB="'.$row['master_module_id'].'" checked>';
+            $selected_value_field = '<input type="hidden" class="master_module'.$row['master_module_id'].'" id="selected_value'.$row['module_id'].'" name="selected_value[]" value="1">';
+            $checkbox = '<input type="checkbox" class="icheck-checkbox master_module_CB'.$row['master_module_id'].'" id="selected_CB'.$row['module_id'].'" data-module-id-CB="'.$row['module_id'].'" data-master-module-id-CB="'.$row['master_module_id'].'" checked>';
         } else {
-            $selected_value_field = '<input type="text" class="master_module'.$row['master_module_id'].'" id="selected_value'.$row['module_id'].'" name="selected_value[]" value="0">';
-            $checkbox = '<input type="checkbox" class="icheck-checkbox master_module_CB'.$row['master_module_id'].'" data-module-id-CB="'.$row['module_id'].'" data-master-module-id-CB'.$row['master_module_id'].'>';
+            $selected_value_field = '<input type="hidden" class="master_module'.$row['master_module_id'].'" id="selected_value'.$row['module_id'].'" name="selected_value[]" value="0">';
+            $checkbox = '<input type="checkbox" class="icheck-checkbox master_module_CB'.$row['master_module_id'].'" id="selected_CB'.$row['module_id'].'" data-module-id-CB="'.$row['module_id'].'" data-master-module-id-CB="'.$row['master_module_id'].'">';
         }
 
         echo $module_id_field;
@@ -129,9 +129,16 @@ function createMenu($tree, $stat, $usergroup_module_arr, $padding = '0')
             var module_id = $(this).attr('data-module-id-CB');
             var master_module_id = $(this).attr('data-master-module-id-CB');
 
+            //update selected check box value
             $('#selected_value'+module_id).val('1');
+
+            //select all sub modules
             $('.master_module'+module_id).val('1');
-            $('.master_module_CB'+module_id).iCheck('check');
+            $('.master_module_CB'+module_id).prop('checked',true).iCheck('update');
+
+            //select the master module
+            $('#selected_value'+master_module_id).val('1');
+            $('#selected_CB'+master_module_id).prop('checked',true).iCheck('update');
         });
 
 
@@ -140,9 +147,19 @@ function createMenu($tree, $stat, $usergroup_module_arr, $padding = '0')
             var module_id = $(this).attr('data-module-id-CB');
             var master_module_id = $(this).attr('data-master-module-id-CB');
 
+            //update unselected check box value
             $('#selected_value'+module_id).val('0');
+
+            //unselect all sub modules
             $('.master_module'+module_id).val('0');
-            $('.master_module_CB'+module_id).iCheck('uncheck');
+            $('.master_module_CB'+module_id).prop('checked',false).iCheck('update');
+
+            //unselect the master module
+            var selected_sub_modules = $('[value="1"].master_module'+master_module_id).length;
+            if(selected_sub_modules < 1) { 
+                $('#selected_value'+master_module_id).val('0');
+                $('#selected_CB'+master_module_id).prop('checked',false).iCheck('update');
+            }
 
         });
 

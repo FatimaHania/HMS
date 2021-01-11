@@ -13,6 +13,6 @@ class UsertypesTableSeeder extends Seeder
     {
         DB::table('usertypes')->delete();
 
-        DB::insert('insert into usertypes (id,description) values (1,"Hospital"),(2,"Physician"),(3,"Patient"),(4,"Pharmacy"),(5,"Laboratory")');
+        DB::insert('insert into usertypes (id,description,show_in_register_form) values (1,"Hospital",0),(2,"Patient/Physician",1),(4,"Pharmacy",0),(5,"Laboratory",0)');
     }
 }

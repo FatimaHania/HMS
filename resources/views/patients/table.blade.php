@@ -30,7 +30,7 @@
                 <td>
                     {!! Form::open(['route' => ['patients.destroy', $patient->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('patients.show', [$patient->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-eye"></i></a>
+                        <a href="{{ route('patients.show', [$patient->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
                         <a href="{{ route('patients.edit', [$patient->id]) }}" class='btn btn-xs btn-ghost-info'><i class="fa fa-edit"></i></a>
                         {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-xs btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>

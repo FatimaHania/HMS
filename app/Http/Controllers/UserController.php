@@ -9,6 +9,11 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Validation\Rule;
+use Validator;
+
+use App\Mail\HospitalLinkVerification;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends AppBaseController
 {
@@ -17,6 +22,7 @@ class UserController extends AppBaseController
 
     public function __construct(UserRepository $userRepo)
     {
+        $this->middleware('auth', ['except' => ['verifyHospitalLink']]);
         $this->userRepository = $userRepo;
     }
 
@@ -119,6 +125,7 @@ class UserController extends AppBaseController
      */
     public function update($id, UpdateUserRequest $request)
     {
+        
         $user = $this->userRepository->find($id);
 
         if (empty($user)) {
@@ -132,9 +139,118 @@ class UserController extends AppBaseController
         Flash::success('User updated successfully.');
 
         return redirect(route('users.index'));
+
+    }
+
+    /**
+     * Update the specified User in storage from the public user portal.
+     *
+     * @param  Request  $request
+     * @param  int  $id
+     * @return Response
+     */
+    public function updateUserProfile($id, Request $request)
+    {
+
+
+        $user = $this->userRepository->find($id);
+
+        $input = $request->all();
+
+        Validator::make($input, [
+            'email' => [
+                'required',
+            ],
+        ])->validate();
+
+        if (empty($user)) {
+            toastr()->error('User not found');
+
+            return redirect(route('home'));
+        }
+
+        if(request('user_image_upload')) {
+
+            $input['user_image'] = request('user_image_upload')->storeAs('images/users' , 'USR'.'-'.md5($id).'.'.($request->user_image_upload->extension()));
+
+        }
+
+        $user = $this->userRepository->updateUserProfile($input, $id);
+
+        toastr()->success('Profile updated successfully');
+
+        return redirect(route('home'));
+
     }
 
 
+    /**
+     * Link User to the Hospital.
+     *
+     * @param  Request  $request
+     * @param  int  $id
+     * @return Response
+     */
+    public function linkHospital($id, Request $request)
+    {
+
+
+        $user = $this->userRepository->find($id);
+
+        $input = $request->all();
+
+        if (empty($user)) {
+            toastr()->error('User not found');
+
+            return redirect(route('home'));
+        }
+
+        $linkHospital = $this->userRepository->linkHospital($input, $id);
+
+        if($linkHospital['status'] == 'Success'){
+            toastr()->success('Hospital linked successfully');
+
+            //send verification email
+            $emailContent = [
+                'recipient' => $linkHospital['user_name'],
+                'hospital_name' => $linkHospital['hospital_name'],
+                'verification_link' => url('/users/verify/'.(($linkHospital['verification_token'])))
+            ];
+
+            Mail::to($linkHospital['linked_user_email'])->send(new HospitalLinkVerification($emailContent));
+
+        } else if ($linkHospital['status'] == 'Exists'){
+            toastr()->warning('The selected hospital has already been linked');
+        } else {
+            toastr()->error('Failed to link the hospital. Please check the registered identity number and the email');
+        }
+
+        return redirect(route('home'));
+
+    }
+
+
+    /**
+     * Verify Hospital link.
+     *
+     * @param  string  $id
+     * @return Response
+     */
+    public function verifyHospitalLink($id)
+    {
+
+        $verification_token = $id;
+        $verify = $this->userRepository->verifyHospitalLink($verification_token);
+
+        if($verify == '1'){
+            toastr()->success('Your hospital link has been successfully verified.');
+        } else {
+            toastr()->error('Oops! Failed to verify hospital link.');
+        }
+
+        return redirect(route('login'));
+
+    }
     
 
     /**

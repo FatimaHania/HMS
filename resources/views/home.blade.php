@@ -1,12 +1,14 @@
-@extends('layouts.app')
+@if(Auth::user()->usertype_id == '1') <!--HOSPITAL DASHBOARD-->
 
-@section('content')
-  <div class="container-fluid">
-        <div class="animated fadeIn">
-             <div class="row">
+    @include('home_hospital')
 
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+@elseif(Auth::user()->usertype_id == '2') <!--PATIENT/PHYSICIAN DASHBOARD-->
+
+    @include('home_public')
+
+
+@else
+
+    No Dashboard to display
+
+@endif

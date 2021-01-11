@@ -48,23 +48,34 @@ class UsergroupRepository extends BaseRepository
     public function getAllModules(){
 
         $hospital = Hospital::find(session('hospital_id'));
-        return $hospital->modules()->orderBy('sort_order','ASC')->get();
+        return $hospital->modules()->where('isActive','1')->orderBy('sort_order','ASC')->get();
 
     }
 
     public function getUsergroupModules($usergroup_id){
         $usergroup = Usergroup::find($usergroup_id);
-        return $usergroup->modules()->orderBy('sort_order','ASC')->get();
+        return $usergroup->modules()->where('isActive','1')->orderBy('sort_order','ASC')->get();
     }
 
 
 
-    public function storeUsergroupModules($usergroup_id , $module_id, $selected_value){
+    public function storeUsergroupModules($usergroup_id , $module_id_array, $selected_value_array){
         $usergroup = Usergroup::find($usergroup_id);
-        foreach($module_id as $mod_id){
-            echo $mod_id."-----";
+
+        $i = 0;
+        $sync_arr = array();
+        foreach($module_id_array as $module_id){
+
+            $selected_value = $selected_value_array[$i];
+
+            if($selected_value == '1'){
+                $sync_arr[$module_id] = ['hospital_id' => session('hospital_id') , 'branch_id' => session('branch_id')];
+            }
+
+            $usergroup->modules()->sync($sync_arr);
+            
+            $i++;
         }
-        //return $usergroup->modules()->syncWithoutDetaching([$usergroup_id => [ 'hospital_id' => session('hospital_id') , 'branch_id' => session('branch_id')]]);
     }
 
 }

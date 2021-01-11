@@ -159,10 +159,10 @@ class UsergroupController extends AppBaseController
     {
 
         $usergroup_id = $_POST['usergroup_id'];
-        $module_id = $_POST['module_id'];
-        $selected_value = $_POST['selected_value'];
+        $module_id_array = $_POST['module_id_array'];
+        $selected_value_array = $_POST['selected_value_array'];
 
-        return $this->usergroupRepository->storeUsergroupModules($usergroup_id , $module_id, $selected_value);
+        return $this->usergroupRepository->storeUsergroupModules($usergroup_id , $module_id_array, $selected_value_array);
         
     }
 

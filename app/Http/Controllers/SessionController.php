@@ -284,4 +284,27 @@ class SessionController extends AppBaseController
 
         return redirect(route('sessions.index'));
     }
+
+
+
+
+    /** PUBLIC PORTAL */
+    /**
+     * get sessions.
+     *
+     */
+    public function getSessionsPP()
+    {
+
+        $date_from = $_POST['date_from'];
+        $date_to = $_POST['date_to'];
+
+        $sessions = $this->sessionRepository->getSessionsPP($date_from, $date_to);
+        return view('public_portal.physician_sessions')
+            ->with('sessions',$sessions);
+
+    }
+
+
+
 }

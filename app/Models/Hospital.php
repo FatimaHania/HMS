@@ -150,4 +150,20 @@ class Hospital extends Model
     {
         return $this->belongsToMany(\App\Models\User::class, 'user_hospital' , 'hospital_id' , 'user_id');
     }
+
+
+    // hospital logo
+    public function hospitalLogo()
+    {
+        if($this->logo == "" || $this->logo == null){
+            return '/storage/images/sys_logo.png';
+        } else {
+            if (file_exists( public_path() . '/storage/' . $this->logo)) {
+                return '/storage/' . $this->logo;
+            } else {
+                return '/storage/images/sys_logo.png';
+            }    
+        }
+    }
+
 }

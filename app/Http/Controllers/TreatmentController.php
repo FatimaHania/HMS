@@ -40,9 +40,11 @@ class TreatmentController extends AppBaseController
     /**
      * Show the form for creating a new Treatment.
      *
+     * @param int $id
+     *
      * @return Response
      */
-    public function create()
+    public function create($id)
     {
         return view('treatments.create');
     }
@@ -187,4 +189,20 @@ class TreatmentController extends AppBaseController
 
         return redirect(route('treatments.index'));
     }
+
+
+
+    /** PUBLIC PROFILE */
+    /**
+     * Show the form for creating a new Treatment.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function createPP($id)
+    {
+        return view('public_portal.physician_treatments');
+    }
+
 }

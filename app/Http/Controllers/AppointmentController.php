@@ -298,6 +298,18 @@ class AppointmentController extends AppBaseController
     }
 
 
+    public function updatePaymentStatus()
+    {
+
+        $appointment_id = $_POST['appointment_id'];
+        $paid_at = $_POST['paid_at'];
+        $received_by = $_POST['received_by'];
+
+        return $this->appointmentRepository->updatePaymentStatus($appointment_id, $paid_at, $received_by);
+
+    }
+
+
     /**
      * Remove the specified Appointment from storage.
      *
@@ -325,4 +337,27 @@ class AppointmentController extends AppBaseController
 
         return redirect(route('appointments.index'));
     }
+
+
+    /** PUBLIC PORTAL */
+    /**
+     * Display the specified Appointment.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function getAppointmentsPP($id)
+    {
+
+        $appointments = $this->appointmentRepository->getAppointmentDetails($id);
+
+        $session_details = $this->appointmentRepository->getSessionDetail($id);
+
+        return view('public_portal.physician_session_appointments')
+            ->with('session', $session_details)
+            ->with('appointments', $appointments);
+
+    }
+
 }

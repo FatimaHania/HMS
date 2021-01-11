@@ -3,8 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\Session;
+use App\Models\User;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use \DateTime;
+use \DateInterval;
+use \DatePeriod;
 
 /**
  * Class SessionRepository
@@ -115,6 +120,70 @@ class SessionRepository extends BaseRepository
             ->update(['completed_at' => $completed_at , 'completed_by' => Auth::user()->id]);
         
         return $complete_session;
+
+    }
+
+
+
+
+    /** PUBLIC PORTAL */
+    public function getSessionsPP($date_from=0, $date_to=0)
+    {
+
+        $user_hospitals = DB::select('select * from user_hospital where user_id="'.Auth::user()->id.'"');
+
+        $link_physician_id_arr = array();
+        foreach($user_hospitals as $user_hospital){
+            if($user_hospital->is_approved_by_hospital == '1'){//link approved by the hospital
+                if($user_hospital->link_verified_at !== NULL) { //link verified through email
+                    if($user_hospital->is_physician == '1') { //physicians
+                        $link_physician_id_arr[] = $user_hospital->user_link_id;
+                    }
+                }
+            }
+        }
+
+
+        if($date_from == "0"){
+            $date_from = date('Y-m-d');
+        } 
+
+        if($date_to == "0"){
+            $date_to = date('Y-m-d');
+        }
+
+        $begin = new DateTime($date_from);
+        $end = new DateTime($date_to);
+
+        $end->setTime(0,0,1);     // new line
+
+        $interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($begin, $interval, $end);
+
+        $sessions = array();
+        foreach ($period as $dt) {
+            $date = $dt->format("Y-m-d");
+
+            $date_sessions = Session::withoutGlobalScope(HospitalScope::class)->where('date' , '=' , $date)->whereIn('physician_id', $link_physician_id_arr)->orderBy('date', 'DESC')->orderBy('start_time', 'ASC');
+
+            $date_sessions_rec = $date_sessions->get();
+
+            if(count($date_sessions_rec)) {
+
+                $date_sessions_arr = array(
+                    "date" => $date,
+                    "date_sessions" => $date_sessions_rec
+                );
+
+                $sessions[] = $date_sessions_arr;
+
+            }
+
+        }
+     
+        
+
+        return $sessions;
 
     }
 

@@ -23,7 +23,7 @@ class ViewGenerator extends BaseGenerator
 
     /** @var array */
     private $htmlFields;
-
+    
     public function __construct(CommandData $commandData)
     {
         $this->commandData = $commandData;
@@ -122,6 +122,12 @@ class ViewGenerator extends BaseGenerator
     private function generateBladeTableBody()
     {
         $templateName = 'blade_table_body';
+        
+        $tableFields = $this->generateTableHeaderFields();
+        if ($this->commandData->jqueryDT()) {
+            $templateName = 'js_table';
+            $tableFields = $this->generateJSTableHeaderFields();
+        }
 
         if ($this->commandData->isLocalizedTemplates()) {
             $templateName .= '_locale';
@@ -131,7 +137,7 @@ class ViewGenerator extends BaseGenerator
 
         $templateData = fill_template($this->commandData->dynamicVars, $templateData);
 
-        $templateData = str_replace('$FIELD_HEADERS$', $this->generateTableHeaderFields(), $templateData);
+        $templateData = str_replace('$FIELD_HEADERS$', $tableFields, $templateData);
 
         $cellFieldTemplate = get_template('scaffold.views.table_cell', $this->templateType);
 
@@ -154,6 +160,20 @@ class ViewGenerator extends BaseGenerator
 
         return str_replace('$FIELD_BODY$', $tableBodyFields, $templateData);
     }
+    
+    private function generateJSTableHeaderFields()
+    {
+        $fields = '';
+        foreach ($this->commandData->fields as $field) {
+            if (in_array($field->name, ['id', 'created_at', 'updated_at', 'deleted_at'])) {
+                continue;
+            }
+
+            $fields .= '<th scope="col">'.str_replace("'", "", $field->name).'</th>';
+        }
+        
+        return $fields;
+    }
 
     private function generateTableHeaderFields()
     {
@@ -175,10 +195,21 @@ class ViewGenerator extends BaseGenerator
             }
 
             if ($localized) {
+                /**
+                 * Replacing $FIELD_NAME$ before fill_template_with_field_data_locale() otherwise also
+                 * $FIELD_NAME$ get replaced with @lang('models/$modelName.fields.$value')
+                 * and so we don't have $FIELD_NAME$ in table_header_locale.stub
+                 * We could need 'raw' field name in header for example for sorting.
+                 * We still have $FIELD_NAME_TITLE$ replaced with @lang('models/$modelName.fields.$value').
+                 *
+                 * @see issue https://github.com/InfyOmLabs/laravel-generator/issues/887
+                 */
+                $preFilledHeaderFieldTemplate = str_replace('$FIELD_NAME$', $field->name, $headerFieldTemplate);
+
                 $headerFields[] = $fieldTemplate = fill_template_with_field_data_locale(
                     $this->commandData->dynamicVars,
                     $this->commandData->fieldNamesMapping,
-                    $headerFieldTemplate,
+                    $preFilledHeaderFieldTemplate,
                     $field
                 );
             } else {
@@ -196,7 +227,7 @@ class ViewGenerator extends BaseGenerator
 
     private function generateIndex()
     {
-        $templateName = 'index';
+        $templateName = ($this->commandData->jqueryDT()) ? 'js_index' : 'index';
 
         if ($this->commandData->isLocalizedTemplates()) {
             $templateName .= '_locale';

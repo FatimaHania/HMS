@@ -16,7 +16,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@icon/coreui-icons-free@1.0.1-alpha.1/coreui-icons-free.css">
 
-   
+    <link rel="shortcut icon" href="{{ asset('storage/images/sys_system_logo_favicon.png') }}">
 
      <!-- PRO version // if you have PRO version licence than remove comment and use it. -->
     {{--<link rel="stylesheet" href="https://unpkg.com/@coreui/icons@1.0.0/css/brand.min.css">--}}
@@ -47,9 +47,9 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">
-        <img class="navbar-brand-full" src="{{asset('storage/images/sys_system_logo.png')}}" width="120" height="40"
+        <img class="navbar-brand-full" src="{{asset('storage/images/sys_system_logo.png')}}" width="140" height="35"
              alt="HMS Logo">
-        <img class="navbar-brand-minimized" src="{{asset('storage/images/sys_system_logo.png')}}" width="120"
+        <img class="navbar-brand-minimized" src="{{asset('storage/images/sys_system_logo.png')}}" width="140"
              height="40" alt="HMS Logo">
     </a>
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
@@ -59,7 +59,7 @@
     <ul class="nav navbar-nav ml-auto">
         <li class="nav-item dropdown">
             <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-hospital-o" aria-hidden="true"></i>
+                <i class="fa fa-hospital-o" aria-hidden="true" style="font-size:18px; color:#2d5986;"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
             @foreach (session('user_details') as $user_details)
@@ -74,26 +74,10 @@
         <li class="nav-item dropdown">
             <a class="nav-link" style="margin-right: 10px" data-toggle="dropdown" href="#" role="button"
                aria-haspopup="true" aria-expanded="false">
-                {{ Auth::user()->name }}
+               <img class="align-middle" id="session_card_logo_image" src="{{ URL::to('/').Auth::user()->userImage() }}"  width="45px" style="border-radius:50%; margin:5px; border:3px solid #f2f2f2;">
+               <b>{{ Auth::user()->name }}</b>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-header text-center">
-                    <strong>Account</strong>
-                </div>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-envelope-o"></i> Messages
-                    <span class="badge badge-success">42</span>
-                </a>
-                <div class="dropdown-header text-center">
-                    <strong>Settings</strong>
-                </div>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-user"></i> Profile</a>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-wrench"></i> Settings</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-shield"></i> Lock Account</a>
                 <a href="{{ url('/logout') }}" class="dropdown-item btn btn-default btn-flat"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fa fa-lock"></i>Logout
@@ -167,7 +151,8 @@ function shift_branch(hospital_id , branch_id) {
 <!-- iCheck - for checkboxes and radio buttons -->
 <script src="{{ asset('js/icheck.min.js') }}"></script>
 
-
+<!-- Bootbox -->
+<script src="{{ asset('js/bootbox.min.js') }}"></script>
 
 <script>
 $(function () {

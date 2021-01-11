@@ -9,6 +9,7 @@ use App\Models\Patient;
 use App\Models\Specialization;
 use App\Helpers\Helper;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 use \DateTime;
 use \DateInterval;
 use \DatePeriod;
@@ -256,6 +257,20 @@ class AppointmentRepository extends BaseRepository
             "number_of_appointments" => count($session_appointments),
             "status" => $cancelAppointment
         );
+
+    }
+
+
+    public function updatePaymentStatus($appointment_id, $paid_at, $received_by)
+    {
+
+        $appoinment = Appointment::find($appointment_id);
+
+        $appoinment->is_paid = '1';
+        $appoinment->payment_received_by = Auth::user()->id;
+        $appoinment->payment_received_date = $paid_at;
+
+        $appoinment->save();
 
     }
 

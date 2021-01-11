@@ -106,10 +106,11 @@
                 <td>{{ $appointment->currency->short_code." ".$appointment->amount }}</td>
                 <td>
                     @if($appointment->is_paid == "1")
-                        <span class="badge badge-success">Settled</span>
+                        <div id="payment_status_div{{$appointment->id}}"><span class="badge badge-success">Settled</span></div>
                     @else
-                        <span class="badge badge-warning">Pending</span>
+                        <div id="payment_status_div{{$appointment->id}}"><span class="badge badge-warning">Pending</span></div>
                     @endif
+                    <input type="hidden" id="is_paid_value{{$appointment->id}}" value="{{$appointment->is_paid}}">
                 </td>
                 <td style="text-align:center;">
                     @if($appointment->attended_at == "" || $appointment->attended_at == null || $appointment->attended_at == "0000-00-00 00:00:00")
@@ -133,6 +134,7 @@
                             @else
                                 @if($session->completed_at == null || $session->completed_at == "")
                                     <a href="{{ route('appointments.edit', [$appointment->id]) }}" class="btn btn-xs btn-ghost-info"><i class="fa fa-edit"></i></a>
+                                    <a href="#" class="btn btn-xs btn-ghost-warning" data-toggle="tooltip" title="payment" onclick="setPaymentAppointmentID({{$appointment->id}})"><i class="fa fa-usd" aria-hidden="true"></i></a>
                                     {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-xs btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
                                 @endif
                             @endif
@@ -146,3 +148,25 @@
     </div>
 </div>
 </div>
+@include('appointments.payment')
+
+@stack('scripts')
+<script>
+
+function setPaymentAppointmentID(appointmentID){
+
+    document.getElementById('payment_appointment_id').value = appointmentID;
+
+    var isPaid = document.getElementById('is_paid_value'+appointmentID).value;
+
+    if(isPaid == '1'){
+        //display receipt for printing
+    } else {
+        $('#paymentModal').modal('show');
+    }
+
+}
+
+</script>
+
+

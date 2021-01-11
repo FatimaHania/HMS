@@ -51,13 +51,19 @@ function getUsergroupModules(usergroup_id , usergroup_description='') {
 function storeUsergroupModules() {
 
     var usergroup_id = document.getElementById('usergroup_id').value;
-    var module_id = $('input[name="module_id[]"]').val();
-    var selected_value = $('input[name="selected_value[]"]').serialize();
+
+    var module_id_array = $('input[name="module_id[]"]').map(function(){ 
+        return this.value; 
+    }).get();
+
+    var selected_value_array = $('input[name="selected_value[]"]').map(function(){ 
+        return this.value; 
+    }).get();
 
     $.ajax({
         type:'POST',
         url:"{{route('usergroups.storeUsergroupModules')}}",
-        data: {_token: "{{ csrf_token() }}" , usergroup_id : usergroup_id , 'module_id' : module_id , 'selected_value' : selected_value},
+        data: {_token: "{{ csrf_token() }}" , usergroup_id : usergroup_id , 'module_id_array[]' : module_id_array , 'selected_value_array[]' : selected_value_array},
         beforeSend: function () {
             document.getElementById('modules_div').style.display = "none";
             document.getElementById('modalLoader_div').style.display = "block";

@@ -46,16 +46,18 @@ function buildTree(array $elements, $parentId = 0)
     return $branch;
 }
 
+
 $tree = buildTree($menu_data);
 function createMenu($tree, $stat)
 {
     $a = 1;
+    $menu_colors = ['#0073e6','#b3003b','#29a329','#b3b300','#59b300','#a300cc','#00cccc','#0073e6','#b3003b','#29a329','#b3b300','#59b300','#a300cc','#00cccc','#b3003b','#29a329','#b3b300','#59b300','#a300cc','#00cccc'];
     foreach ($tree as $row) {
 
         if (array_key_exists("children", $row)) {
 
             echo '<li class="nav-item nav-dropdown" id="' . $row['module_id'] . '">
-                                <a class="nav-link nav-dropdown-toggle" href="#" id="' . $row['module_id'] . '"><i class="nav-icon icon-cursor ' . $row['menu_icon'] . '"></i> <span>' .  $row['menu_name'] . '</span></a>
+                                <a class="nav-link nav-dropdown-toggle" href="#" id="' . $row['module_id'] . '"><b><i class="nav-icon ' . $row['menu_icon'] . '" style="color:'.$menu_colors[$a].'; margin-top:5px;"></i> <span>' .  $row['menu_name'] . '</span></b></a>
 
                                 <ul class="nav-dropdown-items">';
             createMenu($row['children'], '1');
@@ -68,19 +70,19 @@ function createMenu($tree, $stat)
                 if ($row['is_external_link'] == '0') {
 
                     echo '<li class="nav-item '.(Request::is($row['route'].'*') ? 'active' : ''). '" id="' . $row['module_id'] . '">
-                                            <a class="nav-link" href="'.( $row['route']).'" id="' . $row['module_id'] . '"><i class="nav-icon icon-cursor ' . $row['menu_icon'] . '"></i> <span>' .  $row['menu_name'] . '</span></a>
+                                            <a class="nav-link" href="'.( $row['route']).'" id="' . $row['module_id'] . '"><b><i class="nav-icon ' . $row['menu_icon'] . '" style="color:'.$menu_colors[$a].'; margin-top:5px;"></i> <span>' .  $row['menu_name'] . '</span></b></a>
                                       </li>';
 
                 } else {
 
                     echo '<li class="nav-item '.(Request::is($row['route'].'*') ? 'active' : ''). '" id="' . $row['module_id'] . '">
-                                        <a class="nav-link" href="'.( $row['route']).'"  id="' . $row['module_id'] . '" target="_blank"> <i class="nav-icon icon-cursor ' . $row['menu_icon'] . '"></i> <span>' .  $row['menu_name'] . '</span></a>
+                                        <a class="nav-link" href="'.( $row['route']).'"  id="' . $row['module_id'] . '" target="_blank"><b> <i class="nav-icon ' . $row['menu_icon'] . '"  style="color:'.$menu_colors[$a].'; margin-top:5px;"></i> <span>' .  $row['menu_name'] . '</span></b></a>
                                       </li>';
                 }
 
             } else {
                 
-                echo '<li class="nav-item '. (Request::is($row['route'].'*') ? 'active' : '').'"  id="'.$row['module_id'].'"><a class="nav-link" href="'.($row['route']).'" id="'. $row['module_id']. '"><i class="nav-icon cil-circle '. $row['menu_icon'] .'"></i> <span>'. $row['menu_name'] .'</span></a></li>';
+                echo '<li class="nav-item '. (Request::is($row['route'].'*') ? 'active' : '').'"  id="'.$row['module_id'].'"><a class="nav-link" href="'.($row['route']).'" id="'. $row['module_id']. '"><i class="nav-icon '. $row['menu_icon'] .'" ></i> <span>'. $row['menu_name'] .'</span></a></li>';
                 
             }
 

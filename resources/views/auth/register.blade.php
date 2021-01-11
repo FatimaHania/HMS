@@ -8,6 +8,9 @@
     <title>Register | CoreUI | {{ config('app.name') }}</title>
     <meta name="description" content="CoreUI Template - InfyOm Laravel Generator">
     <meta name="keyword" content="CoreUI,Bootstrap,Admin,Template,InfyOm,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    
+    <link rel="shortcut icon" href="{{ asset('storage/images/sys_system_logo_favicon.png') }}">
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@coreui/coreui@2.1.16/dist/css/coreui.min.css">
@@ -16,7 +19,14 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css">
-
+    <style>
+        body {
+            background: url("{{ URL::to('/') }}/storage/images/sys_register_background.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
 </head>
 <body class="app flex-row align-items-center">
 <div class="container">
@@ -25,9 +35,23 @@
             <div class="card mx-4">
                 <div class="card-body p-4">
                     <form method="post" action="{{ url('/register') }}">
+                    <div style="text-align:center; margin-bottom:5px;"><img class="navbar-brand-full" src="{{asset('storage/images/sys_system_logo.png')}}" width="200" height="50" alt="HMS Logo"></div>
+                            <div style="text-align:center; margin-bottom:10px;" class="text-muted"><strong>Sign Up</strong></div>
                         @csrf
-                        <h1>Register</h1>
-                        <p class="text-muted">Create your account</p>
+                        <div class="input-group mb-3" style="display:none;">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                <i class="fa fa-user-plus"></i>
+                              </span>
+                            </div>
+                            <select class="custom-select" name="usertype_id">
+                                @foreach($usertypes as $usertype)
+                                    @if($usertype->id == '2') <!--patient/physician-->
+                                        <option value="{{$usertype->id}}" selected>{{$usertype->description}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text">
@@ -81,7 +105,7 @@
                             @endif
                         </div>
                         <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
-                        <a href="{{ url('/login') }}" class="text-center">I already have a membership</a>
+                        <div class="text-center"><a href="{{ url('/login') }}" class="text-center">I already have an account</a></div>
                     </form>
                 </div>
             </div>

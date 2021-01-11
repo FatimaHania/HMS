@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 
@@ -70,8 +71,6 @@ Route::resource('departments', 'DepartmentController')->middleware('verified');
 
 Route::resource('diseases', 'DiseaseController')->middleware('verified');
 
-Route::resource('treatments', 'TreatmentController')->middleware('verified');
-
 Route::resource('currencies', 'CurrencyController')->middleware('verified');
 
 
@@ -92,6 +91,9 @@ Route::post('/sessions/getSessionDetails','SessionController@getSessionDetails')
 Route::post('/sessions/cancelSession','SessionController@cancelSession')->name('sessions.cancelSession');
 Route::post('/sessions/startSession','SessionController@startSession')->name('sessions.startSession');
 Route::post('/sessions/completeSession','SessionController@completeSession')->name('sessions.completeSession');
+/** Public Portal */
+Route::post('/sessions/getSessionsPP','SessionController@getSessionsPP')->name('sessions.getSessionsPP'); 
+
 
 Route::resource('appointments', 'AppointmentController')->middleware('verified');
 Route::post('/appointments/getAppointmentDetails','AppointmentController@getAppointmentDetails')->name('appointments.getAppointmentDetails');
@@ -101,6 +103,13 @@ Route::post('/appointments/bookAppointments','AppointmentController@bookAppointm
 Route::post('/appointments/cancelAppointments','AppointmentController@cancelAppointments')->name('appointments.cancelAppointments');
 Route::post('/appointments/getCards','AppointmentController@getCards')->name('appointments.getCards');
 Route::post('/appointments/updatePhysicianFilter','AppointmentController@updatePhysicianFilter')->name('appointments.updatePhysicianFilter');
+Route::post('/appointments/updatePaymentStatus','AppointmentController@updatePaymentStatus')->name('appointments.updatePaymentStatus');
+/** public portal */
+Route::get('/appointments/physician/{id}','AppointmentController@getAppointmentsPP')->name('appointments.getAppointmentsPP');
+
+Route::resource('treatments', 'TreatmentController')->middleware('verified');
+/** Treatments */
+Route::get('/treatments/create/PP/{id}','TreatmentController@createPP')->name('treatments.createPP');
 
 Route::resource('patientFiles', 'PatientFileController')->middleware('verified');
 Route::post('/patientFiles/getPatientFiles','PatientFileController@getPatientFiles')->name('patientFiles.getPatientFiles');
@@ -109,12 +118,18 @@ Route::resource('users', 'UserController')->middleware('verified');
 Route::post('/users/getUserUsergroups','UserController@getUserUsergroups')->name('users.getUserUsergroups');
 Route::post('/users/destroyUserUsergroups','UserController@destroyUserUsergroups')->name('users.destroyUserUsergroups');
 Route::post('/users/storeUserUsergroups','UserController@storeUserUsergroups')->name('users.storeUserUsergroups');
-
+Route::post('/users/updateUserProfile/{id}','UserController@updateUserProfile')->name('users.updateUserProfile');
+Route::post('/users/linkHospital/{id}','UserController@linkHospital')->name('users.linkHospital');
+Route::get('/users/verify/{id}','UserController@verifyHospitalLink')->name('users.verifyHospitalLink');
 
 Route::resource('usergroups', 'UsergroupController')->middleware('verified');
 Route::post('/usergroups/getUsergroupModules','UsergroupController@getUsergroupModules')->name('usergroups.getUsergroupModules');
 Route::post('/usergroups/storeUsergroupModules','UsergroupController@storeUsergroupModules')->name('usergroups.storeUsergroupModules');
 
+Route::resource('publicUsers', 'PublicUserController')->middleware('verified');
+Route::post('/publicUsers/updateUsersFilter','PublicUserController@updateUsersFilter')->name('publicUsers.updateUsersFilter');
+Route::post('/publicUsers/getLinkedUsers','PublicUserController@getLinkedUsers')->name('publicUsers.getLinkedUsers');
+Route::post('/publicUsers/updateLinkApprovalStatus','PublicUserController@updateLinkApprovalStatus')->name('publicUsers.updateLinkApprovalStatus');
 
 Auth::routes(['verify' => true]);
 

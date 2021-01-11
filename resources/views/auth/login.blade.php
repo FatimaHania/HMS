@@ -8,6 +8,9 @@
     <title>Login | CoreUI | {{ config('app.name') }}</title>
     <meta name="description" content="CoreUI Template - InfyOm Laravel Generator">
     <meta name="keyword" content="CoreUI,Bootstrap,Admin,Template,InfyOm,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    
+    <link rel="shortcut icon" href="{{ asset('storage/images/sys_system_logo_favicon.png') }}">
+
     <!-- Bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
     <!-- Theme style -->
@@ -18,8 +21,16 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css">
+    <style>
+        body {
+            background: url("{{ URL::to('/') }}/storage/images/sys_login_background.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
 </head>
-<body class="app flex-row align-items-center">
+<body class="app flex-row align-items-center">>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -28,8 +39,8 @@
                     <div class="card-body">
                         <form method="post" action="{{ url('/login') }}">
                             @csrf
-                            <h1>Login</h1>
-                            <p class="text-muted">Sign In to your account</p>
+                            <div style="text-align:center; margin-bottom:5px;"><img class="navbar-brand-full" src="{{asset('storage/images/sys_system_logo.png')}}" width="200" height="50" alt="HMS Logo"></div>
+                            <div style="text-align:center; margin-bottom:10px;" class="text-muted"><strong>Sign In</strong></div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -74,8 +85,7 @@
                     <div class="card-body text-center">
                         <div>
                             <h2>Sign up</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.</p>
+                            <p>Sign up to create your own physician or patient account and get your clinical records at your fingertips.</p>
                                 <a class="btn btn-primary active mt-3" href="{{ url('/register') }}">Register Now!</a>
                         </div>
                     </div>

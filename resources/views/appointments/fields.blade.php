@@ -56,7 +56,7 @@
 </div>
 
 <!-- Is Paid Field -->
-<div class="form-row">
+<div class="form-row" style="display:none;">
     <div class="form-group col-sm-6">
         {!! Form::label('is_paid', 'Is Paid:') !!}
         <label class="checkbox-inline">
