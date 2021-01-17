@@ -1,4 +1,4 @@
-<x-modals.basic modal-id="usergroupModal">
+<x-modals.basic modal-id="usergroupModal" modal-size="">
 
     <x-slot name="title">
         <span id="usergroupModal_title">User Groups</span>

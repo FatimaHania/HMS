@@ -1,4 +1,4 @@
-<x-modals.basic modal-id="nurseDepartmentModal">
+<x-modals.basic modal-id="nurseDepartmentModal" modal-size="">
 
     <x-slot name="title">
         <span id="departmentModal_title">Department</span>
