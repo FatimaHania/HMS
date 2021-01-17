@@ -40,6 +40,13 @@
     
     <!--daterange picker-->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <style>
+        @media screen and (min-width: 950px) {
+            #hospital_title {
+                display:inline-block !important;
+            }
+        }
+    </style>
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 <header class="app-header navbar">
@@ -56,8 +63,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <ul class="nav navbar-nav pull-left" style="float:left;">
-    <li class="nav-item dropdown">
+    <ul class="nav navbar-nav pull-left" style="float:left; display:none;"  id="hospital_title">
+        <li class="nav-item dropdown">
             <a class="nav-link" style="margin-right: 10px" data-toggle="dropdown" href="#" role="button"
                aria-haspopup="true" aria-expanded="false">
                <img class="align-middle" id="session_card_logo_image" src="{{ URL::to('/').'/storage/'.session('user_details')[session('branch_id')]['hospitals']->logo }}"  width="45px" style="border-radius:50%; margin:5px; border:3px solid #f2f2f2;">
