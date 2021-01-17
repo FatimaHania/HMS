@@ -47,14 +47,24 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">
-        <img class="navbar-brand-full" src="{{asset('storage/images/sys_system_logo.png')}}" width="140" height="35"
+        <img class="navbar-brand-full" src="{{asset('storage/images/sys_system_logo.png')}}" width="120" height="30"
              alt="HMS Logo">
-        <img class="navbar-brand-minimized" src="{{asset('storage/images/sys_system_logo.png')}}" width="140"
+        <img class="navbar-brand-minimized" src="{{asset('storage/images/sys_system_logo.png')}}" width="120"
              height="40" alt="HMS Logo">
     </a>
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
         <span class="navbar-toggler-icon"></span>
     </button>
+
+    <ul class="nav navbar-nav pull-left" style="float:left;">
+    <li class="nav-item dropdown">
+            <a class="nav-link" style="margin-right: 10px" data-toggle="dropdown" href="#" role="button"
+               aria-haspopup="true" aria-expanded="false">
+               <img class="align-middle" id="session_card_logo_image" src="{{ URL::to('/').'/storage/'.session('user_details')[session('branch_id')]['hospitals']->logo }}"  width="45px" style="border-radius:50%; margin:5px; border:3px solid #f2f2f2;">
+               <b>{{ strtoupper(session('user_details')[session('branch_id')]['hospitals']->hospital_name) }}, {{ strtoupper(session('user_details')[session('branch_id')]['hospitals']->branch_name) }}</b>
+            </a>
+        </li>
+    </ul>
 
     <ul class="nav navbar-nav ml-auto">
         <li class="nav-item dropdown">
@@ -98,7 +108,7 @@
 </div>
 <footer class="app-footer">
     <div>
-        <a href="https://hms.com">Hospital Management System </a>
+        <a href="https://hms.com">Smart Medicare </a>
         <span>&copy; 2020 Hospital Management System.</span>
     </div>
     <div class="ml-auto">
@@ -125,10 +135,11 @@ function shift_branch(hospital_id , branch_id) {
 
 }
 
-
+    //confirm if logged in user is a hospital user
+    @if(session('is_hospital') == '0')
+        document.getElementById('logout-form').submit();
+    @endif
 </script>
-
-
 
 <!-- jQuery 3.1.1 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
