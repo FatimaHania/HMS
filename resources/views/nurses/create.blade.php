@@ -22,7 +22,7 @@
                                 <!-- Generate Document Codes -->
                                 @php
                                 if (empty($lastNurseRecord)) {
-                                    $lastSerialNo = $documentCode->starting_no;
+                                    $lastSerialNo = ($documentCode->starting_no)-($documentCode->common_difference);
                                 }else{
                                     $lastSerialNo = $lastNurseRecord->nurse_number;
                                 }
