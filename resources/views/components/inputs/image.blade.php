@@ -56,7 +56,7 @@ $(document).ready(function() {
     if(img == "" || img == null){
         $('#{{$picture}}').attr('src', "{{ URL::to('/') }}/storage/images/{{$defaultImage}}");
     } else {
-        $('#{{$picture}}').attr('src', "{{ URL::to('/') }}/storage/"+img);
+        $('#{{$picture}}').attr('src', "{{ URL::to('/').'/storage/' }}"+img);
     }
 
 

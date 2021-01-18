@@ -191,6 +191,25 @@ class Patient extends Model
     }
 
 
+    //Patient Image
+    public function patientImage()
+    {
+
+        $value = $this->patient_image;
+
+        if($value == "" || $value == null){
+            return '/storage/images/sys_user.png';
+        } else {
+            if (file_exists( public_path() . '/storage/' . $value)) {
+                return '/storage/' . $value;
+            } else {
+                return '/storage/images/sys_user.png';
+            }    
+        }
+
+    }
+
+
     // ACCESSORS AND MUTATORS
     //DOB - Accessor & Mutator
     public function getDobAttribute($value)
@@ -215,5 +234,7 @@ class Patient extends Model
         $this->attributes['dod'] = Carbon::parse($value)->format('Y-m-d');
     }
 
+
+    
 
 }

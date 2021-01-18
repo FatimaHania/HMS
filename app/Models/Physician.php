@@ -203,6 +203,24 @@ class Physician extends Model
         return $this->belongsTo(\App\Models\Session::class, 'physician_id');
     }
 
+    //Patient Image
+    public function physicianImage()
+    {
+
+        $value = $this->physician_image;
+
+        if($value == "" || $value == null){
+            return '/storage/images/sys_user.png';
+        } else {
+            if (file_exists( public_path() . '/storage/' . $value)) {
+                return '/storage/' . $value;
+            } else {
+                return '/storage/images/sys_user.png';
+            }    
+        }
+
+    }
+
 
 
     // ACCESSORS AND MUTATORS
@@ -222,6 +240,8 @@ class Physician extends Model
     {
         return $this->physician_code." | ".$this->physician_name;
     }
+
+    
 
     //END ACCESSOR MUTATOR
 
