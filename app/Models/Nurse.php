@@ -183,6 +183,24 @@ class Nurse extends Model
         return $this->belongsToMany(Department::class, 'nurse_department' , 'nurse_id' , 'department_id');
     }
 
+    //Nurse Image
+    public function nurseImage()
+    {
+
+        $value = $this->nurse_image;
+
+        if($value == "" || $value == null){
+            return '/storage/images/sys_user.png';
+        } else {
+            if (file_exists( public_path() . '/storage/' . $value)) {
+                return '/storage/' . $value;
+            } else {
+                return '/storage/images/sys_user.png';
+            }    
+        }
+
+    }
+
 
         // ACCESSORS AND MUTATORS
     //DOB - Accessor & Mutator
