@@ -61,7 +61,7 @@ class NurseController extends AppBaseController
         $countries = Country::pluck('description' , 'id');
         $nationalities = Nationality::pluck('description' , 'id');
         $documentCode = DocumentCode::where('documentcode_id' , 3)->first();
-        $lastNurseRecord = Nurse::orderBy('nurse_number', 'DESC')->first();
+        $lastNurseRecord = Nurse::orderBy('nurse_number', 'DESC')->withTrashed()->first();
 
         return view('nurses.create')
         ->with('titles', $titles)
@@ -142,7 +142,7 @@ class NurseController extends AppBaseController
         $countries = Country::pluck('description' , 'id');
         $nationalities = Nationality::pluck('description' , 'id');
         $documentCode = DocumentCode::where('documentcode_id' , 3)->first();
-        $lastNurseRecord = Nurse::orderBy('nurse_number', 'DESC')->first();
+        $lastNurseRecord = Nurse::orderBy('nurse_number', 'DESC')->withTrashed()->first();
         
         if (empty($nurse)) {
             Flash::error('Nurse not found');

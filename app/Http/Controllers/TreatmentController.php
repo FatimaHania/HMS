@@ -44,7 +44,7 @@ class TreatmentController extends AppBaseController
      *
      * @return Response
      */
-    public function create($id)
+    public function create($id=0)
     {
         return view('treatments.create');
     }

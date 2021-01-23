@@ -64,7 +64,7 @@ class PhysicianController extends AppBaseController
         $countries = Country::pluck('description' , 'id');
         $nationalities = Nationality::pluck('description' , 'id');
         $documentCode = DocumentCode::where('documentcode_id' , 2)->first();
-        $lastPhysicianRecord = Physician::orderBy('physician_number', 'DESC')->first();
+        $lastPhysicianRecord = Physician::orderBy('physician_number', 'DESC')->withTrashed()->first();
 
         return view('physicians.create')
         ->with('titles', $titles)
@@ -145,7 +145,7 @@ class PhysicianController extends AppBaseController
         $countries = Country::pluck('description' , 'id');
         $nationalities = Nationality::pluck('description' , 'id');
         $documentCode = DocumentCode::where('documentcode_id' , 2)->first();
-        $lastPhysicianRecord = Physician::orderBy('physician_number', 'DESC')->first();
+        $lastPhysicianRecord = Physician::orderBy('physician_number', 'DESC')->withTrashed()->first();
 
         if (empty($physician)) {
             Flash::error('Physician not found');
@@ -204,7 +204,11 @@ class PhysicianController extends AppBaseController
 
         Flash::success('Physician updated successfully.');
 
-        return redirect(route('physicians.index'));
+        if(session('is_physician') == '1'){
+            return redirect(route('home'));
+        } else {
+            return redirect(route('physicians.index'));
+        }
     }
 
 

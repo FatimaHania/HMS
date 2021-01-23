@@ -59,7 +59,7 @@ class PatientController extends AppBaseController
         $nationalities = Nationality::pluck('description' , 'id');
         $bloodgroups = Bloodgroup::pluck('short_code' , 'id');
         $documentCode = DocumentCode::where('documentcode_id' , 1)->first();
-        $lastPatientRecord = Patient::orderBy('patient_number', 'DESC')->first();
+        $lastPatientRecord = Patient::orderBy('patient_number', 'DESC')->withTrashed()->first();
 
         return view('patients.create')
         ->with('titles', $titles)
@@ -142,7 +142,7 @@ class PatientController extends AppBaseController
         $nationalities = Nationality::pluck('short_code' , 'id');
         $bloodgroups = Bloodgroup::pluck('short_code' , 'id');
         $documentCode = DocumentCode::where('documentcode_id' , 1)->first();
-        $lastPatientRecord = Patient::orderBy('patient_number', 'DESC')->first();
+        $lastPatientRecord = Patient::orderBy('patient_number', 'DESC')->withTrashed()->first();
         
         if (empty($patient)) {
             Flash::error('Patient not found');
@@ -200,7 +200,11 @@ class PatientController extends AppBaseController
 
         Flash::success('Patient updated successfully.');
 
-        return redirect(route('patients.index'));
+        if(session('is_hospital') == '1'){
+            return redirect(route('patients.index'));
+        } else { //editing through public portal
+            return redirect(route('home'));
+        }
     }
 
     /**

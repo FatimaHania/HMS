@@ -35,7 +35,7 @@ class UserController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $users = $this->userRepository->all();
+        $users = $this->userRepository->getAll();
         $usergroups = $this->userRepository->usergroups();
 
         return view('users.index')

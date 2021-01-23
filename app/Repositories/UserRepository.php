@@ -52,6 +52,16 @@ class UserRepository extends BaseRepository
         return User::class;
     }
 
+    public function getAll()
+    {
+
+        return User::select('users.*')
+                    ->join('user_hospital' , 'users.id' , 'user_hospital.user_id')
+                    ->where([['usertype_id','1'] , ['user_hospital.branch_id' , session('branch_id')]])
+                    ->get();
+
+    }
+
 
     public function createUserHospitalLink($user)
     {

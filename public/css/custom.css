@@ -47,6 +47,12 @@ body {
   height: 24px;
 }
 
+/*input groups*/
+.input-group > .input-group-append > button {
+  padding: .1rem .25rem !important;
+  height: 32px;
+}
+
 /* TABLES */
 .table {
     width: 100%;
