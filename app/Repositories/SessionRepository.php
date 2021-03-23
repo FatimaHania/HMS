@@ -123,6 +123,32 @@ class SessionRepository extends BaseRepository
 
     }
 
+    public function checkRoomAvailablity($session_id, $room_id, $start_time, $end_time, $session_dates_arr) {
+
+        $sessions = array();
+        $data['status'] = '';
+        $data['message'] = '';
+        foreach ($session_dates_arr as $dt) {
+            $date = date("Y-m-d" , strtotime($dt));
+
+            $session = Session::where([['room_id', $room_id] , ['date', $date] , ['start_time' , '<=' , $start_time] , ['end_time' , '>' , $start_time]])
+                ->orWhere([['room_id', $room_id] , ['date', $date] , ['start_time' , '<' , $end_time] , ['end_time' , '>=' , $end_time]])
+                ->where('id', '!=' , $session_id)
+                ->first();
+
+            
+
+            if(!empty($session)){
+                $data['status'] = 'unavailable';
+                $data['message'] = 'The room '. $session->room->short_code .' has already been taken for session '.$session->name.' by '. $session->physician->title->short_code.' '.$session->physician->physician_name. '. Please select a different room.';
+            }
+
+        }
+        
+        return json_encode($data);
+
+    }
+
 
 
 

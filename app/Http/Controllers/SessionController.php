@@ -9,6 +9,9 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use \DateTime;
+use \DateInterval;
+use \DatePeriod;
 
 use App\Models\Session;
 use App\Models\Physician;
@@ -92,7 +95,26 @@ class SessionController extends AppBaseController
     {
         $input = $request->all();
 
-        $session = $this->sessionRepository->create($input);
+        $date_from = $input['start_date'];
+        $date_to = $input['end_date'];
+
+        $session_dates_arr = $input['session_dates_arr'];
+
+        $begin = new DateTime($date_from);
+        $end = new DateTime($date_to);
+    
+        $end->setTime(0,0,1);     // new line
+    
+        $interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($begin, $interval, $end);
+    
+        foreach ($session_dates_arr as $dt) {
+
+            $input['date'] = date("Y-m-d" , strtotime($dt));
+
+            $session = $this->sessionRepository->create($input);
+
+        }
 
         Flash::success('Session saved successfully.');
 
@@ -178,7 +200,14 @@ class SessionController extends AppBaseController
             return redirect(route('sessions.index'));
         }
 
-        $session = $this->sessionRepository->update($request->all(), $id);
+
+        $input = $request->all();
+        $session_dates_arr = $input['session_dates_arr'];
+
+        foreach ($session_dates_arr as $dt) {
+            $input['date'] = date("Y-m-d" , strtotime(dt)); //session_dates_arr array has only one date (ie, the edited date)
+        }
+        $session = $this->sessionRepository->update($input, $id);
 
         $this->storeSessionDetails($session->physician_id,$session->date);
 
@@ -192,7 +221,6 @@ class SessionController extends AppBaseController
     /**
      * get session dates from storage.
      *
-     
      */
     public function getSessionDates()
     {
@@ -252,6 +280,24 @@ class SessionController extends AppBaseController
 
         return $this->sessionRepository->completeSession($session_id, $completed_at, $completed_by);
         
+    }
+
+    /**
+     * Check room availablity for sessions
+     *
+     *
+     */
+    public function checkRoomAvailablity()
+    {
+
+        $session_id = $_POST['session_id'];
+        $room_id = $_POST['room_id'];
+        $start_time = $_POST['start_time'];
+        $end_time = $_POST['end_time'];
+        $session_dates_arr = $_POST['session_dates_arr'];
+
+        return $this->sessionRepository->checkRoomAvailablity($session_id, $room_id, $start_time, $end_time, $session_dates_arr);
+
     }
 
 

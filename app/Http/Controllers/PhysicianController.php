@@ -318,6 +318,19 @@ class PhysicianController extends AppBaseController
         
     }
 
+    /**
+     * Get physician departments for the filters.
+     *
+     *
+     */
+    public function updatePhysicianDepartmentFilter()
+    {
+
+        $physician_id = $_POST['physician_id'];
+        return $this->physicianRepository->updatePhysicianDepartmentFilter($physician_id);
+
+    }
+
 
 
     /**

@@ -163,6 +163,19 @@ class DepartmentController extends AppBaseController
     }
 
     /**
+     * Get physician departments for the filters.
+     *
+     *
+     */
+    public function updateDepartmentRoomFilter()
+    {
+
+        $department_id = $_POST['department_id'];
+        return $this->departmentRepository->updateDepartmentRoomFilter($department_id);
+
+    }
+
+    /**
      * Remove the specified Department from storage.
      *
      * @param int $id

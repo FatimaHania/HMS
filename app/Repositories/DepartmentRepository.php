@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Department;
+use App\Models\Room;
 use App\Repositories\BaseRepository;
 
 /**
@@ -40,4 +41,21 @@ class DepartmentRepository extends BaseRepository
     {
         return Department::class;
     }
+
+    //UPDATE ROOM FILTER
+    public function updateDepartmentRoomFilter($department_id){
+        if($department_id == "0" || $department_id == "" || $department_id == null){
+            $rooms = Room::all();
+        } else {
+            $rooms = Department::find($department_id)->rooms()->get();
+        }
+
+        $room_opt = "";
+        foreach($rooms as $room) {
+            $room_opt .= "<option value='".$room->id."'>".$room->description."</option>";
+        }
+
+        return $room_opt;
+    }
+
 }
