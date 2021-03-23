@@ -205,7 +205,7 @@ class SessionController extends AppBaseController
         $session_dates_arr = $input['session_dates_arr'];
 
         foreach ($session_dates_arr as $dt) {
-            $input['date'] = date("Y-m-d" , strtotime(dt)); //session_dates_arr array has only one date (ie, the edited date)
+            $input['date'] = date("Y-m-d" , strtotime($dt)); //session_dates_arr array has only one date (ie, the edited date)
         }
         $session = $this->sessionRepository->update($input, $id);
 
