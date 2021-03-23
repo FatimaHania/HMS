@@ -37,6 +37,9 @@
 
     <!-- icheck- for radio button and checkboxes -->
     <link rel="stylesheet" href="{{ asset('css/icheck/purple.css') }}">
+
+    <!--date picker-->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
     
     <!--daterange picker-->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -67,8 +70,10 @@
         <li class="nav-item dropdown">
             <a class="nav-link" style="margin-right: 10px" data-toggle="dropdown" href="#" role="button"
                aria-haspopup="true" aria-expanded="false">
+               @if(session()->has('user_details'))
                <img class="align-middle" id="session_card_logo_image" src="{{ URL::to('/').'/storage/'.session('user_details')[session('branch_id')]['hospitals']->logo }}"  width="45px" style="border-radius:50%; margin:5px; border:3px solid #f2f2f2;">
                <b>{{ strtoupper(session('user_details')[session('branch_id')]['hospitals']->hospital_name) }}, {{ strtoupper(session('user_details')[session('branch_id')]['hospitals']->branch_name) }}</b>
+                @endif
             </a>
         </li>
     </ul>
@@ -159,6 +164,9 @@ function shift_branch(hospital_id , branch_id) {
 
 <!-- Custom js -->
 <script src="{{ asset('js/custom.js') }}"></script>
+
+<!-- Bootstrap date picker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
 <!-- Bootstrap select -->
 <script src="{{ asset('js/bootstrap-select.min.js') }}"></script>

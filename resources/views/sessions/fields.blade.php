@@ -2,7 +2,7 @@
     <!-- Physician Id Field -->
     <div class="form-group col-sm-6">
         {!! Form::label('physician_id', 'Physician:') !!}
-        {!! Form::select('physician_id', $physicians ,null, ['class' => 'selectpicker form-control' , 'title' => 'Select Physician']) !!}
+        {!! Form::select('physician_id', $physicians ,null, ['class' => 'selectpicker form-control' , 'title' => 'Select Physician', 'onchange' => 'updatePhysicianDepartmentFilter(this)']) !!}
     </div>
 
     <!-- Name Field -->
@@ -13,25 +13,24 @@
 </div>
 
 <div class="row">
-    <!-- Date Field -->
+
+    <!-- Dates -->
     <div class="form-group col-sm-6">
-        {!! Form::label('date', 'Date:') !!}
-        {!! Form::text('date', null, ['class' => 'form-control','id'=>'date']) !!}
+        {!! Form::label('session_dates', 'Date:') !!}
+        {!! Form::text('session_dates', null, ['class' => 'form-control date','id'=>'session_dates']) !!}
+        <div id="session_dates_container">
+            <input type="hidden" name="session_dates_arr[]">
+        </div>
     </div>
 
-    @push('scripts')
-    <script type="text/javascript">
-            $('#date').datetimepicker({
-                format: 'YYYY-MM-DD',
-                useCurrent: true,
-                icons: {
-                    up: "icon-arrow-up-circle icons font-2xl",
-                    down: "icon-arrow-down-circle icons font-2xl"
-                },
-                sideBySide: true
-            })
-        </script>
-    @endpush
+    <!-- Date Field -->
+    <div class="form-group col-sm-6" style="display:none;">
+        {!! Form::label('date', 'Date:') !!}
+        {!! Form::text('date', null, ['class' => 'form-control','id'=>'date']) !!}
+        {!! Form::text('start_date', null, ['class' => 'form-control','id'=>'start_date']) !!}
+        {!! Form::text('end_date', null, ['class' => 'form-control','id'=>'end_date']) !!}
+    </div>
+
 
             <!-- Start Time Field -->
             <div class="form-group col-sm-6">
@@ -61,13 +60,13 @@
     <!-- Department Id Field -->
     <div class="form-group col-sm-6">
         {!! Form::label('department_id', 'Department:') !!}
-        {!! Form::select('department_id', $departments ,null, ['class' => 'selectpicker form-control' , 'title' => 'Select Department']) !!}
+        {!! Form::select('department_id', $departments ,null, ['class' => 'selectpicker form-control' , 'title' => 'Select Department' , 'onchange' => 'updateDepartmentRoomFilter(this)']) !!}
     </div>
 
     <!-- Room Id Field -->
     <div class="form-group col-sm-6">
         {!! Form::label('room_id', 'Room:') !!}
-        {!! Form::select('room_id', $rooms, null, ['class' => 'selectpicker form-control' , 'title' => 'Select Room']) !!}
+        {!! Form::select('room_id', $rooms, null, ['class' => 'selectpicker form-control' , 'title' => 'Select Room' , 'onchange' => 'checkRoomAvailablity(this)']) !!}
     </div>
 </div>
 
@@ -86,6 +85,9 @@
     
 </div>
 
+<!--hidden fields-->
+{!! Form::hidden('id' , null, ['class' => 'form-control' , 'id' => 'id']) !!}
+
 <div class="row">
     <!-- Submit Field -->
     <div class="form-group col-sm-12">
@@ -97,6 +99,21 @@
 @stack('scripts')
 <script>
     $(document).ready(function(){
+
+        $('input[name="date"]').daterangepicker({
+            startDate: moment().startOf('hour'),
+            endDate: moment().startOf('hour'),
+            locale: {
+                format: 'DD/MM/YYYY'
+            }
+        }).on('apply.daterangepicker', (e, picker) => {
+            var date_from = $('#date').data('daterangepicker').startDate.format('YYYY-MM-DD');
+            var date_to = $('#date').data('daterangepicker').endDate.format('YYYY-MM-DD');
+
+            document.getElementById('start_date').value = date_from;
+            document.getElementById('end_date').value = date_to;
+
+        });
 
         $('input[name="appointment_time"]').daterangepicker({
             timePicker: true,
@@ -110,10 +127,71 @@
 
             setStartEndTime();
             calculateDurationPerSlot();
+            resetRoomField();
 
         }).on('show.daterangepicker', function (ev, picker) {
             picker.container.find(".calendar-table").hide();
         });
+
+        $('#session_dates').datepicker({
+            <?php
+                if(isset($session)){ //edit window
+            ?>
+                    multidate: false,
+                    format: 'dd/mm/yyyy',
+            <?php
+                } else { //Add window
+            ?>
+                    multidate: true,
+                    format: 'dd/mm/yyyy',
+                    multidateSeparator: " - ",
+            <?php
+                }
+            ?>
+        }).on('changeDate', function(e) {
+
+            var session_dates = $('#session_dates').datepicker('getDates');
+            for (i=0 ; i<session_dates.length ; i++){
+
+                document.getElementById('date').value = (session_dates[i].getFullYear())+"-"+((session_dates[i].getMonth())+1)+"-"+(session_dates[i].getDate())
+
+                var input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "session_dates_arr[]";
+                input.value = (session_dates[i].getFullYear())+"-"+((session_dates[i].getMonth())+1)+"-"+(session_dates[i].getDate());
+                if(i == 0){
+                    $('#session_dates_container').html('').append(input);
+                } else {
+                    $('#session_dates_container').append(input);
+                }
+            }
+
+            checkRoomAvailablity('');
+
+        });
+
+        <?php
+            if(isset($session)){ //edit window
+        ?>
+                $('#session_dates').val('{{date("d/m/Y", strtotime($session->date))}}');
+                
+                $('input[name="date"]').data('daterangepicker').setStartDate('{{date("d/m/Y", strtotime($session->date))}}');
+                $('input[name="date"]').data('daterangepicker').setEndDate('{{date("d/m/Y", strtotime($session->date))}}');
+
+                $('input[name="start_date"]').val('{{date("d/m/Y", strtotime($session->date))}}');
+                $('input[name="end_date"]').val('{{date("d/m/Y", strtotime($session->date))}}');
+
+                $('input[name="appointment_time"]').data('daterangepicker').setStartDate('{{date("H:i", strtotime($session->start_time))}}');
+                $('input[name="appointment_time"]').data('daterangepicker').setEndDate('{{date("H:i", strtotime($session->end_time))}}');
+
+                $('input[name="session_dates_arr[]"]').val('{{date("Y-m-d", strtotime($session->date))}}');
+                                
+        <?php
+            } 
+        ?>
+                
+
+        
 
 
     });
@@ -142,6 +220,99 @@
         if(number_of_slots == "" || number_of_slots == null || number_of_slots == 0 || start_time == "" || start_time == null || end_time == "" || end_time == null) {
         } else {
             document.getElementById('duration_per_slot').value = Math.floor(diff_minutes/number_of_slots);
+        }
+
+    }
+
+    function updatePhysicianDepartmentFilter(x){
+
+        var physician_id = document.getElementById('physician_id').value;
+
+        if(physician_id == '0' || physician_id == "" || physician_id == null){} else{
+
+            $.ajax({
+                type:'POST',
+                url:"{{route('physicians.updatePhysicianDepartmentFilter')}}",
+                data: {_token: "{{ csrf_token() }}" , physician_id: physician_id},
+                beforeSend: function () { 
+                    document.getElementById('department_id').readonly = true;
+                },
+                success:function(data) {
+                    $("#department_id").html(data);
+                    $("#department_id").selectpicker('refresh');
+                    document.getElementById('department_id').readonly = false;
+
+                }
+            });
+
+        }
+
+    }
+
+    function updateDepartmentRoomFilter(x){
+
+        var department_id = document.getElementById('department_id').value;
+
+        if(department_id == '0' || department_id == "" || department_id == null){} else{
+
+            $.ajax({
+                type:'POST',
+                url:"{{route('departments.updateDepartmentRoomFilter')}}",
+                data: {_token: "{{ csrf_token() }}" , department_id: department_id},
+                beforeSend: function () { 
+                    document.getElementById('room_id').readonly = true;
+                },
+                success:function(data) {
+                    $("#room_id").html(data);
+                    $("#room_id").selectpicker('refresh');
+                    document.getElementById('room_id').readonly = false;
+
+                }
+            });
+
+        }
+
+    }
+
+    function resetRoomField(){
+
+        //reset room values
+        $('#room_id').val('');
+        $('#room_id').selectpicker('refresh');
+
+    }
+
+    function checkRoomAvailablity(x){
+
+        var session_id = document.getElementById('id').value;
+        var room_id = document.getElementById('room_id').value;
+        var start_time = document.getElementById('start_time').value;
+        var end_time = document.getElementById('end_time').value;
+        var session_dates_arr = $('input[name="session_dates_arr[]"]').map(function(){
+                                    return this.value;
+                                }).get();
+
+        if(room_id == '0' || room_id == "" || room_id == null){} else{
+
+            $.ajax({
+                type:'POST',
+                url:"{{route('sessions.checkRoomAvailablity')}}",
+                dataType:"json",
+                data: {_token: "{{ csrf_token() }}", session_id: session_id , room_id: room_id , start_time: start_time , end_time: end_time , session_dates_arr: session_dates_arr},
+                beforeSend: function () { 
+                    document.getElementById('room_id').readonly = true;
+                },
+                success:function(data) {
+                    if(data.status == 'unavailable'){
+                        $("#room_id").selectpicker('val' , '');
+                        toastr.error(data.message);
+                    }
+                    $("#room_id").selectpicker('refresh');
+                    document.getElementById('room_id').readonly = false;
+
+                }
+            });
+
         }
 
     }

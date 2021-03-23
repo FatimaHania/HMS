@@ -58,6 +58,7 @@ Route::post('/physicians/storePhysicianDepartments','PhysicianController@storePh
 Route::post('/physicians/getPhysicianSpecializations','PhysicianController@getPhysicianSpecializations')->name('physicians.getPhysicianSpecializations');
 Route::post('/physicians/destroyPhysicianSpecializations','PhysicianController@destroyPhysicianSpecializations')->name('physicians.destroyPhysicianSpecializations');
 Route::post('/physicians/storePhysicianSpecializations','PhysicianController@storePhysicianSpecializations')->name('physicians.storePhysicianSpecializations');
+Route::post('/physicians/update-physician-department-filter','PhysicianController@updatePhysicianDepartmentFilter')->name('physicians.updatePhysicianDepartmentFilter');
 
 
 Route::resource('nurses', 'NurseController')->middleware('verified');
@@ -68,6 +69,7 @@ Route::post('/nurses/storeNurseDepartments','NurseController@storeNurseDepartmen
 Route::resource('specializations', 'SpecializationController')->middleware('verified');
 
 Route::resource('departments', 'DepartmentController')->middleware('verified');
+Route::post('/departments/update-department-room-filter','DepartmentController@updateDepartmentRoomFilter')->name('departments.updateDepartmentRoomFilter');
 
 Route::resource('diseases', 'DiseaseController')->middleware('verified');
 
@@ -91,6 +93,7 @@ Route::post('/sessions/getSessionDetails','SessionController@getSessionDetails')
 Route::post('/sessions/cancelSession','SessionController@cancelSession')->name('sessions.cancelSession');
 Route::post('/sessions/startSession','SessionController@startSession')->name('sessions.startSession');
 Route::post('/sessions/completeSession','SessionController@completeSession')->name('sessions.completeSession');
+Route::post('/sessions/check-room-availablity','SessionController@checkRoomAvailablity')->name('sessions.checkRoomAvailablity');
 /** Public Portal */
 Route::post('/sessions/getSessionsPP','SessionController@getSessionsPP')->name('sessions.getSessionsPP'); 
 
@@ -131,9 +134,18 @@ Route::post('/publicUsers/updateUsersFilter','PublicUserController@updateUsersFi
 Route::post('/publicUsers/getLinkedUsers','PublicUserController@getLinkedUsers')->name('publicUsers.getLinkedUsers');
 Route::post('/publicUsers/updateLinkApprovalStatus','PublicUserController@updateLinkApprovalStatus')->name('publicUsers.updateLinkApprovalStatus');
 
+Route::resource('laboratories', 'LaboratoryController')->middleware('verified');
+
+Route::resource('pharmacies', 'PharmacyController')->middleware('verified');
+
+Route::post('/patientTurnover/updatePhysicianFilter','PatientTurnoverController@updatePhysicianFilter')->name('patientTurnover.updatePhysicianFilter');
+Route::post('/patientTurnover/getPatientTurnover','PatientTurnoverController@getPatientTurnover')->name('patientTurnover.getPatientTurnover');
+Route::post('/patient_turnover/report','PatientTurnoverController@PDFPatientTurnoverReport')->name('patientTurnover.pdf');
+Route::resource('patientTurnover','PatientTurnoverController')->middleware('verified');
+
+Route::post('/collection-reports/update-physician-filter','CollectionReportController@updatePhysicianFilter')->name('collectionReport.updatePhysicianFilter');
+Route::post('/collection-reports/get-collections','CollectionReportController@getCollections')->name('collectionReport.getCollections');
+Route::post('/collection-reports/report','CollectionReportController@PDFCollectionReport')->name('collectionReport.pdf');
+Route::resource('collection-reports','CollectionReportController')->middleware('verified');
+
 Auth::routes(['verify' => true]);
-
-
-
-
-
