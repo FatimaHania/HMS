@@ -39,6 +39,9 @@
 
     <!-- icheck- for radio button and checkboxes -->
     <link rel="stylesheet" href="{{ asset('css/icheck/purple.css') }}">
+
+    <!--date picker-->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
     
     <!--daterange picker-->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -111,8 +114,6 @@
 
 </body>
 
-
-
 <!-- jQuery 3.1.1 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -124,6 +125,9 @@
 
 <!-- Custom js -->
 <script src="{{ asset('js/custom.js') }}"></script>
+
+<!-- Bootstrap date picker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
 <!-- Bootstrap select -->
 <script src="{{ asset('js/bootstrap-select.min.js') }}"></script>

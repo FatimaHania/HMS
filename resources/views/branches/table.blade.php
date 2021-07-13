@@ -28,7 +28,7 @@
             <td>{{ $branch->reporting_currency->short_code }}</td>
                 <td>
                     <div class='btn-group'>
-                        <a href="{{ route('branches.show', [$branch->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-eye"></i></a>
+                        <a href="{{ route('branches.show', [$branch->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-file-text-o"></i></a>
                         <a href="{{ route('branches.edit', [$branch->id]) }}" class='btn btn-xs btn-ghost-info'><i class="fa fa-edit"></i></a>
                     </div>
                 </td>

@@ -68,10 +68,11 @@ class Specialization extends Model
     ];
 
 
-    protected static function booted()
+    /**protected static function booted()
     {
         static::addGlobalScope(new HospitalScope);
     }
+    **/
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

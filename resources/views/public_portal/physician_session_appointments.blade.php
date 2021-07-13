@@ -103,7 +103,7 @@
                                         <th>Payment</th>
                                         <th>Attended</th>
                                         <th>Cancelled</th>
-                                        <th colspan="3">Action</th>
+                                        <th colspan="3" class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -122,11 +122,11 @@
                                             <span class="badge badge-warning">Pending</span>
                                         @endif
                                     </td>
-                                    <td style="text-align:center;">
-                                        @if($appointment->attended_at == "" || $appointment->attended_at == null || $appointment->attended_at == "0000-00-00 00:00:00")
+                                    <td style="text-align:;">
+                                        @if($appointment->checkup == null)
                                             <img src="{{ URL::to('/') }}/storage/images/sys_cross_icon.png" height="15px" width="15px">
                                         @else
-                                            <span class="badge badge-default">(date("jS M, Y g:i A", strtotime($appointment->attended_at)))</span>
+                                            <span class="badge badge-secondary">{{(date("jS M, Y g:i A", strtotime($appointment->attended_at)))}}</span>
                                         @endif
                                     </td>
                                     <td>
@@ -136,15 +136,19 @@
                                             <span class="badge badge-default">{{(date("jS M, Y g:i A", strtotime($appointment->cancelled_at)))}}</span>
                                         @endif
                                     </td>
-                                        <td>
+                                        <td class="text-center">
                                             <div class='btn-group'>
                                                 @if($session->is_cancelled == "1")
                                                 @else
                                                     @if($session->completed_at == null || $session->completed_at == "")
-                                                        @if($appointment->is_paid == '1')
-                                                            <a href="{{ route('treatments.createPP', [$appointment->id]) }}" class='btn btn-xs btn-success'><i class="fa fa-stethoscope" aria-hidden="true"></i></a>
+                                                        @if($appointment->checkup == null)
+                                                            @if($appointment->is_paid == '1')
+                                                                <a onclick="redirect_to_checkups({{$appointment->id}})" href="#" class='btn btn-xs btn-success'><i class="fa fa-stethoscope" aria-hidden="true"></i> Checkup</a>
+                                                            @else
+                                                                <a href="#" class='btn btn-xs btn-success' onclick="displayBootboxAlert('Cannot proceed to treatment as the payments are not settled yet')"><i class="fa fa-stethoscope" aria-hidden="true"></i> Checkup</a>
+                                                            @endif
                                                         @else
-                                                            <a href="#" class='btn btn-xs btn-success' onclick="displayBootboxAlert('Cannot proceed to treatment as the payments are not settled yet')"><i class="fa fa-stethoscope" aria-hidden="true"></i></a>
+                                                            <button onclick="redirect_to_history({{$appointment->patient_id}},{{$appointment->id}})" class='btn btn-xs btn-dribbble'><i class="fa fa-history" aria-hidden="true"></i> History</button>
                                                         @endif
                                                     @endif
                                                 @endif
@@ -167,6 +171,38 @@
 
         function displayBootboxAlert(message){
             bootbox.alert(message);
+        }
+
+        function redirect_to_checkups(appointment_id){
+
+            $.ajax({
+                    type:'POST',
+                    url:"{{route('publicPortal.redirectToCheckups')}}",
+                    data: {_token: "{{ csrf_token() }}" , appointment_id: appointment_id},
+                    beforeSend: function () {
+                        
+                    },
+                    success:function(data) {
+                        window.location.href = "{{route('checkup.create' , '0')}}";
+                    }
+                });
+
+        }
+
+        function redirect_to_history(patient_id, appointment_id){
+
+            $.ajax({
+                type:'POST',
+                url:"{{route('publicPortal.redirectToHistory')}}",
+                data: {_token: "{{ csrf_token() }}" , patient_id: patient_id , appointment_id: appointment_id},
+                beforeSend: function () {
+                    
+                },
+                success:function(data) {
+                    window.location.href = "{{route('checkup.history' , '0')}}";
+                }
+            });
+
         }
 
     </script>

@@ -14,7 +14,7 @@
                     {!! Form::open(['route' => ['usergroups.destroy', $usergroup->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
 
-                        <a href="{{ route('usergroups.show', [$usergroup->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-eye"></i></a>
+                        <a href="{{ route('usergroups.show', [$usergroup->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-file-text-o"></i></a>
                         <a href="{{ route('usergroups.edit', [$usergroup->id]) }}" class='btn btn-xs btn-ghost-info'><i class="fa fa-edit"></i></a>
                         <a href="#" type="button" class='btn btn-xs btn-ghost-info' data-toggle="modal" data-target="#modulesModal"  onclick="getUsergroupModules({{$usergroup->id}} , '{{$usergroup->description}}')"><i class="fa fa-th-list" aria-hidden="true"></i></a>
                         {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-xs btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}

@@ -57,4 +57,6 @@ class PatientRepository extends BaseRepository
     public function getAll(){
         return Patient::with(['country','gender','title','bloodgroup'])->get();
     }
+
+
 }

@@ -8,9 +8,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-            @php $a = 1; @endphp
+        @php $a = 1; @endphp
             @foreach($linked_users as $linked_user)
+            <tr>
                 <td style="width:5%;">{{$a}}</td>
                 <td>{{$linked_user->linked_user_code." | ".$linked_user->linked_user_name}}</td>
                 <td style="width:10%;">
@@ -23,9 +23,10 @@
                         <div id="activateCB_div{{$linked_user->user_hospital_id}}"><input type="checkbox" class="icheck-checkbox" data-user-hospital-id="{{$linked_user->user_hospital_id}}"></div>
                     @endif
                 </td>
-                @php $a++; @endphp
-            @endforeach
+               
             </tr>
+            @php $a++; @endphp
+            @endforeach
         </tbody>
     </table>
 </div>

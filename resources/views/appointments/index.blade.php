@@ -30,7 +30,16 @@
                     <label class="control-label" for="filter_date">Date:</label>
                     <input type="text" class="form-control" name="filter_date" id="filter_date">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
+                    <label class="control-label" for="filter_room">Room:</label>
+                    <select class="form-control selectpicker" id="filter_room" name="filter_room">
+                        <option value="0">All Rooms</option>
+                        @foreach($rooms as $room)
+                            <option value="{{$room->id}}">{{$room->short_code." - ".$room->description}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
                     <label class="control-label" for="filter_specialization">Specialization:</label>
                     <select class="form-control selectpicker" id="filter_specialization" name="filter_specialization" onchange="updatePhysicianFilter()">
                         <option value="0">All Specializations</option>
@@ -39,7 +48,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="control-label" for="filter_physician">Physician:</label>
                     <select class="form-control selectpicker" id="filter_physician" name="filter_physician">
                         <option value="0">All Physicians</option>
@@ -163,12 +172,13 @@
         var date_to = $('#filter_date').data('daterangepicker').endDate.format('YYYY-MM-DD');
         var physician_id = document.getElementById('filter_physician').value;
         var specialization_id = document.getElementById('filter_specialization').value;
+        var room_id = document.getElementById('filter_room').value;
         var status = document.getElementById('filter_status').value;
 
         $.ajax({
             type:'POST',
             url:"{{route('appointments.getCards')}}",
-            data: {_token: "{{ csrf_token() }}", date_from: date_from, date_to: date_to, physician_id: physician_id, specialization_id: specialization_id, status: status},
+            data: {_token: "{{ csrf_token() }}", date_from: date_from, date_to: date_to, physician_id: physician_id, room_id: room_id, specialization_id: specialization_id, status: status},
             beforeSend: function () { 
                 document.getElementById('cards_div').style.display = "none";
                 document.getElementById('cardsLoader_div').style.display = "block";

@@ -49,6 +49,15 @@ function completeSession(){
     var session_id = document.getElementById('complete_session_id').value;
     var completed_at = document.getElementById('completed_at').value;
     var completed_by = document.getElementById('completed_by').value;
+    
+    var is_physician_login = "{{session('is_physician')}}";
+    if(is_physician_login == '1'){
+        var btn_type = "";
+        var bg_prefix = "table-";
+    } else {
+        btn_type = "btn-xs";
+        bg_prefix = "bg-";
+    }
 
     $.ajax({
         type:'POST',
@@ -64,8 +73,8 @@ function completeSession(){
             document.getElementById('completeSession_div').style.display = "block";
 
             //styling the card
-            $('#session_card'+session_id+' .card-header').attr('class','card-header text-dark bg-info');
-            $('#session_card'+session_id+' #card_status_span').html('<button type="button" class="btn btn-xs btn-primary disabled">Completed</button>');
+            $('#session_card'+session_id+' .card-header').attr('class','card-header text-dark ' + bg_prefix + 'info');
+            $('#session_card'+session_id+' #card_status_span').html('<button type="button" class="btn ' + btn_type + ' btn-primary disabled">Completed</button>');
             $('#session_card'+session_id+' #card_complete_span').html('');
 
         }

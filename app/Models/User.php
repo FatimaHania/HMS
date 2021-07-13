@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 /**
  * Class User
  * @package App\Models
@@ -86,6 +87,8 @@ class User extends Model
         'branch_id' => 'nullable',
         'usertype_id' => 'nullable'
     ];
+
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

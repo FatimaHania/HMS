@@ -100,6 +100,11 @@ class SessionController extends AppBaseController
 
         $session_dates_arr = $input['session_dates_arr'];
 
+        if(session('is_hospital') == '1'){
+            $input['hospital_id'] = session('hospital_id');
+            $input['branch_id'] = session('branch_id');
+        }
+
         $begin = new DateTime($date_from);
         $end = new DateTime($date_to);
     

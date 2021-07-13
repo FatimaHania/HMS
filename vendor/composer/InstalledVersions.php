@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'cc889161f225f2e9578482b978ea5aa5b4865859',
+    'reference' => 'fabeb2519e3b61a86d4af91646054f06a923d3a6',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -32,6 +32,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '8d8f88b3b3830916be94292c1fbce84433efb1aa',
+    ),
+    'barryvdh/laravel-dompdf' => 
+    array (
+      'pretty_version' => 'v0.9.0',
+      'version' => '0.9.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5b99e1f94157d74e450f4c97e8444fcaffa2144b',
     ),
     'brian2694/laravel-toastr' => 
     array (
@@ -127,6 +136,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'e864bbf5904cb8f5bb334f99209b48018522f042',
+    ),
+    'dompdf/dompdf' => 
+    array (
+      'pretty_version' => 'v1.0.2',
+      'version' => '1.0.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '8768448244967a46d6e67b891d30878e0e15d25c',
     ),
     'dragonmantank/cron-expression' => 
     array (
@@ -466,6 +484,15 @@ private static $installed = array (
       ),
       'reference' => '3b82e49f6273d7b59564fa02c37fff6ebb8d7cff',
     ),
+    'jason-guru/laravel-make-repository' => 
+    array (
+      'pretty_version' => '0.0.3',
+      'version' => '0.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '693d3d189c0b19262a896eb888c3a7b870a2de43',
+    ),
     'kodova/hamcrest-php' => 
     array (
       'replaced' => 
@@ -498,7 +525,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'cc889161f225f2e9578482b978ea5aa5b4865859',
+      'reference' => 'fabeb2519e3b61a86d4af91646054f06a923d3a6',
     ),
     'laravel/tinker' => 
     array (
@@ -683,6 +710,24 @@ private static $installed = array (
       array (
       ),
       'reference' => 'e4782611070e50613683d2b9a57730e9a3ba5451',
+    ),
+    'phenx/php-font-lib' => 
+    array (
+      'pretty_version' => '0.5.2',
+      'version' => '0.5.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ca6ad461f032145fff5971b5985e5af9e7fa88d8',
+    ),
+    'phenx/php-svg-lib' => 
+    array (
+      'pretty_version' => 'v0.3.3',
+      'version' => '0.3.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5fa61b65e612ce1ae15f69b3d223cb14ecc60e32',
     ),
     'phpdocumentor/reflection-common' => 
     array (
@@ -878,8 +923,8 @@ private static $installed = array (
     array (
       'provided' => 
       array (
-        0 => '1.0',
-        1 => '1.0.0',
+        0 => '1.0.0',
+        1 => '1.0',
       ),
     ),
     'psr/simple-cache' => 
@@ -933,6 +978,15 @@ private static $installed = array (
       array (
         0 => '4.1.1',
       ),
+    ),
+    'sabberworm/php-css-parser' => 
+    array (
+      'pretty_version' => '8.3.1',
+      'version' => '8.3.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'd217848e1396ef962fb1997cf3e2421acba7f796',
     ),
     'sebastian/code-unit-reverse-lookup' => 
     array (

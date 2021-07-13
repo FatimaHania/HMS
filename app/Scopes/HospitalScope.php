@@ -17,6 +17,8 @@ class HospitalScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where([$model->getTable().'.hospital_id' => session('hospital_id') , $model->getTable().'.branch_id' => session('branch_id')]);
+        if(session('is_hospital') == '1'){
+            $builder->where([$model->getTable().'.hospital_id' => session('hospital_id') , $model->getTable().'.branch_id' => session('branch_id')]);
+        }
     }
 }

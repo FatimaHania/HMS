@@ -76,3 +76,10 @@ Route::resource('users', 'UserAPIController');
 
 
 Route::resource('usergroups', 'UsergroupAPIController');
+
+Route::resource('laboratories', 'LaboratoryAPIController');
+
+Route::resource('pharmacies', 'PharmacyAPIController');
+
+
+Route::resource('checkups', 'CheckupAPIController');

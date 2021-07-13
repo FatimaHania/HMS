@@ -1,4 +1,10 @@
-@extends('layouts.app')
+@if(session('is_hospital') == '0')<!--edit profile as a physician from physician portal-->
+    @php $layout = 'public_portal.layouts.app'; @endphp
+@else
+    @php $layout = 'layouts.app'; @endphp
+@endif
+
+@extends($layout)
 
 @section('content')
     <ol class="breadcrumb">
@@ -33,5 +39,17 @@
                 </div>
          </div>
     </div>
+@stack('scripts')
+<script>
+
+$(document).ready(function(){
+
+    @if(session('is_hospital') == '0')//accessing through pubic portal - disable editing patient number field
+        $('[name="patient_number"]').prop('readonly', true);
+    @endif
+
+})
+
+</script>
     
 @endsection

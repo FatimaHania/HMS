@@ -98,7 +98,7 @@ class PhysicianController extends AppBaseController
 
         if(request('physician_image_upload')) {
 
-            $input['physician_image'] = request('physician_image_upload')->storeAs('images/physicians' , 'PHY-'.session('hospital_id').session('branch_id').'-'.$input['physician_code'].'.'.($request->physician_image_upload->extension()));
+            $input['physician_image'] = request('physician_image_upload')->storeAs('images/physicians' , 'PHY-'.session('hospital_id').session('branch_id').'-'.$input['physician_code'].(strtotime(date('Y-m-d H:i:s'))).'.'.($request->physician_image_upload->extension()));
 
         }
 
@@ -138,6 +138,8 @@ class PhysicianController extends AppBaseController
      */
     public function edit($id)
     {
+
+        
         $physician = $this->physicianRepository->find($id);
 
         $titles = Title::pluck('short_code' , 'id');
@@ -177,14 +179,16 @@ class PhysicianController extends AppBaseController
 
         $input = $request->all();
 
-        Validator::make($input, [
-            'physician_code' => [
-                'required',
-                Rule::unique('physicians')->ignore($physician->id)->where(function ($query) {
-                    $query->where('branch_id', session('branch_id'));
-                }),
-            ],
-        ])->validate();
+        if(session('is_hospital') == '1'){
+            Validator::make($input, [
+                'physician_code' => [
+                    'required',
+                    Rule::unique('physicians')->ignore($physician->id)->where(function ($query) {
+                        $query->where('branch_id', session('branch_id'));
+                    }),
+                ],
+            ])->validate();
+        }
 
         if (empty($physician)) {
             Flash::error('Physician not found');
@@ -196,7 +200,7 @@ class PhysicianController extends AppBaseController
 
         if(request('physician_image_upload')) {
 
-            $input['physician_image'] = request('physician_image_upload')->storeAs('images/physicians' , 'PHY-'.session('hospital_id').session('branch_id').'-'.$input['physician_code'].'.'.($request->physician_image_upload->extension()));
+            $input['physician_image'] = request('physician_image_upload')->storeAs('images/physicians' , 'PHY-'.session('hospital_id').session('branch_id').'-'.$input['physician_code'].(strtotime(date('Y-m-d H:i:s'))).'.'.($request->physician_image_upload->extension()));
 
         }
 

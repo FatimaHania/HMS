@@ -7,6 +7,8 @@ use App\Models\Session;
 use App\Models\Physician;
 use App\Models\Patient;
 use App\Models\Specialization;
+use App\Models\Room;
+use App\Models\Department;
 use App\Helpers\Helper;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Auth;
@@ -71,6 +73,13 @@ class AppointmentRepository extends BaseRepository
 
     }
 
+    public function getRooms()
+    {
+
+        return Room::orderBy('description', 'ASC')->get();
+
+    }
+
     public function getSpecializations()
     {
 
@@ -106,7 +115,7 @@ class AppointmentRepository extends BaseRepository
     }
 
 
-    public function getAllSessions($date_from=0, $date_to=0, $physician_id=0, $specialization_id=0, $status=0) 
+    public function getAllSessions($date_from=0, $date_to=0, $physician_id=0, $room_id=0, $specialization_id=0, $status=0) 
     {
 
         $physician_id_arr = array();
@@ -169,6 +178,12 @@ class AppointmentRepository extends BaseRepository
                 $date_sessions->whereNotNull('cancelled_date');
             }
 
+
+            if($room_id == "0"){} else{
+                $date_sessions->where('sessions.room_id',$room_id );
+            }
+
+
             $date_sessions_rec = $date_sessions->get();
 
             if(count($date_sessions_rec)) {
@@ -186,7 +201,7 @@ class AppointmentRepository extends BaseRepository
      
         
 
-        return $sessions;
+        return array_reverse($sessions);
 
     }
 
@@ -271,6 +286,356 @@ class AppointmentRepository extends BaseRepository
         $appoinment->payment_received_date = $paid_at;
 
         $appoinment->save();
+
+    }
+
+
+    /**
+     * Get patient turnover details
+     **/
+    public function getPatientTurnover($type, $date_from, $date_to, $physician_id, $department_id){
+
+        $departments = Department::all();
+        $records = array();
+        if($type == 'daily'){//daily report
+
+            if($date_from == "0"){
+                $date_from = date('Y-m-d');
+            } 
+    
+            if($date_to == "0"){
+                $date_to = date('Y-m-d');
+            }
+    
+            $begin = new DateTime($date_from);
+            $end = new DateTime($date_to);
+    
+            $end->setTime(0,0,1);     // new line
+    
+            $interval = DateInterval::createFromDateString('1 day');
+            $period = new DatePeriod($begin, $interval, $end);
+    
+            foreach ($period as $dt) {
+                $date = $dt->format("Y-m-d");
+
+                $department_patient_count_arr = array();
+                foreach ($departments as $department){
+
+                    $patient_count_per_department = Appointment::join('sessions','sessions.id','=','appointments.session_id')
+                        ->where([['sessions.date' , '=' , $date] , ['sessions.department_id' , '=' , $department->id]])
+                        ->count();
+
+                    $department_patient_count_arr[] = array(
+                        'department' => $department,
+                        'patient_count' => $patient_count_per_department
+                    );
+
+                }
+    
+                
+
+                $records[] = array(
+                    'date' => date("d-m-Y", strtotime($date)),
+                    'department_patient_count' => $department_patient_count_arr
+                );
+
+            }
+
+
+        } else if($type == 'monthly'){ //monthly report
+
+            if($date_from == "0"){
+                $date_from = date('Y-m-d');
+            } 
+    
+            if($date_to == "0"){
+                $date_to = date('Y-m-d');
+            }
+
+            $start    = new DateTime($date_from);
+            $start->modify('first day of this month');
+            $end      = new DateTime($date_to);
+            $end->modify('first day of next month');
+            $interval = DateInterval::createFromDateString('1 month');
+            $period   = new DatePeriod($start, $interval, $end);
+
+            foreach ($period as $dt) {
+                $year =  $dt->format("Y");
+                $month =  $dt->format("m");
+                $date_formatted = $dt->format("M Y");
+
+                $department_patient_count_arr = array();
+                foreach ($departments as $department){
+
+                    $patient_count_per_department = Appointment::join('sessions','sessions.id','=','appointments.session_id')
+                        ->whereYear('sessions.date' , '=' , $year)
+                        ->whereMonth('sessions.date' , '=' , $month)
+                        ->where([['sessions.date' , '>=' , $date_from] , ['sessions.date' , '<=' , $date_to] , ['sessions.department_id' , '=' , $department->id]])
+                        ->count();
+
+                    $department_patient_count_arr[] = array(
+                        'department' => $department,
+                        'patient_count' => $patient_count_per_department
+                    );
+
+                }
+    
+                
+
+                $records[] = array(
+                    'date' => $date_formatted,
+                    'department_patient_count' => $department_patient_count_arr
+                );
+
+            }
+
+        } else if($type == 'yearly'){ //yearly report
+
+            if($date_from == "0"){
+                $date_from = date('Y-m-d');
+            } 
+    
+            if($date_to == "0"){
+                $date_to = date('Y-m-d');
+            }
+
+            $start    = new DateTime($date_from);
+            $start->modify('first day of this year');
+            $end      = new DateTime($date_to);
+            $end->modify('first day of next year');
+            $interval = DateInterval::createFromDateString('1 year');
+            $period   = new DatePeriod($start, $interval, $end);
+
+            foreach ($period as $dt) {
+                $year =  $dt->format("Y");
+                $date_formatted = $dt->format("Y");
+
+                $department_patient_count_arr = array();
+                foreach ($departments as $department){
+
+                    $patient_count_per_department = Appointment::join('sessions','sessions.id','=','appointments.session_id')
+                        ->whereYear('sessions.date' , '=' , $year)
+                        ->where([['sessions.date' , '>=' , $date_from] , ['sessions.date' , '<=' , $date_to] , ['sessions.department_id' , '=' , $department->id]])
+                        ->count();
+
+                    $department_patient_count_arr[] = array(
+                        'department' => $department,
+                        'patient_count' => $patient_count_per_department
+                    );
+
+                }
+    
+                
+
+                $records[] = array(
+                    'date' => $date_formatted,
+                    'department_patient_count' => $department_patient_count_arr
+                );
+
+            }
+
+        }
+
+        return $records;
+
+    }
+
+
+    /**
+     * Get appointment fee collection records for the collection report
+     **/
+    public function getCollections($type, $date_from, $date_to, $physician_id, $department_id){
+
+        $departments = Department::all();
+
+        $default_currency = session('user_details')[session('branch_id')]['hospitals']->branch_currency_short_code;
+        $default_currency_decimal_places = session('user_details')[session('branch_id')]['hospitals']->branch_currency_decimal_places;
+
+        if($date_from == "0"){
+            $date_from = date('Y-m-d');
+        } 
+
+        if($date_to == "0"){
+            $date_to = date('Y-m-d');
+        }
+
+        $records = array();
+        if($type == 'daily'){//daily report
+    
+            $begin = new DateTime($date_from);
+            $end = new DateTime($date_to);
+    
+            $end->setTime(0,0,1);     // new line
+    
+            $interval = DateInterval::createFromDateString('1 day');
+            $period = new DatePeriod($begin, $interval, $end);
+    
+            foreach ($period as $dt) {
+                $date = $dt->format("Y-m-d");
+
+                $department_collection_arr = array();
+                foreach ($departments as $department){
+
+                    $total_collection = Appointment::join('sessions','sessions.id','=','appointments.session_id')
+                        ->where([['sessions.date' , '=' , $date] , ['sessions.department_id' , '=' , $department->id] , ['appointments.is_paid' , '=' , '1']])
+                        ->sum('amount');
+
+                    $department_collection_arr[] = array(
+                        'department' => $department,
+                        'total_collection' => $total_collection
+                    );
+
+                }
+    
+                
+
+                $records[] = array(
+                    'date' => date("d-m-Y", strtotime($date)),
+                    'department_total_collection' => $department_collection_arr,
+                    'default_currency_short_code' => $default_currency,
+                    'default_currency_decimal_places' => $default_currency_decimal_places
+                );
+
+            }
+
+
+        } else if($type == 'monthly'){ //monthly report
+
+    
+            $start    = new DateTime($date_from);
+            $start->modify('first day of this month');
+            $end      = new DateTime($date_to);
+            $end->modify('first day of next month');
+            $interval = DateInterval::createFromDateString('1 month');
+            $period   = new DatePeriod($start, $interval, $end);
+    
+            foreach ($period as $dt) {
+                $year =  $dt->format("Y");
+                $month =  $dt->format("m");
+                $date_formatted = $dt->format("M Y");
+
+                $department_collection_arr = array();
+                foreach ($departments as $department){
+
+                    $total_collection = Appointment::join('sessions','sessions.id','=','appointments.session_id')
+                        ->whereYear('sessions.date' , '=' , $year)
+                        ->whereMonth('sessions.date' , '=' , $month)    
+                        ->where([['sessions.date' , '>=' , $date_from] , ['sessions.date' , '<=' , $date_to] ,  ['sessions.department_id' , '=' , $department->id] , ['appointments.is_paid' , '=' , '1']])
+                        ->sum('amount');
+
+                    $department_collection_arr[] = array(
+                        'department' => $department,
+                        'total_collection' => $total_collection
+                    );
+
+                }
+    
+                
+
+                $records[] = array(
+                    'date' => $date_formatted,
+                    'department_total_collection' => $department_collection_arr,
+                    'default_currency_short_code' => $default_currency,
+                    'default_currency_decimal_places' => $default_currency_decimal_places
+                );
+
+            }
+
+        } else if($type == 'yearly'){ //yearly report
+
+            $start    = new DateTime($date_from);
+            $start->modify('first day of this year');
+            $end      = new DateTime($date_to);
+            $end->modify('first day of next year');
+            $interval = DateInterval::createFromDateString('1 year');
+            $period   = new DatePeriod($start, $interval, $end);
+    
+            foreach ($period as $dt) {
+                $year =  $dt->format("Y");
+                $date_formatted = $dt->format("Y");
+
+                $department_collection_arr = array();
+                foreach ($departments as $department){
+
+                    $total_collection = Appointment::join('sessions','sessions.id','=','appointments.session_id')
+                        ->whereYear('sessions.date' , '=' , $year)  
+                        ->where([['sessions.date' , '>=' , $date_from] , ['sessions.date' , '<=' , $date_to] ,  ['sessions.department_id' , '=' , $department->id] , ['appointments.is_paid' , '=' , '1']])
+                        ->sum('amount');
+
+                    $department_collection_arr[] = array(
+                        'department' => $department,
+                        'total_collection' => $total_collection
+                    );
+
+                }
+    
+                
+
+                $records[] = array(
+                    'date' => $date_formatted,
+                    'department_total_collection' => $department_collection_arr,
+                    'default_currency_short_code' => $default_currency,
+                    'default_currency_decimal_places' => $default_currency_decimal_places
+                );
+
+            }
+
+        }
+
+        
+
+        return $records;
+
+    }
+
+    public function updateIsPatientAttended($appointment_id)
+    {
+
+        Appointment::where('id', $appointment_id)->update(['attended_at' => date('Y-m-d H:i:s')]);
+
+    }
+
+    public function getPatientTurnoverDashboard($date_from,$date_to)
+    {
+
+        if($date_from == "0"){
+            $date_from = date('Y-m-d');
+        } 
+
+        if($date_to == "0"){
+            $date_to = date('Y-m-d');
+        }
+
+        $begin = new DateTime($date_from);
+        $end = new DateTime($date_to);
+
+        $end->setTime(0,0,1);     // new line
+
+        $interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($begin, $interval, $end);
+
+        $records = array();
+        foreach ($period as $dt) {
+            $date = $dt->format("Y-m-d");
+
+            $patient_count = Appointment::join('sessions','sessions.id','=','appointments.session_id')
+                        ->where('sessions.date' , '=' , $date)
+                        ->count();
+
+            $patient_attended_count = Appointment::join('sessions','sessions.id','=','appointments.session_id')
+                        ->join('checkups','checkups.appointment_id','=','appointments.id')
+                        ->where('sessions.date' , '=' , $date)
+                        ->count();
+
+            $records[] = array(
+                'date' => date("d-m-Y", strtotime($date)),
+                'patient_count' => $patient_count,
+                'patient_attended_count' => $patient_attended_count
+            );
+
+        }
+
+        return $records;
 
     }
 

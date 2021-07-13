@@ -1,12 +1,20 @@
-@extends('layouts.app')
+@if(session('is_hospital') == '1')<!--edit profile as a patient from public portal-->
+    @php $layout = 'layouts.app'; @endphp
+@else
+    @php $layout = 'public_portal.layouts.app'; @endphp
+@endif
+
+@extends($layout)
 
 @section('content')
+    @if(session('is_hospital') == '1')
     <ol class="breadcrumb">
           <li class="breadcrumb-item">
-             <a href="{!! route('physicians.index') !!}">Physician</a>
+            <a href="{!! route('physicians.index') !!}">Physician</a>
           </li>
           <li class="breadcrumb-item active">Edit</li>
         </ol>
+    @endif
     <div class="container-fluid">
          <div class="animated fadeIn">
              @include('coreui-templates::common.errors')
@@ -34,4 +42,18 @@
                 </div>
          </div>
     </div>
+
+@stack('scripts')
+<script>
+
+$(document).ready(function(){
+
+    @if(session('is_physician') == '1')//accessing through pubic portal - disable editing physician number field
+        $('[name="physician_number"]').prop('readonly', true);
+    @endif
+
+})
+
+</script>
+
 @endsection

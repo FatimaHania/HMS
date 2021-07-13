@@ -81,6 +81,14 @@ class Department extends Model
         return $this->belongsToMany('App\Models\Nurse' , 'nurse_department' , 'department_id' , 'nurse_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     **/
+    public function physicians()
+    {
+        return $this->belongsToMany('App\Models\Physician' , 'physician_department' , 'department_id' , 'physician_id');
+    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

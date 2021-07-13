@@ -152,7 +152,7 @@ class Branch extends Model
      **/
     public function modules()
     {
-        return $this->hasMany(\App\Models\Module::class, 'branch_id');
+        return $this->belongsToMany(\App\Models\Module::class, 'module_hospital', 'branch_id', 'module_id');
     }
 
     /**

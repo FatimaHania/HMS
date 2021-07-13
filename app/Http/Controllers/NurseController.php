@@ -94,7 +94,7 @@ class NurseController extends AppBaseController
 
         if(request('nurse_image_upload')) {
 
-            $input['nurse_image'] = request('nurse_image_upload')->storeAs('images/nurses' , 'NUR-'.session('hospital_id').session('branch_id').'-'.$input['nurse_code'].'.'.($request->nurse_image_upload->extension()));
+            $input['nurse_image'] = request('nurse_image_upload')->storeAs('images/nurses' , 'NUR-'.session('hospital_id').session('branch_id').'-'.$input['nurse_code'].(strtotime(date('Y-m-d H:i:s'))).'.'.($request->nurse_image_upload->extension()));
 
         }
 
@@ -193,7 +193,7 @@ class NurseController extends AppBaseController
 
         if(request('nurse_image_upload')) {
 
-            $input['nurse_image'] = request('nurse_image_upload')->storeAs('images/nurses' , 'NUR-'.session('hospital_id').session('branch_id').'-'.$input['nurse_code'].'.'.($request->nurse_image_upload->extension()));
+            $input['nurse_image'] = request('nurse_image_upload')->storeAs('images/nurses' , 'NUR-'.session('hospital_id').session('branch_id').'-'.$input['nurse_code'].(strtotime(date('Y-m-d H:i:s'))).'.'.($request->nurse_image_upload->extension()));
 
         }
 

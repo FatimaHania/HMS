@@ -47,11 +47,41 @@ class User extends Authenticatable
             ->join('hospitals', 'hospitals.id', '=', 'user_hospital.hospital_id')
             ->join('branches', 'branches.id', '=', 'user_hospital.branch_id')
             ->join('currencies', 'currencies.id', '=', 'branches.default_currency_id')
-            ->select('hospitals.*' , 'branches.*' , 'user_hospital.*' , 'currencies.short_code as branch_currency_short_code', 'user_hospital.hospital_id', 'user_hospital.branch_id' , 'hospitals.name AS hospital_name' , 'branches.name AS branch_name')
+            ->join('countries', 'countries.id', '=', 'branches.country_id')
+            ->select('hospitals.*' , 'branches.*' , 'countries.*' , 'user_hospital.*' , 'currencies.short_code as branch_currency_short_code' , 'currencies.decimal_places as branch_currency_decimal_places', 'user_hospital.hospital_id', 'user_hospital.branch_id' , 'hospitals.name AS hospital_name' , 'branches.name AS branch_name')
             ->where('user_hospital.user_id', Auth::id())
             ->get();
 
             return $users;
+
+    }
+
+    public function getPhysicianHospitals($user_id){
+
+        $physician_hospitals = DB::table('user_hospital')
+            ->join('hospitals', 'hospitals.id', '=', 'user_hospital.hospital_id')
+            ->join('branches', 'branches.id', '=', 'user_hospital.branch_id')
+            ->select('hospitals.*' , 'branches.*' , 'user_hospital.*' , 'user_hospital.hospital_id', 'user_hospital.branch_id' , 'hospitals.name AS hospital_name' , 'branches.name AS branch_name')
+            ->where([['user_hospital.user_id', Auth::id()] , ['user_hospital.is_physician' , '1']])
+            ->get();
+
+        return $physician_hospitals;
+
+
+    }
+
+
+    public function getPatientHospitals($user_id){
+
+        $patient_hospitals = DB::table('user_hospital')
+        ->join('hospitals', 'hospitals.id', '=', 'user_hospital.hospital_id')
+        ->join('branches', 'branches.id', '=', 'user_hospital.branch_id')
+        ->select('hospitals.*' , 'branches.*' , 'user_hospital.*' , 'user_hospital.hospital_id', 'user_hospital.branch_id' , 'hospitals.name AS hospital_name' , 'branches.name AS branch_name')
+        ->where([['user_hospital.user_id', Auth::id()] , ['user_hospital.is_physician' , '0'] , ['user_hospital.user_link_id' , '!=' , '0']])
+        ->whereNotNull('user_link_id')
+        ->get();
+
+        return $patient_hospitals; 
 
     }
 

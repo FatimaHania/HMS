@@ -86,7 +86,7 @@
     </div>
 </div>
 
-@if(isset($physician))
+    @if(isset($physician))
         @if($physician->country_id == "" || $physician->country_id == null)
             @php $telephone_code = "000"; @endphp
         @else

@@ -5,6 +5,8 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Scopes\HospitalScope;
+
 /**
  * Class Session
  * @package App\Models
@@ -105,6 +107,11 @@ class Session extends Model
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new HospitalScope);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

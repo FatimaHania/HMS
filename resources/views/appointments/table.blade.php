@@ -113,10 +113,10 @@
                     <input type="hidden" id="is_paid_value{{$appointment->id}}" value="{{$appointment->is_paid}}">
                 </td>
                 <td style="text-align:center;">
-                    @if($appointment->attended_at == "" || $appointment->attended_at == null || $appointment->attended_at == "0000-00-00 00:00:00")
+                    @if($appointment->checkup == null)
                         <img src="{{ URL::to('/') }}/storage/images/sys_cross_icon.png" height="15px" width="15px">
                     @else
-                        <span class="badge badge-default">(date("jS M, Y g:i A", strtotime($appointment->attended_at)))</span>
+                        <span class="badge badge-default">{{(date("jS M, Y g:i A", strtotime($appointment->attended_at)))}}</span>
                     @endif
                 </td>
                 <td>
@@ -129,7 +129,7 @@
                     <td>
                         {!! Form::open(['route' => ['appointments.destroy', $appointment->id], 'method' => 'delete']) !!}
                         <div class='btn-group'>
-                            <a href="{{ route('appointments.show', [$appointment->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-eye"></i></a>
+                            <a href="{{ route('appointments.show', [$appointment->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-file-text-o"></i></a>
                             @if($session->is_cancelled == "1")
                             @else
                                 @if($session->completed_at == null || $session->completed_at == "")

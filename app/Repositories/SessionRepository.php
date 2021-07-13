@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Session;
 use App\Models\User;
+use App\Models\Branch;
+use App\Models\Specialization;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -210,6 +212,109 @@ class SessionRepository extends BaseRepository
         
 
         return $sessions;
+
+    }
+
+
+    public function getSessionsPerDate($date_from, $date_to){
+
+        if($date_from == "0"){
+            $date_from = date('Y-m-d');
+        } 
+
+        if($date_to == "0"){
+            $date_to = date('Y-m-d');
+        }
+
+        $begin = new DateTime($date_from);
+        $end = new DateTime($date_to);
+
+        $end->setTime(0,0,1);     // new line
+
+        $interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($begin, $interval, $end);
+
+        $sessions_arr = array();
+        foreach ($period as $dt) {
+
+            $date = $dt->format("Y-m-d");
+            $sessions = Session::where([['date' , '=' , $date] , ['is_cancelled' , '=' , '0']])
+                                    ->whereNull('completed_at')
+                                    ->orderBy('start_time', 'ASC')
+                                    ->get();
+
+            $sessions_arr[] = array(
+                "date" => $dt->format("d-m-Y"),
+                "sessions" => $sessions
+            );
+
+        }
+
+        return $sessions_arr;
+
+    }
+
+    public function getSessionsForBookingPP($branch_id,$specialization_id,$date){
+
+        $data_sessions = Session::select('sessions.*' , 'physicians.branch_id')
+                                ->join('physicians', 'sessions.physician_id', '=', 'physicians.id')
+                                ->whereNull('completed_at')
+                                ->orderBy('date' , 'asc')
+                                ->orderBy('start_time' , 'asc');
+
+
+
+        if($date == "" || $date == "0" || $date == null){
+            $data_sessions->where('date' , '>=' , date('Y-m-d'));
+        } else {
+            $data_sessions->where('date' , '=' , $date);
+        }
+
+        $branch_arr = array();
+        if($branch_id == '0'){
+            $branches = Branch::all();
+            foreach($branches as $branch){
+                $branch_arr[] = array(
+                    "branch_id" => $branch->id,
+                    "hospital" => $branch->hospital->name.", ".$branch->name
+                );
+            }
+        } else {
+            $branch = Branch::where('id',$branch_id)->first();
+            $branch_arr[] = array(
+                "branch_id" => $branch->id,
+                "hospital" => $branch->hospital->name.", ".$branch->name
+            );
+        }
+
+        $specialization_query = Specialization::where('id',$specialization_id)->first();
+        $specialization = $specialization_query->description;
+
+        $physicians = DB::table('physician_specialization')->where('specialization_id', $specialization_id)->get();
+
+        $phy_arr = array();
+        foreach($physicians as $physician){
+            $phy_arr[] = $physician->physician_id;
+        }
+
+        $data_sessions->whereIn('physician_id', [join(',',$phy_arr)]);
+
+        $records = array();
+        foreach($branch_arr as $branch){
+
+            $data_sessions->where('physicians.branch_id', $branch['branch_id']);
+
+            $session = $data_sessions->get();
+
+            $records[] = array(
+                'hospital' => $branch['hospital'],
+                'specialization' => $specialization,
+                'records' => $session
+            );
+
+        }
+
+        return $records;
 
     }
 

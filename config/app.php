@@ -179,7 +179,8 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Yajra\DataTables\ButtonsServiceProvider::class,
         Yajra\Datatables\HtmlServiceProvider::class,
-        Yoeunes\Toastr\ToastrServiceProvider::class
+        Yoeunes\Toastr\ToastrServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -238,6 +239,7 @@ return [
         'Carbon' => Carbon\Carbon::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Helper' => App\Helpers\Helper::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
 
     ],

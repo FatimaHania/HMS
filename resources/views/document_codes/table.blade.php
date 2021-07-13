@@ -21,7 +21,7 @@
                 <td>
                     {!! Form::open(['route' => ['documentCodes.destroy', $documentCode->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('documentCodes.show', [$documentCode->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-eye"></i></a>
+                        <a href="{{ route('documentCodes.show', [$documentCode->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-file-text-o"></i></a>
                         <a href="{{ route('documentCodes.edit', [$documentCode->id]) }}" class='btn btn-xs btn-ghost-info'><i class="fa fa-edit"></i></a>
                     </div>
                     {!! Form::close() !!}

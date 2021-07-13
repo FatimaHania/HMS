@@ -50,11 +50,13 @@ class AppointmentController extends AppBaseController
         $sessions_today = $this->appointmentRepository->getTodaySessions();
         $physicians = $this->appointmentRepository->getPhysicians();
         $specializations = $this->appointmentRepository->getSpecializations();
+        $rooms = $this->appointmentRepository->getRooms();
 
         return view('appointments.index')
             ->with('appointments', $appointments)
             ->with('sessions', $sessions)
             ->with('physicians', $physicians)
+            ->with('rooms', $rooms)
             ->with('specializations', $specializations);
     }
 
@@ -235,9 +237,10 @@ class AppointmentController extends AppBaseController
         $date_to = $_POST['date_to'];
         $physician_id = $_POST['physician_id'];
         $specialization_id = $_POST['specialization_id'];
+        $room_id = $_POST['room_id'];
         $status = $_POST['status'];
 
-        $sessions = $this->appointmentRepository->getAllSessions($date_from, $date_to, $physician_id, $specialization_id, $status);
+        $sessions = $this->appointmentRepository->getAllSessions($date_from, $date_to, $physician_id, $room_id, $specialization_id, $status);
 
         return view('appointments.cards')
             ->with('sessions', $sessions);
@@ -349,6 +352,8 @@ class AppointmentController extends AppBaseController
      */
     public function getAppointmentsPP($id)
     {
+
+        $id = session('phy_session_id');
 
         $appointments = $this->appointmentRepository->getAppointmentDetails($id);
 

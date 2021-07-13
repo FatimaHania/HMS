@@ -18,6 +18,7 @@ use App\Scopes\HospitalScope;
  * @property \App\Models\Hospital $hospital
  * @property \App\Models\Patient $patient
  * @property \App\Models\Session $session
+ * @property \App\Models\Checkup $checkup
  * @property integer $reference_number
  * @property string $reference_code
  * @property integer $session_id
@@ -151,4 +152,14 @@ class Appointment extends Model
     {
         return $this->belongsTo(\App\Models\Session::class, 'session_id');
     }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     **/
+    public function checkup()
+    {
+        return $this->hasOne(Checkup::class, 'appointment_id');
+    }
+
 }

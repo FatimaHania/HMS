@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Usergroup;
 use App\Models\Hospital;
+use App\Models\Branch;
 use App\Repositories\BaseRepository;
 
 /**
@@ -47,7 +48,7 @@ class UsergroupRepository extends BaseRepository
 
     public function getAllModules(){
 
-        $hospital = Hospital::find(session('hospital_id'));
+        $hospital = Branch::find(session('branch_id'));
         return $hospital->modules()->where('isActive','1')->orderBy('sort_order','ASC')->get();
 
     }

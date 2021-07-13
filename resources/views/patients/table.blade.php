@@ -34,6 +34,7 @@
                         {!! Form::open(['route' => ['patients.destroy', $patient->id], 'method' => 'delete']) !!}
                         <div class='btn-group'>
                             <a href="{{ route('patients.show', [$patient->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
+                            <a href="#" onclick="redirect_to_history({{$patient->id}},'0')" class='btn btn-xs btn-ghost-warning'><i class="fa fa-history" aria-hidden="true"></i></a>
                             <a href="{{ route('patients.edit', [$patient->id]) }}" class='btn btn-xs btn-ghost-info'><i class="fa fa-edit"></i></a>
                             {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-xs btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
                         </div>
@@ -45,3 +46,24 @@
         </tbody>
     </table>
 </div>
+
+@stack('scripts')
+<script>
+
+function redirect_to_history(patient_id, appointment_id){
+
+    $.ajax({
+        type:'POST',
+        url:"{{route('patients.redirectToHistory')}}",
+        data: {_token: "{{ csrf_token() }}" , patient_id: patient_id , appointment_id: appointment_id},
+        beforeSend: function () {
+            
+        },
+        success:function(data) {
+            window.location.href = "{{route('checkup.history' , '0')}}";
+        }
+    });
+
+}
+
+</script>

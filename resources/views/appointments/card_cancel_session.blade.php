@@ -53,6 +53,15 @@ function cancelSession(){
     var cancelled_by = document.getElementById('cancelled_by').value;
     var cancelled_reason = document.getElementById('cancelled_reason').value;
 
+    var is_physician_login = "{{session('is_physician')}}";
+    if(is_physician_login == '1'){
+        var btn_type = "";
+        var bg_prefix = "table-";
+    } else {
+        btn_type = "btn-xs";
+        bg_prefix = "bg-";
+    }
+
     $.ajax({
         type:'POST',
         url:"{{route('sessions.cancelSession')}}",
@@ -68,8 +77,8 @@ function cancelSession(){
             document.getElementById('cancelSession_div').style.display = "block";
 
             //styling the card
-            $('#session_card'+session_id+' .card-header').attr('class','card-header text-dark bg-danger');
-            $('#session_card'+session_id+' #card_status_span').html('<button type="button" class="btn btn-xs btn-danger disabled">Cancelled</button>');
+            $('#session_card'+session_id+' .card-header').attr('class','card-header text-dark ' + bg_prefix + 'danger');
+            $('#session_card'+session_id+' #card_status_span').html('<button type="button" class="btn ' + btn_type + ' btn-danger disabled">Cancelled</button>');
             $('#session_card'+session_id+' #card_cancel_span').html('');
             $('#session_card'+session_id+' #card_start_span').html('');
             $('#session_card'+session_id+' #card_bookNow_span').html('');

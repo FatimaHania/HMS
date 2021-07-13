@@ -17,7 +17,7 @@
                 <td>
                     {!! Form::open(['route' => ['rooms.destroy', $room->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('rooms.show', [$room->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-eye"></i></a>
+                        <a href="{{ route('rooms.show', [$room->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-file-text-o"></i></a>
                         <a href="{{ route('rooms.edit', [$room->id]) }}" class='btn btn-xs btn-ghost-info'><i class="fa fa-edit"></i></a>
                         {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-xs btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>

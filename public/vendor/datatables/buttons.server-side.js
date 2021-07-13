@@ -277,7 +277,7 @@
     if (typeof DataTable.ext.buttons.colvis !== 'undefined') {
         $.extend(DataTable.ext.buttons.colvis, {
             text: function (dt) {
-                return '<i class="fa fa-eye"></i> ' + dt.i18n('buttons.colvis', 'Column visibility');
+                return '<i class="fa fa-file-text-o"></i> ' + dt.i18n('buttons.colvis', 'Column visibility');
             }
         });
     }

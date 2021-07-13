@@ -16,7 +16,7 @@
             <td>{{ $hospital->logo }}</td>
                 <td>
                     <div class='btn-group'>
-                        <a href="{{ route('hospitals.show', [$hospital->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-eye"></i></a>
+                        <a href="{{ route('hospitals.show', [$hospital->id]) }}" class='btn btn-xs btn-ghost-success'><i class="fa fa-file-text-o"></i></a>
                         <a href="{{ route('hospitals.edit', [$hospital->id]) }}" class='btn btn-xs btn-ghost-info'><i class="fa fa-edit"></i></a>
                         <a href="{{ route('branches.index', [$hospital->id]) }}" class='btn btn-xs btn-ghost-secondary'><i class="fa fa-random"></i></a>
                     </div>

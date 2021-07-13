@@ -49,6 +49,7 @@ Route::resource('masters/hospitals', 'HospitalController')->middleware('verified
 Route::resource('masters/branches', 'BranchController')->middleware('verified');
 
 Route::resource('patients', 'PatientController')->middleware('verified');
+Route::post('/patients/history','PatientController@redirectToHistory')->name('patients.redirectToHistory');
 
 
 Route::resource('physicians', 'PhysicianController')->middleware('verified');
@@ -109,14 +110,15 @@ Route::post('/appointments/updatePhysicianFilter','AppointmentController@updateP
 Route::post('/appointments/updatePaymentStatus','AppointmentController@updatePaymentStatus')->name('appointments.updatePaymentStatus');
 /** public portal */
 Route::get('/appointments/physician/{id}','AppointmentController@getAppointmentsPP')->name('appointments.getAppointmentsPP');
+Route::post('/public/physician/session/appointments','PublicController@redirectToAppointments')->name('publicPortal.redirectToAppointments');
 
-Route::resource('treatments', 'TreatmentController')->middleware('verified');
 /** Treatments */
-Route::get('/treatments/create/PP/{id}','TreatmentController@createPP')->name('treatments.createPP');
+Route::resource('treatments', 'TreatmentController')->middleware('verified');
 
 Route::resource('patientFiles', 'PatientFileController')->middleware('verified');
 Route::post('/patientFiles/getPatientFiles','PatientFileController@getPatientFiles')->name('patientFiles.getPatientFiles');
 
+/*user management*/
 Route::resource('users', 'UserController')->middleware('verified');
 Route::post('/users/getUserUsergroups','UserController@getUserUsergroups')->name('users.getUserUsergroups');
 Route::post('/users/destroyUserUsergroups','UserController@destroyUserUsergroups')->name('users.destroyUserUsergroups');
@@ -147,5 +149,19 @@ Route::post('/collection-reports/update-physician-filter','CollectionReportContr
 Route::post('/collection-reports/get-collections','CollectionReportController@getCollections')->name('collectionReport.getCollections');
 Route::post('/collection-reports/report','CollectionReportController@PDFCollectionReport')->name('collectionReport.pdf');
 Route::resource('collection-reports','CollectionReportController')->middleware('verified');
+
+Route::post('/public/physician/session/appointments','PublicController@redirectToAppointments')->name('publicPortal.redirectToAppointments');
+Route::post('/public/physician/session/appointments/checkup','PublicController@redirectToCheckups')->name('publicPortal.redirectToCheckups');
+Route::post('/public/physician/session/appointments/history','PublicController@redirectToHistory')->name('publicPortal.redirectToHistory');
+Route::post('/public/dashboard/physician/session/appointments/history','PublicController@redirectToHistoryFromDashboard')->name('publicPortal.redirectToHistoryFromDashboard');
+Route::post('/public/dashboard/book-appointments/get-sessions','PublicController@getSessionsForBookingPP')->name('publicPortal.getSessionsForBookingPP');
+
+Route::resource('checkups' , 'CheckupController')->middleware('verified');
+Route::get('/checkups/create/{id}','CheckupController@create')->name('checkup.create');
+Route::post('/checkups/create/patient-height','CheckupController@insertPatientHeight')->name('checkup.insertPatientHeight');
+Route::post('/checkups/create/patient-weight','CheckupController@insertPatientWeight')->name('checkup.insertPatientWeight');
+Route::get('/checkups/history/{description}','CheckupController@history')->name('checkup.history');
+Route::post('/checkups/create/history','CheckupController@redirectToHistory')->name('checkup.redirectToHistory');
+Route::post('/checkups/history/print-prescription','CheckupController@printPrescription')->name('checkup.printPrescription');
 
 Auth::routes(['verify' => true]);

@@ -82,18 +82,20 @@ class PatientController extends AppBaseController
     {
         $input = $request->all();
 
-        Validator::make($input, [
-            'patient_code' => [
-                'required',
-                Rule::unique('patients')->where(function ($query) {
-                    $query->where('branch_id', session('branch_id'));
-                }),
-            ],
-        ])->validate();
+        if(session('is_hospital') == '1'){
+            Validator::make($input, [
+                'patient_code' => [
+                    'required',
+                    Rule::unique('patients')->where(function ($query) {
+                        $query->where('branch_id', session('branch_id'));
+                    }),
+                ],
+            ])->validate();
+        }
 
         if(request('patient_image_upload')) {
 
-            $input['patient_image'] = request('patient_image_upload')->storeAs('images/patients' , 'PNT-'.session('hospital_id').session('branch_id').'-'.$input['patient_code'].'.'.($request->patient_image_upload->extension()));
+            $input['patient_image'] = request('patient_image_upload')->storeAs('images/patients' , 'PNT-'.session('hospital_id').session('branch_id').'-'.$input['patient_code'].(strtotime(date('Y-m-d H:i:s'))).'.'.($request->patient_image_upload->extension()));
 
         }
 
@@ -175,14 +177,16 @@ class PatientController extends AppBaseController
 
         $input = $request->all();
 
-        Validator::make($input, [
-            'patient_code' => [
-                'required',
-                Rule::unique('patients')->ignore($patient->id)->where(function ($query) {
-                    $query->where('branch_id', session('branch_id'));
-                }),
-            ],
-        ])->validate();
+        if(session('is_hospital') == '1'){
+            Validator::make($input, [
+                'patient_code' => [
+                    'required',
+                    Rule::unique('patients')->ignore($patient->id)->where(function ($query) {
+                        $query->where('branch_id', session('branch_id'));
+                    }),
+                ],
+            ])->validate();
+        }
 
         if (empty($patient)) {
             Flash::error('Patient not found');
@@ -192,7 +196,7 @@ class PatientController extends AppBaseController
 
         if(request('patient_image_upload')) {
 
-            $input['patient_image'] = request('patient_image_upload')->storeAs('images/patients' , 'PNT-'.session('hospital_id').session('branch_id').'-'.$input['patient_code'].'.'.($request->patient_image_upload->extension()));
+            $input['patient_image'] = request('patient_image_upload')->storeAs('images/patients' , 'PNT-'.session('hospital_id').session('branch_id').'-'.$input['patient_code'].(strtotime(date('Y-m-d H:i:s'))).'.'.($request->patient_image_upload->extension()));
 
         }
 
@@ -232,4 +236,20 @@ class PatientController extends AppBaseController
 
         return redirect(route('patients.index'));
     }
+
+
+    /**
+     * Redirect to medical history
+     *
+     */
+    public function redirectToHistory()
+    {
+
+        session(['history_patient_id' => $_POST['patient_id']]);
+        session(['history_user_id' => '']);
+        session(['history_appointment_id' => $_POST['appointment_id']]);
+        session(['history_back_page' => 'patients']);
+        
+    }
+
 }

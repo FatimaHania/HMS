@@ -417,7 +417,7 @@ Add full builder support for the following options based on https://datatables.n
     Button::makeIfCan('manage-users', 'create')->editor('editor'),
     Button::makeIf(true, 'edit')->editor('editor'),
     Button::make('remove')->editor('editor')->className('btn-danger'),
-    Button::make('colvis')->text('<i class="fa fa-eye"></i>'),
+    Button::make('colvis')->text('<i class="fa fa-file-text-o"></i>'),
     Button::make('export'),
     Button::make('print'),
     Button::make('reset'),
