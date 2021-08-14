@@ -174,6 +174,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TenancyServiceProvider::class,
 
         App\Providers\NavigationComposerProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
@@ -247,5 +248,10 @@ return [
     // SYSTEM DATE FORMAT
     'date_format' => 'd/m/Y',
     'date_format_javascript' => 'DD/MM/YYYY',
+
+    'central_domains' => [
+        '127.0.0.1',
+        'localhost',
+    ],
 
 ];

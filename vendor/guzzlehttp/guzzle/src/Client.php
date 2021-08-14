@@ -204,7 +204,7 @@ class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
     {
         return $option === null
             ? $this->config
-            : (isset($this->config[$option]) ? $this->config[$option] : null);
+            : ($this->config[$option] ?? null);
     }
 
     private function buildUri(UriInterface $uri, array $config): UriInterface
@@ -230,7 +230,7 @@ class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
             'allow_redirects' => RedirectMiddleware::$defaultSettings,
             'http_errors'     => true,
             'decode_content'  => true,
-            'verify'          => false,
+            'verify'          => true,
             'cookies'         => false,
             'idn_conversion'  => false,
         ];

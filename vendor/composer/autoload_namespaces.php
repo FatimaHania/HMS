@@ -9,4 +9,5 @@ return array(
     'Sabberworm\\CSS' => array($vendorDir . '/sabberworm/php-css-parser/lib'),
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
     'Laracasts\\Flash' => array($vendorDir . '/laracasts/flash/src'),
+    'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
 );
